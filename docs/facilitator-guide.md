@@ -29,7 +29,7 @@
 **What to say:**
 > "Quarkus is a Java framework that feels very different from Spring Boot the moment you start it. Today we're going to feel that difference, not just read about it. By the end of the hour you'll have a REST API, a database, Kafka, security, and an AI chatbot — all running on your laptop."
 
-**Pause and explain:** Draw or show the Coffee Shop architecture: `order-service` → Kafka → `menu-service`, and `barista-bot` as a separate AI-powered service.
+**Pause and explain:** Walk through the use case on screen or on the whiteboard. The Quarkus Cafe has three services: `menu-service` (menu REST API + DB + security), `order-service` (Kafka producer for customer orders), and `barista-bot` (AI assistant grounded in the actual menu). Customers browse the menu and chat with the bot; staff place orders and manage the menu. All three talk to real infrastructure that Quarkus DevServices starts automatically.
 
 ---
 
@@ -62,7 +62,7 @@
 - *"What's the Repository pattern vs Active Record?"* — Active Record (this lab) puts the DB methods on the entity itself. Repository separates them. Both work in Quarkus.
 
 **Pitfalls:**
-- Forgetting `@Transactional` on POST → `javax.persistence.TransactionRequiredException`. Show the error message and the fix.
+- Forgetting `@Transactional` on POST → `jakarta.persistence.TransactionRequiredException`. Show the error message and the fix.
 - `import.sql` not picked up — must be in `src/main/resources`, not `src/test/resources`.
 
 ---
@@ -85,7 +85,7 @@
 ### Lab 4 — Kafka with DevServices (31:00 – 38:00)
 
 !!! warning "Pre-flight check"
-    Before starting this lab, confirm Docker Desktop or Podman is running on every attendee's laptop. Ask them to run `docker ps` or `podman ps` and confirm they see an empty table (not an error).
+    Before starting this lab, confirm Docker Desktop or Podman is running on every attendee's laptop. Ask them to run `docker ps` or `podman ps` and confirm they see an empty table (not an error). Remind them that `prereq-check.sh` times out after 5 seconds — if it reported "not running" but the daemon has since started, that's fine.
 
 **Key moments to call out:**
 - Before running `quarkus dev`: "We haven't installed Kafka. We haven't written a `docker-compose.yml`. We haven't set a broker URL. Watch what happens when we just add the extension."
@@ -111,10 +111,10 @@
 - After adding `quarkus-oidc` and restarting: Point to `Dev Services for Keycloak started` in the log. "Full Keycloak — with a realm, a client, and test users — started automatically."
 - The 401 without a token: Run the curl command first with no token. Show the 401. "Without a token, the request is rejected before your code ever runs."
 - Getting the token from Dev UI: This is the best UI moment of the lab. Walk through it step by step — the OIDC panel is intuitive.
-- The 403 for wrong role: Show alice (user role) hitting `/menu/admin`. "Authenticated — yes. Authorised — no. Different error, different meaning."
+- The 403 for wrong role: Show alice (user role) hitting `POST /menu/admin` — which requires the `admin` role. "Authenticated — yes. Authorised — no. Different error, different meaning."
 
 **Common questions:**
-- *"Where are the Keycloak users defined?"* — DevServices creates them automatically: `alice` with `user` role, `bob` with `admin` role.
+- *"Where are the Keycloak users defined?"* — DevServices creates them automatically: `alice` with `user` role, `bob` with `admin` role. The `POST /menu` endpoint accepts any valid token (`@Authenticated`); `POST /menu/admin` requires the `admin` role (`@RolesAllowed("admin")`).
 - *"What happens in production?"* — You set `quarkus.oidc.auth-server-url` to your real Keycloak/OIDC provider. Everything else stays the same.
 - *"Do we need to write login pages?"* — No, for a REST API (bearer token flow). If you needed a web app with login pages, you'd use `application-type=web-app`.
 
@@ -148,7 +148,7 @@
 - After adding Easy RAG: Ask "Do you have oat milk?" before and after the RAG step. "Before RAG, the model could hallucinate. After RAG, it answers from our actual menu document."
 
 **Common questions:**
-- *"Why `io.quarkiverse.langchain4j` not `io.quarkus`?"* — LangChain4j is a Quarkiverse extension — community-maintained under the Quarkus umbrella but not part of the core platform. Has its own BOM.
+- *"Why `io.quarkiverse.langchain4j` not `io.quarkus`?"* — The BOM is now under `io.quarkus.platform` (part of the Quarkus platform since 3.20), but the runtime JARs still use the `io.quarkiverse.langchain4j` group ID. The lab step adds both a `<properties>` entry and the BOM snippet — point attendees there if they get confused.
 - *"Can I use other models?"* — Yes. Swap `quarkus-langchain4j-openai` for `quarkus-langchain4j-ollama` (local) or `quarkus-langchain4j-azure-openai`. The `BaristaAiService` interface stays unchanged.
 - *"What is RAG?"* — Retrieval Augmented Generation. Instead of relying on the model's training data, you inject relevant documents into the context at query time. Easy RAG does the embedding and retrieval automatically.
 
@@ -211,10 +211,26 @@ Show the two startup log lines side by side. Let the numbers speak.
 
 If an attendee falls behind, they can jump to any lab's solution directory and continue from there:
 
-```bash
-# Example: jump to Lab 3 solution
-cd labs/lab3-config-health/solution
-quarkus dev
-```
+=== "Quarkus CLI"
+
+    ```bash
+    # Example: jump to Lab 3 solution
+    cd labs/lab3-config-health/solution
+    quarkus dev
+    ```
+
+=== "Maven"
+
+    ```bash
+    # Example: jump to Lab 3 solution
+    cd labs/lab3-config-health/solution
+    ./mvnw quarkus:dev
+    ```
 
 All solution projects are standalone Maven projects that run independently.
+
+!!! note "Lab 4 needs two terminals"
+    `labs/lab4-kafka/solution` has two separate services (`order-service` and `menu-service`). Start each in its own terminal.
+
+!!! note "Lab 5 — import.sql"
+    If starting directly from `labs/lab5-security/solution`, confirm `src/main/resources/import.sql` is present — it seeds the initial menu items.
