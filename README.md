@@ -4,7 +4,7 @@ A 60-minute hands-on workshop for Java developers — no prior Quarkus experienc
 
 ## 📖 Workshop Site
 
-**[View the workshop at https://your-org.github.io/quarkus-workshop/](https://your-org.github.io/quarkus-workshop/)**
+**[View the workshop at https://learn-quarkus.github.io/quarkus-beginners-lab/](https://learn-quarkus.github.io/quarkus-beginners-lab/)**
 
 > Update the URL above after enabling GitHub Pages in your repository settings.
 

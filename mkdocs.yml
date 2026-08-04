@@ -2,8 +2,8 @@ site_name: "Quarkus Workshop: From Zero to AI-Powered Microservices"
 site_description: "A 60-minute hands-on Quarkus workshop for Java developers — REST APIs, Panache ORM, Kafka, OIDC Security, Fault Tolerance, and LangChain4j AI."
 site_author: "IBM"
 docs_dir: docs
-repo_url: https://github.com/your-org/quarkus-workshop
-repo_name: quarkus-workshop
+repo_url: https://github.com/learn-quarkus/quarkus-beginners-lab
+repo_name: quarkus-beginners-lab
 edit_uri: ""
 
 theme:
@@ -77,4 +77,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/your-org/quarkus-workshop
+      link: https://github.com/learn-quarkus/quarkus-beginners-lab
