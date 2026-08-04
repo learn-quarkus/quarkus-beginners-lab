@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.MediaType;
 public class ChatUiResource {
 
     @Inject
-    Template chat;                      // maps to src/main/resources/templates/chat.html
+    Template chat;
 
     @Inject
     BaristaAiService baristaAiService;
@@ -23,16 +23,17 @@ public class ChatUiResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance index() {
-        return chat.data("message", null, "reply", null);
+        return chat.data("question", null, "reply", null);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance ask(@FormParam("message") String message) {
-        String reply = (message == null || message.isBlank())
-                ? "Please type a question first!"
-                : baristaAiService.chat(message);
-        return chat.data("message", message, "reply", reply);
+        if (message == null || message.isBlank()) {
+            return chat.data("question", null, "reply", null);
+        }
+        String reply = baristaAiService.chat(message.trim());
+        return chat.data("question", message.trim(), "reply", reply);
     }
 }

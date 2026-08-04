@@ -255,24 +255,25 @@ public class ChatUiResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance index() {
-        return chat.data("message", null, "reply", null); // (2)
+        return chat.data("question", null, "reply", null); // (2)
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance ask(@FormParam("message") String message) { // (3)
-        String reply = (message == null || message.isBlank())
-                ? "Please type a question first!"
-                : baristaAiService.chat(message);
-        return chat.data("message", message, "reply", reply);
+        if (message == null || message.isBlank()) {
+            return chat.data("question", null, "reply", null);
+        }
+        String reply = baristaAiService.chat(message.trim());
+        return chat.data("question", message.trim(), "reply", reply);
     }
 }
 ```
 
 1. Quarkus injects the template by field name — `chat` maps to `src/main/resources/templates/chat.html` automatically.
-2. `GET /` renders the empty form.
-3. `POST /` reads the submitted `message` form field, calls the AI service, and re-renders the page with the reply.
+2. `GET /` renders the form with no Q&A section (question and reply are null).
+3. `POST /` calls the AI service and re-renders with `question` + `reply` populated — the input renders empty because there is no `value` attribute.
 
 !!! note "What just happened?"
     Qute resolves the `Template chat` injection by matching the field name to a file in `src/main/resources/templates/`. No path annotation needed — convention over configuration.
@@ -297,18 +298,20 @@ Open `chat.html` in your IDE and paste in the following:
            margin: 3rem auto; padding: 0 1rem; color: #1f2328; }
     h1   { font-size: 1.4rem; margin-bottom: 0.25rem; }
     p.sub{ color: #57606a; margin-top: 0; margin-bottom: 2rem; font-size: 0.9rem; }
-    form { display: flex; gap: 0.5rem; }
+    .input-row { display: flex; gap: 0.5rem; }
     input[type=text] { flex: 1; padding: 0.55rem 0.75rem; font-size: 1rem;
                        border: 1px solid #d0d7de; border-radius: 6px; }
-    button { padding: 0.55rem 1.1rem; font-size: 1rem; background: #3b82d4;
-             color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #2563be; }
-    .qa    { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    button { padding: 0.55rem 1.1rem; font-size: 1rem; border: none;
+             border-radius: 6px; cursor: pointer; }
+    .btn-ask   { background: #3b82d4; color: #fff; }
+    .btn-ask:hover { background: #2563be; }
+    .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
+    .btn-clear:hover { background: #e5e7eb; }
+    .qa    { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .label { font-size: 0.75rem; font-weight: 600; color: #57606a; margin-bottom: 0.2rem; }
     .bubble{ padding: 0.75rem 1rem; border-radius: 6px; line-height: 1.6; }
-    .q     { background: #dbeafe; align-self: flex-end; max-width: 85%; }
-    .a     { background: #f7f8fa; border: 1px solid #e5e7eb; max-width: 85%; white-space: pre-wrap; }
-    .label { font-size: 0.7rem; color: #57606a; margin-bottom: 0.2rem; }
-    a.again{ display: inline-block; margin-top: 1rem; font-size: 0.875rem; color: #3b82d4; }
+    .q     { background: #dbeafe; }
+    .a     { background: #f7f8fa; border: 1px solid #e5e7eb; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -316,32 +319,34 @@ Open `chat.html` in your IDE and paste in the following:
   <h1>☕ Barista Bot</h1>
   <p class="sub">Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.</p>
 
-  {#if reply}                          <!-- (1) form hidden once reply arrives -->
+  <form method="post" action="/">
+    <div class="input-row">
+      <input type="text" name="message" placeholder="e.g. What's in a flat white?" autofocus>
+      <button type="submit" class="btn-ask">Ask</button>        <!-- (1) -->
+      <a href="/"><button type="button" class="btn-clear">Clear</button></a>  <!-- (2) -->
+    </div>
+  </form>
+
+  {#if question}                                                <!-- (3) -->
   <div class="qa">
     <div>
       <div class="label">You asked:</div>
-      <div class="bubble q">{message}</div>    <!-- (2) question bubble -->
+      <div class="bubble q">{question}</div>
     </div>
     <div>
       <div class="label">Barista Bot says:</div>
-      <div class="bubble a">{reply}</div>      <!-- (3) answer bubble -->
+      <div class="bubble a">{reply}</div>
     </div>
   </div>
-  <a class="again" href="/">← Ask another question</a>
-  {#else}
-  <form method="post" action="/">
-    <input type="text" name="message" placeholder="e.g. What's in a flat white?" autofocus>
-    <button type="submit">Ask</button>
-  </form>
   {/if}
 
 </body>
 </html>
 ```
 
-1. `{#if reply}` / `{#else}` — the form is shown initially; once the AI responds the entire form is replaced by the Q&A view.
-2. Question rendered right-aligned in a blue bubble.
-3. Answer rendered left-aligned in a grey bubble. `← Ask another question` reloads `GET /` to start fresh.
+1. **Ask** — submits the form via `POST /`; text box clears because the page re-renders with an empty `<input>`.
+2. **Clear** — navigates to `GET /`, which returns `question=null` so the Q&A block disappears.
+3. `{#if question}` — Q&A section only appears after a successful reply.
 
 ### Start and test
 
