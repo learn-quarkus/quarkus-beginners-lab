@@ -196,3 +196,32 @@ docker ps           # should show an empty table, not an error
 
 !!! success "All green? You're ready!"
     [→ Start Lab 1](lab1-rest.md){ .md-button .md-button--primary }
+
+---
+
+## 8. Serve the Docs Locally (Optional — self-paced only)
+
+!!! info "Instructor-led sessions"
+    Your instructor will project the lab guide. Skip this section.
+
+If you are working through this workshop independently, you can run the docs site on your laptop so you can read it offline or in a side-by-side window.
+
+**Install the dependencies** (one-time):
+
+```bash
+pip install mkdocs-material pymdown-extensions
+```
+
+**Start the local docs server** from inside the cloned repo:
+
+```bash
+mkdocs serve
+```
+
+Open **`http://127.0.0.1:8000`** in your browser. The site hot-reloads whenever a doc file changes.
+
+!!! tip "Port conflict?"
+    If port 8000 clashes with something else, use a different port:
+    ```bash
+    mkdocs serve --dev-addr 127.0.0.1:8001
+    ```
