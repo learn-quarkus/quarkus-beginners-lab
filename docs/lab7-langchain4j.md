@@ -380,6 +380,18 @@ Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JS
 !!! info "Optional — add this if time allows"
     Easy RAG grounds the AI's responses in your actual menu document, preventing hallucination about menu items, prices, and ingredients.
 
+### Before you add RAG — see the problem first
+
+With Dev Mode still running, open **`http://localhost:8080`** and ask:
+
+> **Do you have oat milk?**
+
+The model will answer from its training data — it may guess, make up a price, or say something that doesn't match your actual menu. Note the response.
+
+Now add RAG and ask the same question again at the end of this step to see the difference.
+
+---
+
 **Add the Easy RAG extension.** In a second terminal inside the `barista-bot` directory, run:
 
 === "Quarkus CLI"
