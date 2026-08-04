@@ -206,7 +206,7 @@ Open a browser and go to `http://localhost:8080/menu`. You should see:
 
 This is one of Quarkus' most distinctive features. Let's prove it works.
 
-**While Dev Mode is still running**, open `MenuResource.java` in your IDE and change the first item's description — for example, change `"A concentrated shot of coffee"` to `"Bold & intense — the classic choice"`:
+**While Dev Mode is still running** (`quarkus dev` or `./mvnw quarkus:dev`), open `MenuResource.java` in your IDE and change the first item's description — for example, change `"A concentrated shot of coffee"` to `"Bold & intense — the classic choice"`:
 
 ```java
 private static final List<MenuItem> items = new ArrayList<>(List.of(

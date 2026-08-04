@@ -16,7 +16,7 @@
 
 ## Step 1 — Add the Extensions
 
-Make sure `quarkus dev` is **still running** from Lab 1. Open a **second terminal** in the `menu-service` directory and run:
+Make sure Dev Mode is **still running** from Lab 1 (`quarkus dev` or `./mvnw quarkus:dev`). Open a **second terminal** in the `menu-service` directory and run:
 
 === "Quarkus CLI"
 
