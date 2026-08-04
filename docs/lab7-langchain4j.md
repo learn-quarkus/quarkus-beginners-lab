@@ -89,7 +89,7 @@ In a new terminal (separate from `menu-service`):
 
 ## Step 2 — Add LangChain4j Dependencies
 
-The Quarkus CLI cannot add Quarkiverse extensions directly, so edit `pom.xml` manually.
+The LangChain4j BOM and OpenAI runtime dependency must be added to `pom.xml` manually — they are not in the standard Quarkus extension catalog so the short-name `quarkus ext add` form won't work here. (The full-coordinate form is used for Easy RAG in Step 7.)
 
 **First, add a version property** to the `<properties>` section of `pom.xml`, alongside the existing Quarkus platform version:
 
@@ -169,12 +169,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @RegisterAiService  // (1)
 @ApplicationScoped  // (2)
-@SystemMessage("""  // (3)
+@SystemMessage("""
     You are a friendly and knowledgeable barista at The Quarkus Cafe.
     Answer questions about coffee, our menu, and brewing methods.
     Keep responses concise — 2-3 sentences maximum.
     If asked about something unrelated to coffee, politely redirect the conversation.
-    """)
+    """)   // (3)
 public interface BaristaAiService {
 
     String chat(@UserMessage String message); // (4)
@@ -256,7 +256,7 @@ Click **Try it out**, enter a message, and execute:
 | `What's a good coffee for a Monday morning?` | *"I'd recommend a double Espresso or a strong Flat White — both give you a bold caffeine kick to start the week. If you prefer something smoother, a Cappuccino with its rich foam is a great choice!"* |
 | `How is cold brew made?` | *"Cold brew is made by steeping coarsely ground coffee in cold water for 12-24 hours. The slow, cold extraction produces a smooth, low-acid concentrate that's naturally sweet."* |
 
-Watch the `quarkus dev` terminal — with `log-requests=true` you'll see the exact JSON payload sent to OpenAI and the response received.
+Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JSON payload sent to OpenAI and the response received.
 
 ---
 
@@ -265,16 +265,27 @@ Watch the `quarkus dev` terminal — with `log-requests=true` you'll see the exa
 !!! info "Optional — add this if time allows"
     Easy RAG grounds the AI's responses in your actual menu document, preventing hallucination about menu items, prices, and ingredients.
 
-**Add the Easy RAG dependency** to `pom.xml`:
+**Add the Easy RAG extension.** In a second terminal inside the `barista-bot` directory, run:
 
-```xml
-<dependency>
-  <groupId>io.quarkiverse.langchain4j</groupId>
-  <artifactId>quarkus-langchain4j-easy-rag</artifactId>
-</dependency>
-```
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus ext add io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag
+    ```
+
+=== "Maven"
+
+    ```bash
+    ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag"
+    ```
 
 **Create the menu document** at `src/main/resources/menu.txt`:
+
+```bash
+touch src/main/resources/menu.txt
+```
+
+Open `menu.txt` in your IDE and paste in the following:
 
 ```text title="menu.txt"
 THE QUARKUS CAFE — FULL MENU
