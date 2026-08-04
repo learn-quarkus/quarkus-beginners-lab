@@ -65,13 +65,17 @@ Open `src/main/resources/application.properties` and add:
 coffee.shop.name=The Quarkus Cafe
 ```
 
-Now update `MenuResource.java` to inject and use it. Add the following field and method to your existing resource class:
+Now update `MenuResource.java` to inject and use it.
+
+**1. Add the import** at the top of the file, with the other imports:
 
 ```java
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+```
 
-// Inside MenuResource class:
+**2. Add the field and method** inside the `MenuResource` class body:
 
+```java
 @ConfigProperty(name = "coffee.shop.name", defaultValue = "The Quarkus Cafe") // (1)
 String shopName;
 

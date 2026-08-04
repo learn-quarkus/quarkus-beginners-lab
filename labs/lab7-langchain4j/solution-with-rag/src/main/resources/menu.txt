@@ -1,52 +1,15 @@
 THE QUARKUS CAFE — FULL MENU
 
 === HOT DRINKS ===
-
-Espresso — $2.50
-A concentrated, single-origin shot of coffee. Rich, bold, and intense.
-Dairy-free. Available as double shot for $3.00.
-
-Cappuccino — $3.75
-Espresso topped with equal parts steamed milk and thick milk foam.
-Available with oat milk, almond milk, or soy milk.
-
-Flat White — $4.00
-Two shots of espresso with a thin layer of velvety microfoam.
-Stronger than a latte, creamier than a cappuccino.
-
-Latte — $4.25
-A shot of espresso with lots of steamed milk and a small amount of foam.
-Available in vanilla, caramel, and hazelnut flavours.
-
-Americano — $3.00
-Espresso diluted with hot water. Similar strength to drip coffee, different flavour.
+Espresso — $2.50: Concentrated shot, rich and bold. Dairy-free.
+Cappuccino — $3.75: Espresso with steamed milk and thick foam. Available with oat milk.
+Flat White — $4.00: Two espresso shots with velvety microfoam.
+Latte — $4.25: Espresso with steamed milk. Available in vanilla, caramel, hazelnut.
+Americano — $3.00: Espresso diluted with hot water.
 
 === COLD DRINKS ===
-
-Cold Brew — $4.00
-Coffee steeped in cold water for 12 hours. Smooth, low-acid, naturally sweet.
-Available with oat milk.
-
-Iced Latte — $4.50
-Shots of espresso over ice, topped with cold milk.
-Available with oat milk, almond milk, or soy milk.
-
-Cold Foam Iced Coffee — $5.00
-Chilled brewed coffee with a sweet, airy cold foam on top.
+Cold Brew — $4.00: 12-hour cold-steeped. Smooth, low-acid. Available with oat milk.
+Iced Latte — $4.50: Espresso over ice with cold milk.
 
 === MILK OPTIONS ===
-- Whole milk (included)
-- Oat milk (+$0.50)
-- Almond milk (+$0.50)
-- Soy milk (+$0.50)
-
-=== FOOD ===
-
-Butter Croissant — $3.50
-Freshly baked, flaky and buttery. Contains gluten and dairy.
-
-Banana Bread — $4.00
-Moist, homemade slice. Contains gluten and eggs. Vegan option available.
-
-Avocado Toast — $7.00
-Sourdough with smashed avocado, chilli flakes, and lemon. Vegan.
+Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50)

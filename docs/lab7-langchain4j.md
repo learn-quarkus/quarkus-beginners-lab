@@ -86,20 +86,26 @@ In a new terminal (separate from `menu-service`):
 
 The Quarkus CLI cannot add Quarkiverse extensions directly, so edit `pom.xml` manually.
 
-**Add the LangChain4j BOM** inside the existing `<dependencyManagement>` section, after the Quarkus BOM:
+**First, add a version property** to the `<properties>` section of `pom.xml`, alongside the existing Quarkus platform version:
+
+```xml title="pom.xml — properties section"
+<quarkus.langchain4j.version>3.33.1</quarkus.langchain4j.version>
+```
+
+**Then add the LangChain4j BOM** inside the existing `<dependencyManagement>` section, after the Quarkus BOM entry:
 
 ```xml title="pom.xml — dependencyManagement section"
 <dependency>
   <groupId>io.quarkus.platform</groupId>   <!-- (1) -->
   <artifactId>quarkus-langchain4j-bom</artifactId>
-  <version>3.33.1</version>               <!-- (2) -->
+  <version>${quarkus.langchain4j.version}</version>  <!-- (2) -->
   <type>pom</type>
   <scope>import</scope>
 </dependency>
 ```
 
 1. As of Quarkus 3.20, LangChain4j is part of the **Quarkus Platform** — the BOM group is now `io.quarkus.platform`, not `io.quarkiverse.langchain4j`.
-2. The BOM version tracks the Quarkus platform version. Use `3.33.1` to match Quarkus 3.33 LTS.
+2. The BOM version tracks the Quarkus platform version. `3.33.1` matches Quarkus 3.33 LTS. Using a property makes it easy to update both BOMs in one place.
 
 **Add the OpenAI runtime dependency** in the `<dependencies>` section:
 

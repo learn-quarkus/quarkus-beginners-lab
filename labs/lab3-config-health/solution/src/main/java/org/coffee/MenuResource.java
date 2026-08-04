@@ -33,6 +33,7 @@ public class MenuResource {
 
     @GET
     @Path("/info")
+    @Produces(MediaType.TEXT_PLAIN)
     public String info() {
         return "Welcome to " + shopName + "! We have " + MenuItem.count() + " items on the menu.";
     }

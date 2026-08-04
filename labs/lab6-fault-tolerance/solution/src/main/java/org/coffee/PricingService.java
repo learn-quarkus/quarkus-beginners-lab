@@ -23,13 +23,13 @@ public class PricingService {
             LOG.debugf("Simulated failure for item %d — will retry", itemId);
             throw new RuntimeException("External pricing service unavailable");
         }
-        // Simulate a successful response
+        LOG.debugf("Got price for item %d", itemId);
         return BigDecimal.valueOf(3.50 + (itemId % 3));
     }
 
     // Called automatically when all retries are exhausted
     public BigDecimal defaultPrice(Long itemId) {
-        LOG.debugf("Returning fallback price for item %d", itemId);
+        LOG.debugf("Returning fallback price $4.99 for item %d", itemId);
         return BigDecimal.valueOf(4.99);
     }
 }

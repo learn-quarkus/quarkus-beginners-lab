@@ -3,7 +3,10 @@
 **Duration:** 7 minutes &nbsp;|&nbsp; **Project:** `menu-service` (continued)
 
 !!! info "What you'll build"
-    Protect the `POST /menu` endpoint so only authenticated users can add items, and restrict a new admin endpoint to users with the `barista` role. Keycloak starts automatically — no realm setup, no import files, no `docker run`.
+    Protect the `POST /menu` endpoint so only authenticated users can add items, and restrict a new admin endpoint to users with the `admin` role. Keycloak starts automatically — no realm setup, no import files, no `docker run`.
+
+!!! info "Continuing from Lab 2"
+    This lab builds on the `menu-service` project from Labs 2 and 3. If you are starting fresh from the solution folder (`labs/lab5-security/solution/`) rather than continuing your own project, make sure you also have the `src/main/resources/import.sql` file in place — it seeds the initial menu items that the health check and endpoints rely on.
 
 !!! warning "Docker or Podman required"
     Keycloak runs as a DevServices container. Confirm your container runtime is running before starting:
@@ -101,9 +104,9 @@ public class MenuResource {
 
     @POST
     @Path("/admin")
-    @RolesAllowed("barista")              // (2) only users with the 'barista' role
+    @RolesAllowed("admin")                // (2) only users with the 'admin' role
     @Transactional
-    public Response addAsBarista(MenuItem item) {
+    public Response addAsAdmin(MenuItem item) {
         item.persist();
         return Response.status(Response.Status.CREATED).entity(item).build();
     }
@@ -111,7 +114,7 @@ public class MenuResource {
 ```
 
 1. `@Authenticated` — any request with a valid, unexpired JWT is allowed. Invalid or missing token → HTTP 401.
-2. `@RolesAllowed("barista")` — the JWT must contain a `barista` role claim. Wrong role → HTTP 403.
+2. `@RolesAllowed("admin")` — the JWT must contain an `admin` role claim. Wrong role → HTTP 403.
 
 !!! note "Where do the imports come from?"
     - `@Authenticated` — `io.quarkus.security.Authenticated` (Quarkus-specific, on classpath via `quarkus-oidc`)
@@ -186,12 +189,29 @@ HTTP/1.1 201 Created
 {"id":4,"name":"Oat Latte","description":"Creamy oat milk latte","price":4.5}
 ```
 
-**Valid token but wrong role → 403 Forbidden:**
+**Valid token with admin role (bob) → 201 Created:**
+
+First, log out of the Dev UI and log back in as `bob` / `bob` to get a token with the `admin` role. Then:
 
 ```bash
 curl -i -X POST http://localhost:8080/menu/admin \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <TOKEN>" \
+  -H "Authorization: Bearer <BOB_TOKEN>" \
+  -d '{"name":"Barista Special","description":"Secret recipe","price":6.00}'
+```
+
+```
+HTTP/1.1 201 Created
+```
+
+**Valid token but wrong role (alice) → 403 Forbidden:**
+
+Using alice's token (which has role `user`, not `admin`):
+
+```bash
+curl -i -X POST http://localhost:8080/menu/admin \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <ALICE_TOKEN>" \
   -d '{"name":"Barista Special","description":"Secret recipe","price":6.00}'
 ```
 
@@ -236,10 +256,10 @@ Back in the Dev UI OpenID Connect panel, you can inspect what Keycloak auto-conf
 |------|-----|
 | ✅ Added OIDC security | `quarkus ext add oidc` + one config line |
 | ✅ Protected endpoint | `@Authenticated` on `POST /menu` |
-| ✅ Role-based access control | `@RolesAllowed("barista")` on admin endpoint |
+| ✅ Role-based access control | `@RolesAllowed("admin")` on admin endpoint |
 | ✅ Full Keycloak, zero setup | DevServices auto-started it |
 | ✅ Got a real JWT | From Dev UI login flow |
-| ✅ Verified 401 / 403 / 201 | With `curl` |
+| ✅ Verified 401 / 201 / 403 | With `curl` — alice (user) vs bob (admin) |
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab5-security/solution/`. Run it with:

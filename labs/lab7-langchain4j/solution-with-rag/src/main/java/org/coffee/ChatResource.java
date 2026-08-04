@@ -17,7 +17,7 @@ public class ChatResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String chat(@QueryParam("message") String message) {
         if (message == null || message.isBlank()) {
-            return "Please ask me something about coffee! Try: ?message=Do you have oat milk?";
+            return "Ask me anything about coffee! Try: ?message=What's a good morning coffee?";
         }
         return baristaAiService.chat(message);
     }

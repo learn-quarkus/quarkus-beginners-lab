@@ -61,7 +61,7 @@ DOCKER_OK=false
 PODMAN_OK=false
 
 if command -v docker &>/dev/null; then
-  if docker ps &>/dev/null; then
+  if timeout 5 docker ps &>/dev/null; then
     check_pass "Docker is installed and running"
     DOCKER_OK=true
   else
@@ -70,7 +70,7 @@ if command -v docker &>/dev/null; then
 fi
 
 if command -v podman &>/dev/null; then
-  if podman ps &>/dev/null; then
+  if timeout 5 podman ps &>/dev/null; then
     check_pass "Podman is installed and running"
     PODMAN_OK=true
   else
@@ -86,20 +86,16 @@ fi
 echo ""
 
 # ── 4. OpenAI API Key (required for Lab 7) ────────
+# The Quarkus LangChain4j extension maps the env var QUARKUS_LANGCHAIN4J_OPENAI_API_KEY
+# to the config property quarkus.langchain4j.openai.api-key automatically.
+# Setting the env var is equivalent to setting the property in application.properties —
+# use the env var form so the key is never written to disk.
 echo "[ OpenAI API Key — required for Lab 7 ]"
-if [ -n "$OPENAI_API_KEY" ]; then
-  MASKED="${OPENAI_API_KEY:0:8}..."
-  check_pass "OPENAI_API_KEY is set ($MASKED)"
-else
-  check_warn "OPENAI_API_KEY is not set — needed only for Lab 7 (AI chatbot)"
-  check_warn "Set it with: export OPENAI_API_KEY=sk-..."
-fi
-
 if [ -n "$QUARKUS_LANGCHAIN4J_OPENAI_API_KEY" ]; then
-  MASKED2="${QUARKUS_LANGCHAIN4J_OPENAI_API_KEY:0:8}..."
-  check_pass "QUARKUS_LANGCHAIN4J_OPENAI_API_KEY is set ($MASKED2)"
+  MASKED="${QUARKUS_LANGCHAIN4J_OPENAI_API_KEY:0:8}..."
+  check_pass "QUARKUS_LANGCHAIN4J_OPENAI_API_KEY is set ($MASKED)"
 else
-  check_warn "QUARKUS_LANGCHAIN4J_OPENAI_API_KEY is not set — needed for Lab 7"
+  check_warn "QUARKUS_LANGCHAIN4J_OPENAI_API_KEY is not set — needed only for Lab 7 (AI chatbot)"
   check_warn "Set it with: export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-..."
 fi
 echo ""

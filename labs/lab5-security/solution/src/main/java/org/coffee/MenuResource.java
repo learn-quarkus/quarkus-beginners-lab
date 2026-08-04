@@ -32,9 +32,9 @@ public class MenuResource {
 
     @POST
     @Path("/admin")
-    @RolesAllowed("barista")    // Only users with the 'barista' role
+    @RolesAllowed("admin")      // Only users with the 'admin' role
     @Transactional
-    public Response addAsBarista(MenuItem item) {
+    public Response addAsAdmin(MenuItem item) {
         item.persist();
         return Response.status(Response.Status.CREATED).entity(item).build();
     }

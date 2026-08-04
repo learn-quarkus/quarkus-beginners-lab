@@ -287,10 +287,16 @@ Send a test message from the Dev UI and watch it appear in the `menu-service` te
 | ✅ Two services share one broker | DevServices coordinates automatically |
 
 !!! tip "Stuck or fell behind?"
-    Complete solutions are in:
+    Complete solutions are in. **Run each command in a separate terminal** — each service needs its own shell:
+
+    Terminal 1:
     ```bash
     cd labs/lab4-kafka/solution/order-service && quarkus dev
-    cd labs/lab4-kafka/solution/menu-service  && quarkus dev
+    ```
+
+    Terminal 2:
+    ```bash
+    cd labs/lab4-kafka/solution/menu-service && quarkus dev
     ```
 
 ---
