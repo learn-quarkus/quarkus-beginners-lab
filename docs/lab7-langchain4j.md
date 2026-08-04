@@ -32,7 +32,7 @@
 | Extension | Group ID | Purpose |
 |-----------|----------|---------|
 | `quarkus-langchain4j-openai` | `io.quarkiverse.langchain4j` | OpenAI integration via LangChain4j |
-| `quarkus-qute` | `io.quarkus` | Server-side HTML templates — powers the chat UI |
+| `quarkus-rest-qute` | `io.quarkus` | Qute templates integrated with JAX-RS — powers the chat UI |
 | `quarkus-langchain4j-easy-rag` | `io.quarkiverse.langchain4j` | Document ingestion + RAG (bonus step) |
 
 !!! warning "Different group ID"
@@ -245,13 +245,13 @@ Instead of typing in Swagger UI, let's add a proper HTML form powered by **Qute*
 === "Quarkus CLI"
 
     ```bash
-    quarkus ext add qute
+    quarkus ext add rest-qute
     ```
 
 === "Maven"
 
     ```bash
-    ./mvnw quarkus:add-extension -Dextensions="qute"
+    ./mvnw quarkus:add-extension -Dextensions="rest-qute"
     ```
 
 ### Create the UI resource
