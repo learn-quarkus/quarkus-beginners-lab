@@ -1029,13 +1029,22 @@ Define the entire chatbot as a <strong>plain Java interface</strong> with four a
 </div>
 <div class="admonition warning">
 <p class="admonition-title">OpenAI API key required</p>
-<p>This lab calls the OpenAI API. Before starting, confirm your key is set:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="w">   </span><span class="c1"># should print sk-...</span>
+<p>This lab calls the OpenAI API. You need a key set in your terminal before running <code>quarkus dev</code>.</p>
+<p><strong>Instructor-led workshop:</strong> your instructor will provide a key — use that.</p>
+<p><strong>Self-paced:</strong> use your own key from <a href="https://platform.openai.com">platform.openai.com</a>.</p>
+<p>Set it in the terminal you will use for this lab (session only — not saved permanently):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">macOS / Linux</label><label for="__tabbed_1_2">Windows (PowerShell)</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
 </span></code></pre></div>
-If it's empty, set it:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
-</span></code></pre></div></p>
+</div>
+<div class="tabbed-block">
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">&quot;sk-...&quot;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
 </div>
 <p><strong>Extensions used:</strong></p>
 <table>
@@ -1080,7 +1089,7 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <hr />
 <h2 id="step-1-create-the-barista-bot-project">Step 1 — Create the barista-bot Project<a class="headerlink" href="#step-1-create-the-barista-bot-project" title="Permanent link">&para;</a></h2>
 <p>In a new terminal (separate from <code>menu-service</code>):</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI</label><label for="__tabbed_2_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>quarkus<span class="w"> </span>create<span class="w"> </span>app<span class="w"> </span>org.coffee:barista-bot<span class="w"> </span><span class="se">\</span>

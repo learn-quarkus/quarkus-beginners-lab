@@ -1052,31 +1052,28 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 <p class="admonition-title">Required for Lab 7 only</p>
 <p>Labs 1–6 do not require an API key.</p>
 </div>
-<ol>
-<li>Sign in or create an account at <a href="https://platform.openai.com">platform.openai.com</a></li>
-<li>Navigate to <strong>API Keys</strong> → <strong>Create new secret key</strong></li>
-<li>Copy the key — you will not be able to see it again</li>
-</ol>
-<p>Set it in your shell for the workshop session:</p>
+<div class="admonition tip">
+<p class="admonition-title">Workshop instructor key</p>
+<p>If you are attending an instructor-led session, your instructor will provide a shared API key for Lab 7. You do not need to create your own OpenAI account.</p>
+<p>If you are working through this workshop independently, you can use your own key from <a href="https://platform.openai.com">platform.openai.com</a>.</p>
+</div>
+<p>You will need to set the key as an environment variable in the terminal where you run <code>quarkus dev</code> for Lab 7. This is a <strong>session-only</strong> setting — it is not saved permanently.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">macOS / Linux</label><label for="__tabbed_4_2">Windows (PowerShell)</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
 </span></code></pre></div>
-<p>To persist across sessions, add those lines to your <code>~/.zshrc</code> or <code>~/.bashrc</code>.</p>
 </div>
 <div class="tabbed-block">
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$env:OPENAI_API_KEY</span><span class="p">=</span><span class="s2">&quot;sk-...&quot;</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">&quot;sk-...&quot;</span>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">&quot;sk-...&quot;</span>
 </span></code></pre></div>
 </div>
 </div>
 </div>
-<p>Alternatively, create a <code>.env</code> file in the <code>labs/lab7-langchain4j/</code> directory:</p>
-<div class="language-properties highlight"><span class="filename">.env</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="na">OPENAI_API_KEY</span><span class="o">=</span><span class="s">sk-...</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span><span class="s">sk-...</span>
-</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Session only</p>
+<p>This sets the key for the current terminal session only. It is not written to any file and disappears when you close the terminal — which is exactly what you want for a shared or temporary key.</p>
+</div>
 <hr />
 <h2 id="5-ide-setup">5. IDE Setup<a class="headerlink" href="#5-ide-setup" title="Permanent link">&para;</a></h2>
 <p>Either IDE works well. Install the Quarkus plugin for the best experience.</p>
@@ -1100,16 +1097,19 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 <hr />
 <h2 id="6-verify-your-setup">6. Verify Your Setup<a class="headerlink" href="#6-verify-your-setup" title="Permanent link">&para;</a></h2>
 <p>Run the prerequisite check script to confirm everything is ready:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># From the root of the workshop repo</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>chmod<span class="w"> </span>+x<span class="w"> </span>prereq-check.sh
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>./prereq-check.sh
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># From the root of the workshop repo</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>chmod<span class="w"> </span>+x<span class="w"> </span>prereq-check.sh
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>./prereq-check.sh
 </span></code></pre></div>
 <p>Or check manually:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>java<span class="w"> </span>-version<span class="w">       </span><span class="c1"># should show 21.x</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>quarkus<span class="w"> </span>version<span class="w">     </span><span class="c1"># should show 3.x   (or: mvn -version for Maven)</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$OPENAI_API_KEY</span><span class="w">  </span><span class="c1"># should show sk-...  (needed only for Lab 7)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>java<span class="w"> </span>-version<span class="w">       </span><span class="c1"># should show 21.x</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>quarkus<span class="w"> </span>version<span class="w">     </span><span class="c1"># should show 3.x   (or: mvn -version for Maven)</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
 </span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">OpenAI key — Lab 7 only</p>
+<p>You do not need the API key until Lab 7. Your instructor will provide one at that point, or you can use your own.</p>
+</div>
 <div class="admonition success">
 <p class="admonition-title">All green? You're ready!</p>
 <p><a class="md-button md-button--primary" href="../lab1-rest/">→ Start Lab 1</a></p>
