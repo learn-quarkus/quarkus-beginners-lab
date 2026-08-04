@@ -82,6 +82,7 @@ In a new terminal (separate from `menu-service`):
     ```bash
     rm src/main/java/org/coffee/GreetingResource.java
     rm src/test/java/org/coffee/GreetingResourceTest.java
+    rm src/test/java/org/coffee/GreetingResourceIT.java
     ```
 
 ---

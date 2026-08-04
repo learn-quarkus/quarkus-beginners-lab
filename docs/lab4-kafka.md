@@ -60,6 +60,7 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
     ```bash
     rm src/main/java/org/coffee/GreetingResource.java
     rm src/test/java/org/coffee/GreetingResourceTest.java
+    rm src/test/java/org/coffee/GreetingResourceIT.java
     ```
 
 ---

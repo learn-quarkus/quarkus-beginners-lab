@@ -57,10 +57,11 @@ menu-service/
 Open `pom.xml` and notice your two extensions are already listed — no manual XML to write.
 
 !!! tip "Delete the generated sample files"
-    The scaffold includes `GreetingResource.java` and `GreetingResourceTest.java`. Delete them now to keep the project tidy:
+    The scaffold includes `GreetingResource.java` and matching test files. Delete them now to keep the project tidy:
     ```bash
     rm src/main/java/org/coffee/GreetingResource.java
     rm src/test/java/org/coffee/GreetingResourceTest.java
+    rm src/test/java/org/coffee/GreetingResourceIT.java
     ```
 
 ---
