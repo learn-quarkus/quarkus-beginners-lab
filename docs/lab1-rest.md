@@ -31,7 +31,7 @@ Run the following command in your terminal:
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.15.1:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=menu-service \
       -Dextensions=rest-jackson,smallrye-openapi \

@@ -72,7 +72,7 @@ In a new terminal (separate from `menu-service`):
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.15.1:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=barista-bot \
       -Dextensions=rest-jackson,smallrye-openapi \
@@ -90,28 +90,31 @@ The Quarkus CLI cannot add Quarkiverse extensions directly, so edit `pom.xml` ma
 
 ```xml title="pom.xml — dependencyManagement section"
 <dependency>
-  <groupId>io.quarkiverse.langchain4j</groupId>
+  <groupId>io.quarkus.platform</groupId>   <!-- (1) -->
   <artifactId>quarkus-langchain4j-bom</artifactId>
-  <version>1.0.1</version>   <!-- (1) -->
+  <version>3.33.1</version>               <!-- (2) -->
   <type>pom</type>
   <scope>import</scope>
 </dependency>
 ```
 
-1. Check [mvnrepository.com](https://mvnrepository.com/artifact/io.quarkiverse.langchain4j/quarkus-langchain4j-bom) for the latest version compatible with Quarkus 3.15.x.
+1. As of Quarkus 3.20, LangChain4j is part of the **Quarkus Platform** — the BOM group is now `io.quarkus.platform`, not `io.quarkiverse.langchain4j`.
+2. The BOM version tracks the Quarkus platform version. Use `3.33.1` to match Quarkus 3.33 LTS.
 
 **Add the OpenAI runtime dependency** in the `<dependencies>` section:
 
 ```xml title="pom.xml — dependencies section"
 <dependency>
-  <groupId>io.quarkiverse.langchain4j</groupId>
+  <groupId>io.quarkiverse.langchain4j</groupId>  <!-- runtime artifacts keep the quarkiverse groupId -->
   <artifactId>quarkus-langchain4j-openai</artifactId>
   <!-- version managed by the BOM above -->
 </dependency>
 ```
 
-!!! note "Why a separate BOM?"
-    The LangChain4j Quarkiverse extension has its own release cadence and BOM. Adding it to `dependencyManagement` ensures all LangChain4j sub-modules use consistent versions — same pattern as the Quarkus BOM itself.
+!!! note "BOM vs runtime groupId"
+    The **BOM** (`quarkus-langchain4j-bom`) is now published under `io.quarkus.platform` — same as the Quarkus core BOM.
+    The **runtime extension JARs** (`quarkus-langchain4j-openai`, `quarkus-langchain4j-easy-rag`, etc.) still use `io.quarkiverse.langchain4j`.
+    This is a common pattern in the Quarkus ecosystem — the platform BOM manages versions, the Quarkiverse group publishes the artifacts.
 
 ---
 

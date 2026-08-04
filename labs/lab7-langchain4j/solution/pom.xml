@@ -14,8 +14,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.15.1</quarkus.platform.version>
-    <quarkus.langchain4j.version>1.0.1</quarkus.langchain4j.version>
+    <quarkus.platform.version>3.33.3</quarkus.platform.version>
+    <quarkus.langchain4j.version>3.33.1</quarkus.langchain4j.version>
     <surefire-plugin.version>3.3.1</surefire-plugin.version>
   </properties>
 
@@ -28,9 +28,9 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- LangChain4j BOM — note: group is io.quarkiverse.langchain4j, NOT io.quarkus -->
+      <!-- LangChain4j BOM — part of the Quarkus Platform since 3.20 -->
       <dependency>
-        <groupId>io.quarkiverse.langchain4j</groupId>
+        <groupId>io.quarkus.platform</groupId>
         <artifactId>quarkus-langchain4j-bom</artifactId>
         <version>${quarkus.langchain4j.version}</version>
         <type>pom</type>
@@ -52,7 +52,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
-    <!-- LangChain4j OpenAI integration -->
+    <!-- LangChain4j OpenAI integration — runtime artifacts still use io.quarkiverse.langchain4j groupId -->
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-openai</artifactId>

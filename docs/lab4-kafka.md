@@ -47,7 +47,7 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.15.1:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=order-service \
       -Dextensions=rest-jackson,smallrye-openapi,messaging-kafka \
