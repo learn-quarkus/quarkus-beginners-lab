@@ -396,8 +396,8 @@ Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JS
 
 **Create the menu document** at `src/main/resources/rag-docs/menu.txt`:
 
-!!! note "Why a directory?"
-    `easy-rag.path` must point to a **directory** — Easy RAG scans all files inside it. Putting `menu.txt` directly in `src/main/resources` would cause `IllegalArgumentException: 'menu.txt' is not a directory`.
+!!! note "Why a directory and CLASSPATH?"
+    `easy-rag.path` must point to a **directory** — Easy RAG scans all files inside it. It also resolves the path on the **filesystem** by default; setting `path-type=CLASSPATH` tells it to look inside `src/main/resources` instead. Without both, you get `IllegalArgumentException`.
 
 ```bash
 mkdir -p src/main/resources/rag-docs && touch src/main/resources/rag-docs/menu.txt
@@ -423,11 +423,12 @@ Iced Latte — $4.50: Espresso over ice with cold milk.
 Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50)
 ```
 
-**Add the config property** to `application.properties`:
+**Add the config properties** to `application.properties`:
 
 ```properties
-# Easy RAG — path must be a directory; all files inside are ingested
+# Easy RAG — directory inside src/main/resources; path-type=CLASSPATH required
 quarkus.langchain4j.easy-rag.path=rag-docs
+quarkus.langchain4j.easy-rag.path-type=CLASSPATH
 ```
 
 Save all files. Quarkus live-reloads. Now ask the chatbot:
