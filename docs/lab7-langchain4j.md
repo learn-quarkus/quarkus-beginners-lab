@@ -90,43 +90,22 @@ In a new terminal (separate from `menu-service`):
 
 ## Step 2 — Add LangChain4j Dependencies
 
-The LangChain4j BOM and OpenAI runtime dependency must be added to `pom.xml` manually — they are not in the standard Quarkus extension catalog so the short-name `quarkus ext add` form won't work here. (The full-coordinate form is used for Easy RAG in Step 7.)
+In a terminal inside the `barista-bot` directory, run:
 
-**First, add a version property** to the `<properties>` section of `pom.xml`, alongside the existing Quarkus platform version:
+=== "Quarkus CLI"
 
-```xml title="pom.xml — properties section"
-<quarkus.langchain4j.version>3.33.1</quarkus.langchain4j.version>
-```
+    ```bash
+    quarkus ext add quarkus-langchain4j-openai rest-qute
+    ```
 
-**Then add the LangChain4j BOM** inside the existing `<dependencyManagement>` section, after the Quarkus BOM entry:
+=== "Maven"
 
-```xml title="pom.xml — dependencyManagement section"
-<dependency>
-  <groupId>io.quarkus.platform</groupId>   <!-- (1) -->
-  <artifactId>quarkus-langchain4j-bom</artifactId>
-  <version>${quarkus.langchain4j.version}</version>  <!-- (2) -->
-  <type>pom</type>
-  <scope>import</scope>
-</dependency>
-```
+    ```bash
+    ./mvnw quarkus:add-extension -Dextensions="quarkus-langchain4j-openai,rest-qute"
+    ```
 
-1. As of Quarkus 3.20, LangChain4j is part of the **Quarkus Platform** — the BOM group is now `io.quarkus.platform`, not `io.quarkiverse.langchain4j`.
-2. The BOM version tracks the Quarkus platform version. `3.33.1` matches Quarkus 3.33 LTS. Using a property makes it easy to update both BOMs in one place.
-
-**Add the OpenAI runtime dependency** in the `<dependencies>` section:
-
-```xml title="pom.xml — dependencies section"
-<dependency>
-  <groupId>io.quarkiverse.langchain4j</groupId>  <!-- runtime artifacts keep the quarkiverse groupId -->
-  <artifactId>quarkus-langchain4j-openai</artifactId>
-  <!-- version managed by the BOM above -->
-</dependency>
-```
-
-!!! note "BOM vs runtime groupId"
-    The **BOM** (`quarkus-langchain4j-bom`) is now published under `io.quarkus.platform` — same as the Quarkus core BOM.
-    The **runtime extension JARs** (`quarkus-langchain4j-openai`, `quarkus-langchain4j-easy-rag`, etc.) still use `io.quarkiverse.langchain4j`.
-    This is a common pattern in the Quarkus ecosystem — the platform BOM manages versions, the Quarkiverse group publishes the artifacts.
+!!! note "What just happened?"
+    `quarkus-langchain4j-openai` is registered in the Quarkus Platform registry so the full artifact ID works directly with `ext add` — no manual `pom.xml` edits needed. `rest-qute` is added at the same time so the Qute chat UI (Step 6) is ready to go.
 
 ---
 
@@ -238,21 +217,7 @@ public class ChatResource {
 
 ## Step 6 — Add the Qute Chat UI
 
-Instead of typing in Swagger UI, let's add a proper HTML form powered by **Qute** — Quarkus' server-side templating engine. Two files do the whole thing.
-
-### Add the Qute extension
-
-=== "Quarkus CLI"
-
-    ```bash
-    quarkus ext add rest-qute
-    ```
-
-=== "Maven"
-
-    ```bash
-    ./mvnw quarkus:add-extension -Dextensions="rest-qute"
-    ```
+Instead of typing in Swagger UI, let's add a proper HTML form powered by **Qute** — Quarkus' server-side templating engine. Two files do the whole thing (`rest-qute` is already on the classpath from Step 2).
 
 ### Create the UI resource
 
@@ -338,10 +303,12 @@ Open `chat.html` in your IDE and paste in the following:
     button { padding: 0.55rem 1.1rem; font-size: 1rem; background: #3b82d4;
              color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     button:hover { background: #2563be; }
-    .reply { margin-top: 1.75rem; padding: 1rem 1.25rem;
-             background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px;
-             line-height: 1.6; white-space: pre-wrap; }
-    .label { font-size: 0.75rem; color: #57606a; margin-bottom: 0.3rem; }
+    .qa    { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .bubble{ padding: 0.75rem 1rem; border-radius: 6px; line-height: 1.6; }
+    .q     { background: #dbeafe; align-self: flex-end; max-width: 85%; }
+    .a     { background: #f7f8fa; border: 1px solid #e5e7eb; max-width: 85%; white-space: pre-wrap; }
+    .label { font-size: 0.7rem; color: #57606a; margin-bottom: 0.2rem; }
+    a.again{ display: inline-block; margin-top: 1rem; font-size: 0.875rem; color: #3b82d4; }
   </style>
 </head>
 <body>
@@ -349,22 +316,32 @@ Open `chat.html` in your IDE and paste in the following:
   <h1>☕ Barista Bot</h1>
   <p class="sub">Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.</p>
 
+  {#if reply}                          <!-- (1) form hidden once reply arrives -->
+  <div class="qa">
+    <div>
+      <div class="label">You asked:</div>
+      <div class="bubble q">{message}</div>    <!-- (2) question bubble -->
+    </div>
+    <div>
+      <div class="label">Barista Bot says:</div>
+      <div class="bubble a">{reply}</div>      <!-- (3) answer bubble -->
+    </div>
+  </div>
+  <a class="again" href="/">← Ask another question</a>
+  {#else}
   <form method="post" action="/">
-    <input type="text" name="message" placeholder="e.g. What's in a flat white?"
-           value="{#if message}{message}{/if}" autofocus>
+    <input type="text" name="message" placeholder="e.g. What's in a flat white?" autofocus>
     <button type="submit">Ask</button>
   </form>
-
-  {#if reply}
-  <div class="reply">
-    <div class="label">Barista Bot says:</div>
-    {reply}
-  </div>
   {/if}
 
 </body>
 </html>
 ```
+
+1. `{#if reply}` / `{#else}` — the form is shown initially; once the AI responds the entire form is replaced by the Q&A view.
+2. Question rendered right-aligned in a blue bubble.
+3. Answer rendered left-aligned in a grey bubble. `← Ask another question` reloads `GET /` to start fresh.
 
 ### Start and test
 

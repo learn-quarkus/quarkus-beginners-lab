@@ -15,10 +15,12 @@
     button { padding: 0.55rem 1.1rem; font-size: 1rem; background: #3b82d4;
              color: #fff; border: none; border-radius: 6px; cursor: pointer; }
     button:hover { background: #2563be; }
-    .reply { margin-top: 1.75rem; padding: 1rem 1.25rem;
-             background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px;
-             line-height: 1.6; white-space: pre-wrap; }
-    .label { font-size: 0.75rem; color: #57606a; margin-bottom: 0.3rem; }
+    .qa    { margin-top: 1.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .bubble{ padding: 0.75rem 1rem; border-radius: 6px; line-height: 1.6; }
+    .q     { background: #dbeafe; align-self: flex-end; max-width: 85%; }
+    .a     { background: #f7f8fa; border: 1px solid #e5e7eb; max-width: 85%; white-space: pre-wrap; }
+    .label { font-size: 0.7rem; color: #57606a; margin-bottom: 0.2rem; }
+    a.again{ display: inline-block; margin-top: 1rem; font-size: 0.875rem; color: #3b82d4; }
   </style>
 </head>
 <body>
@@ -26,17 +28,23 @@
   <h1>☕ Barista Bot</h1>
   <p class="sub">Powered by OpenAI + Quarkus LangChain4j + Easy RAG. Ask me anything about coffee.</p>
 
+  {#if reply}
+  <div class="qa">
+    <div>
+      <div class="label">You asked:</div>
+      <div class="bubble q">{message}</div>
+    </div>
+    <div>
+      <div class="label">Barista Bot says:</div>
+      <div class="bubble a">{reply}</div>
+    </div>
+  </div>
+  <a class="again" href="/">← Ask another question</a>
+  {#else}
   <form method="post" action="/">
-    <input type="text" name="message" placeholder="e.g. Do you have oat milk?"
-           value="{#if message}{message}{/if}" autofocus>
+    <input type="text" name="message" placeholder="e.g. Do you have oat milk?" autofocus>
     <button type="submit">Ask</button>
   </form>
-
-  {#if reply}
-  <div class="reply">
-    <div class="label">Barista Bot says:</div>
-    {reply}
-  </div>
   {/if}
 
 </body>
