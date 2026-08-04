@@ -1,0 +1,1524 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 60-minute hands-on Quarkus workshop for Java developers — REST APIs, Panache ORM, Kafka, OIDC Security, Fault Tolerance, and LangChain4j AI.">
+      
+      
+        <meta name="author" content="IBM">
+      
+      
+      
+        <link rel="prev" href="../wrap-up/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Facilitator Guide - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#facilitator-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quarkus Workshop: From Zero to AI-Powered Microservices" class="md-header__button md-logo" aria-label="Quarkus Workshop: From Zero to AI-Powered Microservices" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quarkus Workshop: From Zero to AI-Powered Microservices
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Facilitator Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    quarkus-beginners-lab
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../00-prerequisites/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Prerequisites
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../lab1-rest/" class="md-tabs__link">
+          
+  
+  
+  Labs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../wrap-up/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Wrap-Up
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Facilitator Guide
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quarkus Workshop: From Zero to AI-Powered Microservices" class="md-nav__button md-logo" aria-label="Quarkus Workshop: From Zero to AI-Powered Microservices" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Quarkus Workshop: From Zero to AI-Powered Microservices
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    quarkus-beginners-lab
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1-rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1: First REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2-panache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2: Panache ORM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3-config-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3: Config & Health
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4: Kafka Messaging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5: OIDC Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6-fault-tolerance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6: Fault Tolerance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab7-langchain4j/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7: AI with LangChain4j
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wrap-up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrap-Up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facilitator Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facilitator Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#timing-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timing Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-lab-timing-notes-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Lab Timing Notes &amp; Pitfalls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-Lab Timing Notes &amp; Pitfalls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intro-0000-0500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intro (00:00 – 05:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-1-first-rest-api-0500-1700" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 1 — First REST API (05:00 – 17:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-2-panache-orm-1700-2500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 2 — Panache ORM (17:00 – 25:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-3-config-health-2500-3100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 3 — Config &amp; Health (25:00 – 31:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-4-kafka-with-devservices-3100-3800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 4 — Kafka with DevServices (31:00 – 38:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-5-oidc-security-3800-4500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 5 — OIDC Security (38:00 – 45:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-6-fault-tolerance-4500-5000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 6 — Fault Tolerance (45:00 – 50:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-7-langchain4j-5000-5800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 7 — LangChain4j (50:00 – 58:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrap-Up — Native Demo (58:00 – 60:00)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-workshop-build-the-native-binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-workshop: build the native binary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catch-up-instructions-for-attendees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catch-Up Instructions for Attendees
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#timing-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timing Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-lab-timing-notes-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Lab Timing Notes &amp; Pitfalls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-Lab Timing Notes &amp; Pitfalls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#intro-0000-0500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intro (00:00 – 05:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-1-first-rest-api-0500-1700" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 1 — First REST API (05:00 – 17:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-2-panache-orm-1700-2500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 2 — Panache ORM (17:00 – 25:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-3-config-health-2500-3100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 3 — Config &amp; Health (25:00 – 31:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-4-kafka-with-devservices-3100-3800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 4 — Kafka with DevServices (31:00 – 38:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-5-oidc-security-3800-4500" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 5 — OIDC Security (38:00 – 45:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-6-fault-tolerance-4500-5000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 6 — Fault Tolerance (45:00 – 50:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-7-langchain4j-5000-5800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 7 — LangChain4j (50:00 – 58:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wrap-Up — Native Demo (58:00 – 60:00)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-workshop-build-the-native-binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-workshop: build the native binary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo script
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting Quick Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catch-up-instructions-for-attendees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catch-Up Instructions for Attendees
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="facilitator-guide">Facilitator Guide<a class="headerlink" href="#facilitator-guide" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">For instructors only</p>
+<p>This page is for workshop facilitators. It contains timing cues, "pause and explain" callout points, common attendee questions, and troubleshooting tips. Attendees are welcome to read it, but it won't be useful during the labs.</p>
+</div>
+<hr />
+<h2 id="timing-overview">Timing Overview<a class="headerlink" href="#timing-overview" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Section</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-15 min</td>
+<td>Pre-session</td>
+<td>Confirm Docker/Podman is running on your machine. Pre-build native binary (see Wrap-Up). Have a browser tab open to <code>code.quarkus.io</code> as a backup.</td>
+</tr>
+<tr>
+<td>00:00 – 05:00</td>
+<td>Intro</td>
+<td>Slides/whiteboard: Why Quarkus, the Coffee Shop theme, what each lab builds. Keep it short — attendees are eager to code.</td>
+</tr>
+<tr>
+<td>05:00 – 17:00</td>
+<td>Lab 1</td>
+<td><strong>Slowest lab</strong> — project creation and IDE setup takes time. Circulate the room. Shout "press <code>r</code> now" when it's time for continuous testing.</td>
+</tr>
+<tr>
+<td>17:00 – 25:00</td>
+<td>Lab 2</td>
+<td>Faster once IDE is set up. Key moment: show <code>PanacheEntity.listAll()</code> — one line replacing 20 lines of DAO code.</td>
+</tr>
+<tr>
+<td>25:00 – 31:00</td>
+<td>Lab 3</td>
+<td>Dev UI tour is the highlight here. Take 2 minutes to click through every panel — don't rush it.</td>
+</tr>
+<tr>
+<td>31:00 – 38:00</td>
+<td>Lab 4</td>
+<td><strong>Requires Docker/Podman running.</strong> Pause before starting and confirm everyone's daemon is up. The "zero Kafka config" moment lands well with experienced devs.</td>
+</tr>
+<tr>
+<td>38:00 – 45:00</td>
+<td>Lab 5</td>
+<td><strong>Requires Docker/Podman running.</strong> Keycloak takes ~15s to start — warn attendees to expect a brief wait on first <code>quarkus dev</code>. The 401 → 200 curl demo is satisfying.</td>
+</tr>
+<tr>
+<td>45:00 – 50:00</td>
+<td>Lab 6</td>
+<td>Fast lab. Key teaching point: annotations intercept CDI beans — only works on <code>@ApplicationScoped</code> etc. Run the endpoint 5+ times so retries are visible.</td>
+</tr>
+<tr>
+<td>50:00 – 58:00</td>
+<td>Lab 7</td>
+<td>AI responses vary. If OpenAI is slow, narrate what's happening. RAG bonus is optional — skip if behind on time.</td>
+</tr>
+<tr>
+<td>58:00 – 60:00</td>
+<td>Wrap-Up</td>
+<td>Native demo only. Don't try to compile live. Show pre-built binary only.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="per-lab-timing-notes-pitfalls">Per-Lab Timing Notes &amp; Pitfalls<a class="headerlink" href="#per-lab-timing-notes-pitfalls" title="Permanent link">&para;</a></h2>
+<h3 id="intro-0000-0500">Intro (00:00 – 05:00)<a class="headerlink" href="#intro-0000-0500" title="Permanent link">&para;</a></h3>
+<p><strong>What to say:</strong></p>
+<blockquote>
+<p>"Quarkus is a Java framework that feels very different from Spring Boot the moment you start it. Today we're going to feel that difference, not just read about it. By the end of the hour you'll have a REST API, a database, Kafka, security, and an AI chatbot — all running on your laptop."</p>
+</blockquote>
+<p><strong>Pause and explain:</strong> Draw or show the Coffee Shop architecture: <code>order-service</code> → Kafka → <code>menu-service</code>, and <code>barista-bot</code> as a separate AI-powered service.</p>
+<hr />
+<h3 id="lab-1-first-rest-api-0500-1700">Lab 1 — First REST API (05:00 – 17:00)<a class="headerlink" href="#lab-1-first-rest-api-0500-1700" title="Permanent link">&para;</a></h3>
+<p><strong>Key moments to call out:</strong>
+- After <code>quarkus create app</code> finishes: "Notice it created a complete working project in seconds. Open <code>pom.xml</code> — your extensions are already there."
+- After first <code>quarkus dev</code> starts: "It's running. Now — don't restart it for the rest of this lab. We won't need to."
+- After the live reload demo: Pause. Say: "Did anyone restart the server? No. Quarkus detected the change and recompiled on your next request. This is live reload."
+- After pressing <code>r</code> for continuous testing: "Now watch — every time you save a file, the tests re-run. You don't have to think about running tests. They just run."</p>
+<p><strong>Common questions:</strong>
+- <em>"What's the difference between <code>quarkus-rest</code> and <code>quarkus-resteasy</code>?"</em> — <code>quarkus-rest</code> is the modern name as of Quarkus 3.x. Same technology, just renamed.
+- <em>"Can I use <code>@RestController</code> like in Spring?"</em> — Yes, with <code>quarkus-spring-web</code>, but in this workshop we use native Quarkus annotations.</p>
+<p><strong>Pitfalls:</strong>
+- Port 8080 already in use — ask attendees to run <code>lsof -i :8080</code> and kill the process.
+- IDE not resolving <code>@Path</code> imports — make sure the Maven project is imported/synced.</p>
+<hr />
+<h3 id="lab-2-panache-orm-1700-2500">Lab 2 — Panache ORM (17:00 – 25:00)<a class="headerlink" href="#lab-2-panache-orm-1700-2500" title="Permanent link">&para;</a></h3>
+<p><strong>Key moments to call out:</strong>
+- After <code>extends PanacheEntity</code>: "That's it. No DAO. No EntityManager injection. No boilerplate <code>findById</code> method. Panache gives you all of those for free as static methods on your entity class."
+- After seed data loads: "Open the Dev UI database browser — <code>http://localhost:8080/q/dev-ui</code>. You can run SQL queries live against your H2 database without any tooling."</p>
+<p><strong>Common questions:</strong>
+- <em>"What about production? H2 is just for testing right?"</em> — Correct. In prod you'd use PostgreSQL. If you add <code>quarkus-jdbc-postgresql</code> instead of H2, DevServices auto-starts a Postgres container for dev. Same pattern.
+- <em>"What's the Repository pattern vs Active Record?"</em> — Active Record (this lab) puts the DB methods on the entity itself. Repository separates them. Both work in Quarkus.</p>
+<p><strong>Pitfalls:</strong>
+- Forgetting <code>@Transactional</code> on POST → <code>javax.persistence.TransactionRequiredException</code>. Show the error message and the fix.
+- <code>import.sql</code> not picked up — must be in <code>src/main/resources</code>, not <code>src/test/resources</code>.</p>
+<hr />
+<h3 id="lab-3-config-health-2500-3100">Lab 3 — Config &amp; Health (25:00 – 31:00)<a class="headerlink" href="#lab-3-config-health-2500-3100" title="Permanent link">&para;</a></h3>
+<p><strong>Key moments to call out:</strong>
+- After the profile demo: "Notice <code>%prod.coffee.shop.name</code> overrides the default — only when you run with the prod profile. Zero code change needed to configure differently per environment."
+- During Dev UI tour: slow down here. Open every panel. Show the Configuration editor (live config change without restart), show the Hibernate entity browser, show the Continuous Testing panel.</p>
+<div class="admonition tip">
+<p class="admonition-title">Dev UI is the best demo in the workshop</p>
+<p>Attendees who come from Spring Boot are genuinely surprised by this. Take an extra minute here if the pacing allows.</p>
+</div>
+<p><strong>Common questions:</strong>
+- <em>"Is Dev UI in production?"</em> — No. It's completely stripped from production builds. Dev only.
+- <em>"Can I add my own panels to Dev UI?"</em> — Yes, via the extension API. Out of scope today.</p>
+<hr />
+<h3 id="lab-4-kafka-with-devservices-3100-3800">Lab 4 — Kafka with DevServices (31:00 – 38:00)<a class="headerlink" href="#lab-4-kafka-with-devservices-3100-3800" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Pre-flight check</p>
+<p>Before starting this lab, confirm Docker Desktop or Podman is running on every attendee's laptop. Ask them to run <code>docker ps</code> or <code>podman ps</code> and confirm they see an empty table (not an error).</p>
+</div>
+<p><strong>Key moments to call out:</strong>
+- Before running <code>quarkus dev</code>: "We haven't installed Kafka. We haven't written a <code>docker-compose.yml</code>. We haven't set a broker URL. Watch what happens when we just add the extension."
+- After first <code>quarkus dev</code> start: Point to the log line: <code>Dev Services for Kafka started</code>. "Quarkus downloaded and started a Redpanda container automatically. That is DevServices."
+- After sending an order: Switch terminal windows — show the consumer log line in <code>menu-service</code>. "Two services, one Kafka broker, zero config."</p>
+<p><strong>Common questions:</strong>
+- <em>"What is Redpanda?"</em> — A Kafka-compatible broker that's faster and lighter than Apache Kafka. Quarkus uses it for DevServices because it starts in under 2 seconds.
+- <em>"How do they share the same broker?"</em> — DevServices detects that both services are running in dev mode and connects them to the same container automatically.</p>
+<p><strong>Pitfalls:</strong>
+- Docker not running → <code>Could not connect to Docker</code> error. Start Docker/Podman first.
+- Port conflict on 9092 if a real Kafka is already running locally — DevServices will use a random port. Usually auto-resolves.</p>
+<hr />
+<h3 id="lab-5-oidc-security-3800-4500">Lab 5 — OIDC Security (38:00 – 45:00)<a class="headerlink" href="#lab-5-oidc-security-3800-4500" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Pre-flight check</p>
+<p>Docker/Podman must still be running from Lab 4. Keycloak takes ~15 seconds to start on first <code>quarkus dev</code> — warn attendees to expect the wait.</p>
+</div>
+<p><strong>Key moments to call out:</strong>
+- After adding <code>quarkus-oidc</code> and restarting: Point to <code>Dev Services for Keycloak started</code> in the log. "Full Keycloak — with a realm, a client, and test users — started automatically."
+- The 401 without a token: Run the curl command first with no token. Show the 401. "Without a token, the request is rejected before your code ever runs."
+- Getting the token from Dev UI: This is the best UI moment of the lab. Walk through it step by step — the OIDC panel is intuitive.
+- The 403 for wrong role: Show alice (user role) hitting <code>/menu/admin</code>. "Authenticated — yes. Authorised — no. Different error, different meaning."</p>
+<p><strong>Common questions:</strong>
+- <em>"Where are the Keycloak users defined?"</em> — DevServices creates them automatically: <code>alice</code> with <code>user</code> role, <code>bob</code> with <code>admin</code> role.
+- <em>"What happens in production?"</em> — You set <code>quarkus.oidc.auth-server-url</code> to your real Keycloak/OIDC provider. Everything else stays the same.
+- <em>"Do we need to write login pages?"</em> — No, for a REST API (bearer token flow). If you needed a web app with login pages, you'd use <code>application-type=web-app</code>.</p>
+<p><strong>Pitfalls:</strong>
+- Keycloak slow to start — just wait. It will come up.
+- Token expired during demo — tokens from Dev UI expire in a few minutes. Re-fetch from the Dev UI panel if <code>curl</code> starts returning 401 again.</p>
+<hr />
+<h3 id="lab-6-fault-tolerance-4500-5000">Lab 6 — Fault Tolerance (45:00 – 50:00)<a class="headerlink" href="#lab-6-fault-tolerance-4500-5000" title="Permanent link">&para;</a></h3>
+<p><strong>Key moments to call out:</strong>
+- Show <code>Math.random() &lt; 0.5</code> in <code>PricingService</code> — "We're simulating a flaky network call. Hit the endpoint 6 times and watch the retry logs."
+- After showing logs with retries: "Notice your endpoint returned successfully every time despite the 50% failure rate. That's <code>@Retry</code> working."
+- After <code>@Fallback</code>: Hit the endpoint until a fallback fires. "When all retries are exhausted, <code>defaultPrice()</code> kicks in. The user gets a response — not a 500."</p>
+<p><strong>Common questions:</strong>
+- <em>"What about <code>@CircuitBreaker</code>?"</em> — It builds on <code>@Retry</code> — after N consecutive failures, it opens the circuit and fails fast (no retries) for a time window. Mention it exists, point to the Quarkus guide, skip implementing it today.
+- <em>"Does this work with async calls?"</em> — Yes. All annotations work with <code>CompletionStage</code> and Mutiny <code>Uni</code> return types.</p>
+<hr />
+<h3 id="lab-7-langchain4j-5000-5800">Lab 7 — LangChain4j (50:00 – 58:00)<a class="headerlink" href="#lab-7-langchain4j-5000-5800" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">OpenAI latency</p>
+<p>Responses from OpenAI can take 2–5 seconds. If the network is slow at the venue, have a screen recording of a working demo ready as a fallback.</p>
+</div>
+<p><strong>Key moments to call out:</strong>
+- After writing <code>BaristaAiService.java</code>: "This is the entire integration. One interface. Four annotations. No HTTP client. No JSON parsing. No API key in the code. Quarkus wires it all up."
+- First response from Swagger UI: Pause and let the response appear. "That response was generated by GPT-4o-mini, called from our Java interface, returned as a plain <code>String</code>."
+- After adding Easy RAG: Ask "Do you have oat milk?" before and after the RAG step. "Before RAG, the model could hallucinate. After RAG, it answers from our actual menu document."</p>
+<p><strong>Common questions:</strong>
+- <em>"Why <code>io.quarkiverse.langchain4j</code> not <code>io.quarkus</code>?"</em> — LangChain4j is a Quarkiverse extension — community-maintained under the Quarkus umbrella but not part of the core platform. Has its own BOM.
+- <em>"Can I use other models?"</em> — Yes. Swap <code>quarkus-langchain4j-openai</code> for <code>quarkus-langchain4j-ollama</code> (local) or <code>quarkus-langchain4j-azure-openai</code>. The <code>BaristaAiService</code> interface stays unchanged.
+- <em>"What is RAG?"</em> — Retrieval Augmented Generation. Instead of relying on the model's training data, you inject relevant documents into the context at query time. Easy RAG does the embedding and retrieval automatically.</p>
+<hr />
+<h2 id="wrap-up-native-demo-5800-6000">Wrap-Up — Native Demo (58:00 – 60:00)<a class="headerlink" href="#wrap-up-native-demo-5800-6000" title="Permanent link">&para;</a></h2>
+<h3 id="pre-workshop-build-the-native-binary">Pre-workshop: build the native binary<a class="headerlink" href="#pre-workshop-build-the-native-binary" title="Permanent link">&para;</a></h3>
+<p>Run this the night before or the morning of the workshop (takes 3–5 minutes):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>quarkus<span class="w"> </span>build<span class="w"> </span>--native<span class="w"> </span>-Dquarkus.native.container-build<span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Binary output: target/menu-service-1.0.0-SNAPSHOT-runner</span>
+</span></code></pre></div>
+<h3 id="demo-script">Demo script<a class="headerlink" href="#demo-script" title="Permanent link">&para;</a></h3>
+<p>Open two terminal tabs side by side.</p>
+<p><strong>Tab 1 — JVM mode:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">time</span><span class="w"> </span>java<span class="w"> </span>-jar<span class="w"> </span>target/quarkus-app/quarkus-run.jar
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Expected: started in ~0.8s</span>
+</span></code></pre></div></p>
+<p><strong>Tab 2 — Native mode:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">time</span><span class="w"> </span>./target/menu-service-1.0.0-SNAPSHOT-runner
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Expected: started in ~0.02s</span>
+</span></code></pre></div></p>
+<p>Show the two startup log lines side by side. Let the numbers speak.</p>
+<p><strong>What to say:</strong></p>
+<blockquote>
+<p>"Same app. Same code. Same endpoints. The native binary starts 40× faster and uses a fraction of the RAM. This is why Quarkus matters for cloud deployments — smaller containers, faster scaling, lower cost."</p>
+</blockquote>
+<hr />
+<h2 id="troubleshooting-quick-reference">Troubleshooting Quick Reference<a class="headerlink" href="#troubleshooting-quick-reference" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Port 8080 in use</td>
+<td><code>lsof -i :8080</code> → kill the PID</td>
+</tr>
+<tr>
+<td>Docker not running</td>
+<td>Start Docker Desktop / Podman Desktop</td>
+</tr>
+<tr>
+<td>Keycloak won't start</td>
+<td>Check Docker has at least 2GB RAM allocated</td>
+</tr>
+<tr>
+<td>OpenAI 401 error</td>
+<td>Re-check <code>QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</code> is set in the terminal running <code>quarkus dev</code></td>
+</tr>
+<tr>
+<td>OpenAI timeout</td>
+<td>Network issue at venue — use the recorded fallback demo</td>
+</tr>
+<tr>
+<td><code>@Transactional</code> missing</td>
+<td>Error: <code>TransactionRequiredException</code> — add <code>@Transactional</code> to the resource method</td>
+</tr>
+<tr>
+<td>Tests failing on <code>r</code></td>
+<td>Check test class has <code>@QuarkusTest</code> annotation</td>
+</tr>
+<tr>
+<td>Native binary missing</td>
+<td>Pre-build using the steps in the Wrap-Up section above</td>
+</tr>
+<tr>
+<td>Import resolution in IDE</td>
+<td>Right-click <code>pom.xml</code> → "Reload Maven project" (IntelliJ) or reload window (VS Code)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="catch-up-instructions-for-attendees">Catch-Up Instructions for Attendees<a class="headerlink" href="#catch-up-instructions-for-attendees" title="Permanent link">&para;</a></h2>
+<p>If an attendee falls behind, they can jump to any lab's solution directory and continue from there:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>quarkus<span class="w"> </span>dev
+</span></code></pre></div>
+<p>All solution projects are standalone Maven projects that run independently.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../wrap-up/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Wrap-Up">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Wrap-Up
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
