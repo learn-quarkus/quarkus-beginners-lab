@@ -1,0 +1,15 @@
+THE QUARKUS CAFE — FULL MENU
+
+=== HOT DRINKS ===
+Espresso — $2.50: Concentrated shot, rich and bold. Dairy-free.
+Cappuccino — $3.75: Espresso with steamed milk and thick foam. Available with oat milk.
+Flat White — $4.00: Two espresso shots with velvety microfoam.
+Latte — $4.25: Espresso with steamed milk. Available in vanilla, caramel, hazelnut.
+Americano — $3.00: Espresso diluted with hot water.
+
+=== COLD DRINKS ===
+Cold Brew — $4.00: 12-hour cold-steeped. Smooth, low-acid. Available with oat milk.
+Iced Latte — $4.50: Espresso over ice with cold milk.
+
+=== MILK OPTIONS ===
+Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50)

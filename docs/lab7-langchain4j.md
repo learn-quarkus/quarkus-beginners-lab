@@ -394,10 +394,13 @@ Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JS
     ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag"
     ```
 
-**Create the menu document** at `src/main/resources/menu.txt`:
+**Create the menu document** at `src/main/resources/rag-docs/menu.txt`:
+
+!!! note "Why a directory?"
+    `easy-rag.path` must point to a **directory** — Easy RAG scans all files inside it. Putting `menu.txt` directly in `src/main/resources` would cause `IllegalArgumentException: 'menu.txt' is not a directory`.
 
 ```bash
-touch src/main/resources/menu.txt
+mkdir -p src/main/resources/rag-docs && touch src/main/resources/rag-docs/menu.txt
 ```
 
 Open `menu.txt` in your IDE and paste in the following:
@@ -423,8 +426,8 @@ Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50
 **Add the config property** to `application.properties`:
 
 ```properties
-# Easy RAG — ingest this file and use it to answer questions
-quarkus.langchain4j.easy-rag.path=menu.txt
+# Easy RAG — path must be a directory; all files inside are ingested
+quarkus.langchain4j.easy-rag.path=rag-docs
 ```
 
 Save all files. Quarkus live-reloads. Now ask the chatbot:
