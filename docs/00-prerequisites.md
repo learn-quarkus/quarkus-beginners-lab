@@ -155,12 +155,30 @@ Either IDE works well. Install the Quarkus plugin for the best experience.
 
 ---
 
-## 6. Verify Your Setup
+## 6. Clone the Workshop Repository
 
-Run the prerequisite check script to confirm everything is ready:
+The workshop repo contains the `prereq-check.sh` script and all solution code. Clone it now so it's ready before the session starts.
 
 ```bash
-# From the root of the workshop repo
+git clone https://github.com/learn-quarkus/quarkus-beginners-lab.git
+cd quarkus-beginners-lab
+```
+
+!!! note "What's in the repo?"
+    ```
+    quarkus-beginners-lab/
+    ├── docs/           ← this website's source
+    ├── labs/           ← complete solution code for every lab
+    └── prereq-check.sh ← environment validation script
+    ```
+
+---
+
+## 7. Verify Your Setup
+
+Run the prerequisite check script from inside the cloned repo:
+
+```bash
 chmod +x prereq-check.sh
 ./prereq-check.sh
 ```
