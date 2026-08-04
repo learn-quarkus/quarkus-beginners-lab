@@ -854,6 +854,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#step-8-bonus-conversation-memory-with-memoryid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Bonus: Conversation Memory with @MemoryId
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8 — Bonus: Conversation Memory with @MemoryId">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-ai-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the AI Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-ui-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the UI Resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-qute-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the Qute Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test the memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1093,6 +1165,78 @@
     <span class="md-ellipsis">
       
         Before you add RAG — see the problem first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-bonus-conversation-memory-with-memoryid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Bonus: Conversation Memory with @MemoryId
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8 — Bonus: Conversation Memory with @MemoryId">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-ai-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the AI Service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-ui-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the UI Resource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-the-qute-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update the Qute Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test the memory
       
     </span>
   </a>
@@ -1500,9 +1644,8 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 </div>
 <h3 id="before-you-add-rag-see-the-problem-first">Before you add RAG — see the problem first<a class="headerlink" href="#before-you-add-rag-see-the-problem-first" title="Permanent link">&para;</a></h3>
 <p>With Dev Mode still running, open <strong><code>http://localhost:8080</code></strong> and ask:</p>
-<blockquote>
-<p><strong>Do you have oat milk?</strong></p>
-</blockquote>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Do<span class="w"> </span>you<span class="w"> </span>have<span class="w"> </span>oat<span class="w"> </span>milk?
+</span></code></pre></div>
 <p>The model will answer from its training data — it may guess, make up a price, or say something that doesn't match your actual menu. Note the response.</p>
 <p>Now add RAG and ask the same question again at the end of this step to see the difference.</p>
 <hr />
@@ -1510,11 +1653,11 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Quarkus CLI</label><label for="__tabbed_5_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>quarkus<span class="w"> </span>ext<span class="w"> </span>add<span class="w"> </span>io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>quarkus<span class="w"> </span>ext<span class="w"> </span>add<span class="w"> </span>io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>./mvnw<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">&quot;io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>./mvnw<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">&quot;io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag&quot;</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -1524,29 +1667,29 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <p class="admonition-title">Why a directory and CLASSPATH?</p>
 <p><code>easy-rag.path</code> must point to a <strong>directory</strong> — Easy RAG scans all files inside it. It also resolves the path on the <strong>filesystem</strong> by default; setting <code>path-type=CLASSPATH</code> tells it to look inside <code>src/main/resources</code> instead. Without both, you get <code>IllegalArgumentException</code>.</p>
 </div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>src/main/resources/rag-docs<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>touch<span class="w"> </span>src/main/resources/rag-docs/menu.txt
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>src/main/resources/rag-docs<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>touch<span class="w"> </span>src/main/resources/rag-docs/menu.txt
 </span></code></pre></div>
 <p>Open <code>menu.txt</code> in your IDE and paste in the following:</p>
-<div class="language-text highlight"><span class="filename">menu.txt</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>THE QUARKUS CAFE — FULL MENU
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>=== HOT DRINKS ===
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Espresso — $2.50: Concentrated shot, rich and bold. Dairy-free.
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Cappuccino — $3.75: Espresso with steamed milk and thick foam. Available with oat milk.
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>Flat White — $4.00: Two espresso shots with velvety microfoam.
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>Latte — $4.25: Espresso with steamed milk. Available in vanilla, caramel, hazelnut.
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>Americano — $3.00: Espresso diluted with hot water.
-</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
-</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>=== COLD DRINKS ===
-</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>Cold Brew — $4.00: 12-hour cold-steeped. Smooth, low-acid. Available with oat milk.
-</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>Iced Latte — $4.50: Espresso over ice with cold milk.
-</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>
-</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>=== MILK OPTIONS ===
-</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50)
+<div class="language-text highlight"><span class="filename">menu.txt</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>THE QUARKUS CAFE — FULL MENU
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>=== HOT DRINKS ===
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>Espresso — $2.50: Concentrated shot, rich and bold. Dairy-free.
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>Cappuccino — $3.75: Espresso with steamed milk and thick foam. Available with oat milk.
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>Flat White — $4.00: Two espresso shots with velvety microfoam.
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>Latte — $4.25: Espresso with steamed milk. Available in vanilla, caramel, hazelnut.
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>Americano — $3.00: Espresso diluted with hot water.
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>=== COLD DRINKS ===
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>Cold Brew — $4.00: 12-hour cold-steeped. Smooth, low-acid. Available with oat milk.
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>Iced Latte — $4.50: Espresso over ice with cold milk.
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>=== MILK OPTIONS ===
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>Whole milk (included), Oat milk (+$0.50), Almond milk (+$0.50), Soy milk (+$0.50)
 </span></code></pre></div>
 <p><strong>Add the config properties</strong> to <code>application.properties</code>:</p>
-<div class="language-properties highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Easy RAG — directory inside src/main/resources; path-type=CLASSPATH required</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="na">quarkus.langchain4j.easy-rag.path</span><span class="o">=</span><span class="s">rag-docs</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="na">quarkus.langchain4j.easy-rag.path-type</span><span class="o">=</span><span class="s">CLASSPATH</span>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Easy RAG — directory inside src/main/resources; path-type=CLASSPATH required</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="na">quarkus.langchain4j.easy-rag.path</span><span class="o">=</span><span class="s">rag-docs</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="na">quarkus.langchain4j.easy-rag.path-type</span><span class="o">=</span><span class="s">CLASSPATH</span>
 </span></code></pre></div>
 <p>Save all files. Quarkus live-reloads. Now ask the chatbot:</p>
 <table>
@@ -1584,6 +1727,222 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <p>The LLM now answers based on <strong>your document</strong> — not its training data. This eliminates hallucination for menu-specific facts.</p>
 </div>
 <hr />
+<h2 id="step-8-bonus-conversation-memory-with-memoryid">Step 8 — Bonus: Conversation Memory with <code>@MemoryId</code><a class="headerlink" href="#step-8-bonus-conversation-memory-with-memoryid" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Optional — add this if time allows</p>
+<p>Right now every message is stateless — the bot has no memory of previous turns. Add <code>@MemoryId</code> to give each browser session its own conversation history, so the bot can say <em>"As I mentioned earlier…"</em> and follow-up questions work naturally.</p>
+</div>
+<h3 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<p>LangChain4j keeps a per-key <code>ChatMemory</code> (a sliding window of recent messages). You add a <code>@MemoryId</code> parameter to the AI service method and pass a stable ID per user/session. Quarkus stores the memory in-process (no database needed).</p>
+<h3 id="update-the-ai-service">Update the AI Service<a class="headerlink" href="#update-the-ai-service" title="Permanent link">&para;</a></h3>
+<p>Open <code>BaristaAiService.java</code> and add the <code>@MemoryId</code> parameter:</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.MemoryId</span><span class="p">;</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.SystemMessage</span><span class="p">;</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.UserMessage</span><span class="p">;</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkiverse.langchain4j.RegisterAiService</span><span class="p">;</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="p">;</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="nd">@RegisterAiService</span><span class="w">  </span><span class="c1">// (1)</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="nd">@SystemMessage</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="s">    You are a friendly and knowledgeable barista at The Quarkus Cafe.</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="s">    Answer questions about coffee, our menu, and brewing methods.</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="s">    Keep responses concise — 2-3 sentences maximum.</span>
+</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a><span class="s">    If asked about something unrelated to coffee, politely redirect the conversation.</span>
+</span><span id="__span-25-16"><a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="s">    &quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">BaristaAiService</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-25-18"><a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>
+</span><span id="__span-25-19"><a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">chat</span><span class="p">(</span><span class="nd">@MemoryId</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">memoryId</span><span class="p">,</span><span class="w"> </span><span class="nd">@UserMessage</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">);</span><span class="w"> </span><span class="c1">// (2)</span>
+</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>No other annotation needed — Quarkus automatically creates an in-memory <code>ChatMemoryStore</code> keyed by <code>memoryId</code>.</li>
+<li><code>@MemoryId</code> — the value you pass here is the key for the per-session message history. Same value = same conversation thread.</li>
+</ol>
+<h3 id="update-the-ui-resource">Update the UI Resource<a class="headerlink" href="#update-the-ui-resource" title="Permanent link">&para;</a></h3>
+<p>Open <code>ChatUiResource.java</code> and replace its contents with:</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkus.qute.Template</span><span class="p">;</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkus.qute.TemplateInstance</span><span class="p">;</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span><span class="p">;</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.Consumes</span><span class="p">;</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.CookieParam</span><span class="p">;</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.FormParam</span><span class="p">;</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.GET</span><span class="p">;</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.POST</span><span class="p">;</span>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.Path</span><span class="p">;</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.Produces</span><span class="p">;</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.MediaType</span><span class="p">;</span>
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.NewCookie</span><span class="p">;</span>
+</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.Response</span><span class="p">;</span>
+</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
+</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.UUID</span><span class="p">;</span>
+</span><span id="__span-26-20"><a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+</span><span id="__span-26-21"><a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>
+</span><span id="__span-26-22"><a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+</span><span id="__span-26-23"><a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ChatUiResource</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-26-24"><a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a>
+</span><span id="__span-26-25"><a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-26-26"><a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a><span class="w">    </span><span class="n">Template</span><span class="w"> </span><span class="n">chat</span><span class="p">;</span>
+</span><span id="__span-26-27"><a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a>
+</span><span id="__span-26-28"><a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-26-29"><a id="__codelineno-26-29" name="__codelineno-26-29" href="#__codelineno-26-29"></a><span class="w">    </span><span class="n">BaristaAiService</span><span class="w"> </span><span class="n">baristaAiService</span><span class="p">;</span>
+</span><span id="__span-26-30"><a id="__codelineno-26-30" name="__codelineno-26-30" href="#__codelineno-26-30"></a>
+</span><span id="__span-26-31"><a id="__codelineno-26-31" name="__codelineno-26-31" href="#__codelineno-26-31"></a><span class="w">    </span><span class="c1">// In-memory history store: sessionId → list of {role, text} pairs  // (1)</span>
+</span><span id="__span-26-32"><a id="__codelineno-26-32" name="__codelineno-26-32" href="#__codelineno-26-32"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">sessions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</span><span id="__span-26-33"><a id="__codelineno-26-33" name="__codelineno-26-33" href="#__codelineno-26-33"></a>
+</span><span id="__span-26-34"><a id="__codelineno-26-34" name="__codelineno-26-34" href="#__codelineno-26-34"></a><span class="w">    </span><span class="nd">@GET</span>
+</span><span id="__span-26-35"><a id="__codelineno-26-35" name="__codelineno-26-35" href="#__codelineno-26-35"></a><span class="w">    </span><span class="nd">@Produces</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_HTML</span><span class="p">)</span>
+</span><span id="__span-26-36"><a id="__codelineno-26-36" name="__codelineno-26-36" href="#__codelineno-26-36"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TemplateInstance</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="nd">@CookieParam</span><span class="p">(</span><span class="s">&quot;session&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (2)</span>
+</span><span id="__span-26-37"><a id="__codelineno-26-37" name="__codelineno-26-37" href="#__codelineno-26-37"></a><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span>
+</span><span id="__span-26-38"><a id="__codelineno-26-38" name="__codelineno-26-38" href="#__codelineno-26-38"></a><span class="w">                </span><span class="o">?</span><span class="w"> </span><span class="n">sessions</span><span class="p">.</span><span class="na">getOrDefault</span><span class="p">(</span><span class="n">session</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">())</span>
+</span><span id="__span-26-39"><a id="__codelineno-26-39" name="__codelineno-26-39" href="#__codelineno-26-39"></a><span class="w">                </span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">();</span>
+</span><span id="__span-26-40"><a id="__codelineno-26-40" name="__codelineno-26-40" href="#__codelineno-26-40"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">chat</span><span class="p">.</span><span class="na">data</span><span class="p">(</span><span class="s">&quot;history&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">history</span><span class="p">);</span>
+</span><span id="__span-26-41"><a id="__codelineno-26-41" name="__codelineno-26-41" href="#__codelineno-26-41"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-26-42"><a id="__codelineno-26-42" name="__codelineno-26-42" href="#__codelineno-26-42"></a>
+</span><span id="__span-26-43"><a id="__codelineno-26-43" name="__codelineno-26-43" href="#__codelineno-26-43"></a><span class="w">    </span><span class="nd">@POST</span>
+</span><span id="__span-26-44"><a id="__codelineno-26-44" name="__codelineno-26-44" href="#__codelineno-26-44"></a><span class="w">    </span><span class="nd">@Consumes</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_FORM_URLENCODED</span><span class="p">)</span>
+</span><span id="__span-26-45"><a id="__codelineno-26-45" name="__codelineno-26-45" href="#__codelineno-26-45"></a><span class="w">    </span><span class="nd">@Produces</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_HTML</span><span class="p">)</span>
+</span><span id="__span-26-46"><a id="__codelineno-26-46" name="__codelineno-26-46" href="#__codelineno-26-46"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Response</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span>
+</span><span id="__span-26-47"><a id="__codelineno-26-47" name="__codelineno-26-47" href="#__codelineno-26-47"></a><span class="w">            </span><span class="nd">@CookieParam</span><span class="p">(</span><span class="s">&quot;session&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">session</span><span class="p">,</span>
+</span><span id="__span-26-48"><a id="__codelineno-26-48" name="__codelineno-26-48" href="#__codelineno-26-48"></a><span class="w">            </span><span class="nd">@FormParam</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-26-49"><a id="__codelineno-26-49" name="__codelineno-26-49" href="#__codelineno-26-49"></a>
+</span><span id="__span-26-50"><a id="__codelineno-26-50" name="__codelineno-26-50" href="#__codelineno-26-50"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="na">isBlank</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-26-51"><a id="__codelineno-26-51" name="__codelineno-26-51" href="#__codelineno-26-51"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">chat</span><span class="p">.</span><span class="na">data</span><span class="p">(</span><span class="s">&quot;history&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">())</span>
+</span><span id="__span-26-52"><a id="__codelineno-26-52" name="__codelineno-26-52" href="#__codelineno-26-52"></a><span class="w">                    </span><span class="p">.</span><span class="na">render</span><span class="p">()).</span><span class="na">type</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_HTML</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-26-53"><a id="__codelineno-26-53" name="__codelineno-26-53" href="#__codelineno-26-53"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-26-54"><a id="__codelineno-26-54" name="__codelineno-26-54" href="#__codelineno-26-54"></a>
+</span><span id="__span-26-55"><a id="__codelineno-26-55" name="__codelineno-26-55" href="#__codelineno-26-55"></a><span class="w">        </span><span class="c1">// Create a new session ID if this is the first message  // (3)</span>
+</span><span id="__span-26-56"><a id="__codelineno-26-56" name="__codelineno-26-56" href="#__codelineno-26-56"></a><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">sessionId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">session</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">session</span><span class="p">.</span><span class="na">isBlank</span><span class="p">())</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">();</span>
+</span><span id="__span-26-57"><a id="__codelineno-26-57" name="__codelineno-26-57" href="#__codelineno-26-57"></a>
+</span><span id="__span-26-58"><a id="__codelineno-26-58" name="__codelineno-26-58" href="#__codelineno-26-58"></a><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">reply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">baristaAiService</span><span class="p">.</span><span class="na">chat</span><span class="p">(</span><span class="n">sessionId</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="na">trim</span><span class="p">());</span><span class="w"> </span><span class="c1">// (4)</span>
+</span><span id="__span-26-59"><a id="__codelineno-26-59" name="__codelineno-26-59" href="#__codelineno-26-59"></a>
+</span><span id="__span-26-60"><a id="__codelineno-26-60" name="__codelineno-26-60" href="#__codelineno-26-60"></a><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">history</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-26-61"><a id="__codelineno-26-61" name="__codelineno-26-61" href="#__codelineno-26-61"></a><span class="w">                </span><span class="n">sessions</span><span class="p">.</span><span class="na">computeIfAbsent</span><span class="p">(</span><span class="n">sessionId</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+</span><span id="__span-26-62"><a id="__codelineno-26-62" name="__codelineno-26-62" href="#__codelineno-26-62"></a><span class="w">        </span><span class="n">history</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="na">trim</span><span class="p">()));</span>
+</span><span id="__span-26-63"><a id="__codelineno-26-63" name="__codelineno-26-63" href="#__codelineno-26-63"></a><span class="w">        </span><span class="n">history</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bot&quot;</span><span class="p">,</span><span class="w">  </span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">reply</span><span class="p">));</span>
+</span><span id="__span-26-64"><a id="__codelineno-26-64" name="__codelineno-26-64" href="#__codelineno-26-64"></a>
+</span><span id="__span-26-65"><a id="__codelineno-26-65" name="__codelineno-26-65" href="#__codelineno-26-65"></a><span class="w">        </span><span class="n">NewCookie</span><span class="w"> </span><span class="n">cookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">NewCookie</span><span class="p">.</span><span class="na">Builder</span><span class="p">(</span><span class="s">&quot;session&quot;</span><span class="p">)</span><span class="w">    </span><span class="c1">// (5)</span>
+</span><span id="__span-26-66"><a id="__codelineno-26-66" name="__codelineno-26-66" href="#__codelineno-26-66"></a><span class="w">                </span><span class="p">.</span><span class="na">value</span><span class="p">(</span><span class="n">sessionId</span><span class="p">).</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-26-67"><a id="__codelineno-26-67" name="__codelineno-26-67" href="#__codelineno-26-67"></a>
+</span><span id="__span-26-68"><a id="__codelineno-26-68" name="__codelineno-26-68" href="#__codelineno-26-68"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">chat</span><span class="p">.</span><span class="na">data</span><span class="p">(</span><span class="s">&quot;history&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">history</span><span class="p">).</span><span class="na">render</span><span class="p">())</span>
+</span><span id="__span-26-69"><a id="__codelineno-26-69" name="__codelineno-26-69" href="#__codelineno-26-69"></a><span class="w">                </span><span class="p">.</span><span class="na">type</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_HTML</span><span class="p">)</span>
+</span><span id="__span-26-70"><a id="__codelineno-26-70" name="__codelineno-26-70" href="#__codelineno-26-70"></a><span class="w">                </span><span class="p">.</span><span class="na">cookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>
+</span><span id="__span-26-71"><a id="__codelineno-26-71" name="__codelineno-26-71" href="#__codelineno-26-71"></a><span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-26-72"><a id="__codelineno-26-72" name="__codelineno-26-72" href="#__codelineno-26-72"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-26-73"><a id="__codelineno-26-73" name="__codelineno-26-73" href="#__codelineno-26-73"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>A simple in-process map holds the display history for the UI. LangChain4j keeps its own token-window copy for the LLM — both are keyed by the same <code>sessionId</code>.</li>
+<li>The session cookie is read on every request. If it's absent, we treat this as a new conversation.</li>
+<li>On the first <code>POST</code>, a UUID is minted and written back as a cookie so every subsequent request reuses the same key.</li>
+<li><code>sessionId</code> is passed as <code>@MemoryId</code> — LangChain4j automatically appends the new turn to the stored <code>ChatMemory</code> for that key before calling the model.</li>
+<li>The cookie is returned in the response header. The browser stores it and sends it automatically on the next request.</li>
+</ol>
+<h3 id="update-the-qute-template">Update the Qute Template<a class="headerlink" href="#update-the-qute-template" title="Permanent link">&para;</a></h3>
+<p>Open <code>src/main/resources/templates/chat.html</code> and replace its contents with:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>The Quarkus Cafe — Barista Bot<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>  <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">    </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="n">apple-system</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Segoe UI&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"> </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">640</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="w">           </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">rem</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#1f2328</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="w">    </span><span class="nt">h1</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">1.4</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">    </span><span class="nt">p</span><span class="p">.</span><span class="nc">sub</span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#57606a</span><span class="p">;</span><span class="w"> </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="w">    </span><span class="p">.</span><span class="nc">input-row</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="w">    </span><span class="nt">input</span><span class="o">[</span><span class="nt">type</span><span class="o">=</span><span class="nt">text</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">flex</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="kt">rem</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="w">                       </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#d0d7de</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a><span class="w">    </span><span class="nt">button</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="kt">rem</span><span class="w"> </span><span class="mf">1.1</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+</span><span id="__span-27-16"><a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a><span class="w">             </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-17"><a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a><span class="w">    </span><span class="p">.</span><span class="nc">btn-ask</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#3b82d4</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-18"><a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a><span class="w">    </span><span class="p">.</span><span class="nc">btn-ask</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#2563be</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-19"><a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a><span class="w">    </span><span class="p">.</span><span class="nc">btn-clear</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f7f8fa</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#57606a</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#d0d7de</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-20"><a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a><span class="w">    </span><span class="p">.</span><span class="nc">btn-clear</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#e5e7eb</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-21"><a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a><span class="w">    </span><span class="p">.</span><span class="nc">history</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span><span class="w"> </span><span class="k">flex-direction</span><span class="p">:</span><span class="w"> </span><span class="kc">column</span><span class="p">;</span><span class="w"> </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-22"><a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a><span class="w">    </span><span class="p">.</span><span class="nc">label</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">600</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#57606a</span><span class="p">;</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-23"><a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a><span class="w">    </span><span class="p">.</span><span class="nc">bubble</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="kt">rem</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="k">line-height</span><span class="p">:</span><span class="w"> </span><span class="mf">1.6</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-24"><a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a><span class="w">    </span><span class="p">.</span><span class="nc">user</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#dbeafe</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-25"><a id="__codelineno-27-25" name="__codelineno-27-25" href="#__codelineno-27-25"></a><span class="w">    </span><span class="p">.</span><span class="nc">bot</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f7f8fa</span><span class="p">;</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#e5e7eb</span><span class="p">;</span><span class="w"> </span><span class="k">white-space</span><span class="p">:</span><span class="w"> </span><span class="kc">pre-wrap</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-27-26"><a id="__codelineno-27-26" name="__codelineno-27-26" href="#__codelineno-27-26"></a><span class="w">  </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</span><span id="__span-27-27"><a id="__codelineno-27-27" name="__codelineno-27-27" href="#__codelineno-27-27"></a><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span><span id="__span-27-28"><a id="__codelineno-27-28" name="__codelineno-27-28" href="#__codelineno-27-28"></a><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-27-29"><a id="__codelineno-27-29" name="__codelineno-27-29" href="#__codelineno-27-29"></a>
+</span><span id="__span-27-30"><a id="__codelineno-27-30" name="__codelineno-27-30" href="#__codelineno-27-30"></a>  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>☕ Barista Bot<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span><span id="__span-27-31"><a id="__codelineno-27-31" name="__codelineno-27-31" href="#__codelineno-27-31"></a>  <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;sub&quot;</span><span class="p">&gt;</span>Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-27-32"><a id="__codelineno-27-32" name="__codelineno-27-32" href="#__codelineno-27-32"></a>
+</span><span id="__span-27-33"><a id="__codelineno-27-33" name="__codelineno-27-33" href="#__codelineno-27-33"></a>  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-34"><a id="__codelineno-27-34" name="__codelineno-27-34" href="#__codelineno-27-34"></a>    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;input-row&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-35"><a id="__codelineno-27-35" name="__codelineno-27-35" href="#__codelineno-27-35"></a>      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;message&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;e.g. What&#39;s in a flat white?&quot;</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-27-36"><a id="__codelineno-27-36" name="__codelineno-27-36" href="#__codelineno-27-36"></a>      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-ask&quot;</span><span class="p">&gt;</span>Ask<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span><span id="__span-27-37"><a id="__codelineno-27-37" name="__codelineno-27-37" href="#__codelineno-27-37"></a>      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/&quot;</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;button&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;btn-clear&quot;</span><span class="p">&gt;</span>Clear<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-27-38"><a id="__codelineno-27-38" name="__codelineno-27-38" href="#__codelineno-27-38"></a>    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-39"><a id="__codelineno-27-39" name="__codelineno-27-39" href="#__codelineno-27-39"></a>  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span><span id="__span-27-40"><a id="__codelineno-27-40" name="__codelineno-27-40" href="#__codelineno-27-40"></a>
+</span><span id="__span-27-41"><a id="__codelineno-27-41" name="__codelineno-27-41" href="#__codelineno-27-41"></a>  {#if history}                                {! only render if history is non-empty !}
+</span><span id="__span-27-42"><a id="__codelineno-27-42" name="__codelineno-27-42" href="#__codelineno-27-42"></a>  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;history&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-27-43"><a id="__codelineno-27-43" name="__codelineno-27-43" href="#__codelineno-27-43"></a>    {#for turn in history}
+</span><span id="__span-27-44"><a id="__codelineno-27-44" name="__codelineno-27-44" href="#__codelineno-27-44"></a>      {#if turn.role == &quot;user&quot;}
+</span><span id="__span-27-45"><a id="__codelineno-27-45" name="__codelineno-27-45" href="#__codelineno-27-45"></a>      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-46"><a id="__codelineno-27-46" name="__codelineno-27-46" href="#__codelineno-27-46"></a>        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;label&quot;</span><span class="p">&gt;</span>You<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-47"><a id="__codelineno-27-47" name="__codelineno-27-47" href="#__codelineno-27-47"></a>        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;bubble user&quot;</span><span class="p">&gt;</span>{turn.text}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-48"><a id="__codelineno-27-48" name="__codelineno-27-48" href="#__codelineno-27-48"></a>      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-49"><a id="__codelineno-27-49" name="__codelineno-27-49" href="#__codelineno-27-49"></a>      {#else}
+</span><span id="__span-27-50"><a id="__codelineno-27-50" name="__codelineno-27-50" href="#__codelineno-27-50"></a>      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-51"><a id="__codelineno-27-51" name="__codelineno-27-51" href="#__codelineno-27-51"></a>        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;label&quot;</span><span class="p">&gt;</span>Barista Bot<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-52"><a id="__codelineno-27-52" name="__codelineno-27-52" href="#__codelineno-27-52"></a>        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;bubble bot&quot;</span><span class="p">&gt;</span>{turn.text}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-53"><a id="__codelineno-27-53" name="__codelineno-27-53" href="#__codelineno-27-53"></a>      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-54"><a id="__codelineno-27-54" name="__codelineno-27-54" href="#__codelineno-27-54"></a>      {/if}
+</span><span id="__span-27-55"><a id="__codelineno-27-55" name="__codelineno-27-55" href="#__codelineno-27-55"></a>    {/for}
+</span><span id="__span-27-56"><a id="__codelineno-27-56" name="__codelineno-27-56" href="#__codelineno-27-56"></a>  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-27-57"><a id="__codelineno-27-57" name="__codelineno-27-57" href="#__codelineno-27-57"></a>  {/if}
+</span><span id="__span-27-58"><a id="__codelineno-27-58" name="__codelineno-27-58" href="#__codelineno-27-58"></a>
+</span><span id="__span-27-59"><a id="__codelineno-27-59" name="__codelineno-27-59" href="#__codelineno-27-59"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-27-60"><a id="__codelineno-27-60" name="__codelineno-27-60" href="#__codelineno-27-60"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="test-the-memory">Test the memory<a class="headerlink" href="#test-the-memory" title="Permanent link">&para;</a></h3>
+<p>With Dev Mode still running, open <strong><code>http://localhost:8080</code></strong> and try a multi-turn conversation:</p>
+<table>
+<thead>
+<tr>
+<th>Turn</th>
+<th>You type</th>
+<th>What you'll see</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>What's in a flat white?</code></td>
+<td>Explanation of espresso + microfoam</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>How does that compare to a cappuccino?</code></td>
+<td>Comparison — bot remembers you asked about a flat white</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>Which one has more milk?</code></td>
+<td>Correct answer referencing both drinks from earlier turns</td>
+</tr>
+</tbody>
+</table>
+<p>Click <strong>Clear</strong> to start a fresh conversation (a new session cookie is minted on the next <code>POST</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Memory window</p>
+<p>By default, LangChain4j keeps the last <strong>10 messages</strong> (5 turns) in memory. You can tune this in <code>application.properties</code>:</p>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="na">quarkus.langchain4j.chat-memory.max-messages</span><span class="o">=</span><span class="s">20</span>
+</span></code></pre></div>
+</div>
+<hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1609,6 +1968,10 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <td>✅ Grounded responses (bonus)</td>
 <td><code>quarkus-langchain4j-easy-rag</code> + <code>menu.txt</code></td>
 </tr>
+<tr>
+<td>✅ Multi-turn memory (bonus)</td>
+<td><code>@MemoryId</code> parameter + cookie-based session</td>
+</tr>
 </tbody>
 </table>
 <div class="admonition tip">
@@ -1617,19 +1980,19 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Quarkus CLI</label><label for="__tabbed_6_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Without RAG:</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># With RAG:</span>
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution-with-rag<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Without RAG:</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># With RAG:</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution-with-rag<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Without RAG:</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./mvnw<span class="w"> </span>quarkus:dev
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># With RAG:</span>
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution-with-rag<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./mvnw<span class="w"> </span>quarkus:dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Without RAG:</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./mvnw<span class="w"> </span>quarkus:dev
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># With RAG:</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab7-langchain4j/solution-with-rag<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./mvnw<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
 </div>
 </div>
