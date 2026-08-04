@@ -64,6 +64,10 @@ Open `pom.xml` and notice your two extensions are already listed — no manual X
 
 Create the file `src/main/java/org/coffee/MenuItem.java`:
 
+```bash
+mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/MenuItem.java
+```
+
 ```java
 package org.coffee;
 
@@ -90,6 +94,10 @@ public class MenuItem {
 ## Step 3 — Create the MenuResource
 
 Create the file `src/main/java/org/coffee/MenuResource.java`:
+
+```bash
+touch src/main/java/org/coffee/MenuResource.java
+```
 
 ```java
 package org.coffee;
@@ -216,6 +224,10 @@ You'll see the updated description — **without restarting the server**.
 Continuous testing means your tests re-run automatically every time you save a file — **without leaving your IDE or typing any command**.
 
 First, create the test file at `src/test/java/org/coffee/MenuResourceTest.java`:
+
+```bash
+mkdir -p src/test/java/org/coffee && touch src/test/java/org/coffee/MenuResourceTest.java
+```
 
 ```java
 package org.coffee;

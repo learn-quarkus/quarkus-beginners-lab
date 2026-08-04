@@ -151,6 +151,10 @@ Let's add a meaningful health check: the coffee shop is only healthy if there's 
 
 Create `src/main/java/org/coffee/CoffeeShopHealthCheck.java`:
 
+```bash
+touch src/main/java/org/coffee/CoffeeShopHealthCheck.java
+```
+
 ```java
 package org.coffee;
 

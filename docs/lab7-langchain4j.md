@@ -148,6 +148,10 @@ The API key is read from the `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY` environment va
 
 Create `src/main/java/org/coffee/BaristaAiService.java`:
 
+```bash
+mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/BaristaAiService.java
+```
+
 ```java
 package org.coffee;
 
@@ -183,6 +187,10 @@ public interface BaristaAiService {
 ## Step 5 — Create the Chat Endpoint
 
 Create `src/main/java/org/coffee/ChatResource.java`:
+
+```bash
+touch src/main/java/org/coffee/ChatResource.java
+```
 
 ```java
 package org.coffee;

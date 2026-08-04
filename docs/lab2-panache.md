@@ -168,6 +168,10 @@ public class MenuResource {
 
 Create the file `src/main/resources/import.sql`:
 
+```bash
+touch src/main/resources/import.sql
+```
+
 ```sql title="import.sql"
 INSERT INTO MenuItem(id, name, description, price) VALUES (nextval('MenuItem_SEQ'), 'Espresso', 'A concentrated shot of coffee', 2.50);
 INSERT INTO MenuItem(id, name, description, price) VALUES (nextval('MenuItem_SEQ'), 'Cappuccino', 'Espresso with steamed milk foam', 3.75);

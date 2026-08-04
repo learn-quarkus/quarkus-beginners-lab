@@ -64,6 +64,10 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
 
 Create `src/main/java/org/coffee/Order.java`:
 
+```bash
+mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/Order.java
+```
+
 ```java
 package org.coffee;
 
@@ -87,6 +91,10 @@ public class Order {
 ## Step 3 — Create the OrderResource (Producer)
 
 Create `src/main/java/org/coffee/OrderResource.java`:
+
+```bash
+touch src/main/java/org/coffee/OrderResource.java
+```
 
 ```java
 package org.coffee;
@@ -199,6 +207,10 @@ Add the Kafka extension:
     ```
 
 Create `src/main/java/org/coffee/OrderConsumer.java`:
+
+```bash
+touch src/main/java/org/coffee/OrderConsumer.java
+```
 
 ```java
 package org.coffee;

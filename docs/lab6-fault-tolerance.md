@@ -57,6 +57,10 @@ quarkus.log.category."org.coffee".level=DEBUG
 
 Create `src/main/java/org/coffee/PricingService.java`:
 
+```bash
+touch src/main/java/org/coffee/PricingService.java
+```
+
 ```java
 package org.coffee;
 
