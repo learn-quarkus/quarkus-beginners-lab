@@ -39,10 +39,10 @@ echo ""
 # ── 2. Quarkus CLI or Maven 3.9+ ─────────────────
 echo "[ Build Tool ]"
 if command -v quarkus &>/dev/null; then
-  QUARKUS_VER=$(quarkus version 2>&1 | head -1)
+  QUARKUS_VER=$(timeout 10 quarkus version 2>&1 | head -1)
   check_pass "Quarkus CLI found — $QUARKUS_VER"
 elif command -v mvn &>/dev/null; then
-  MVN_VER=$(mvn -version 2>&1 | head -1 | sed 's/Apache Maven \([0-9.]*\).*/\1/')
+  MVN_VER=$(timeout 10 mvn -version 2>&1 | head -1 | sed 's/Apache Maven \([0-9.]*\).*/\1/')
   MVN_MAJOR=$(echo "$MVN_VER" | cut -d. -f1)
   MVN_MINOR=$(echo "$MVN_VER" | cut -d. -f2)
   if [ "$MVN_MAJOR" -ge 3 ] && [ "$MVN_MINOR" -ge 9 ] 2>/dev/null; then
