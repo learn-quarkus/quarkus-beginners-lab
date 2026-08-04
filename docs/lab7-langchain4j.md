@@ -32,6 +32,7 @@
 | Extension | Group ID | Purpose |
 |-----------|----------|---------|
 | `quarkus-langchain4j-openai` | `io.quarkiverse.langchain4j` | OpenAI integration via LangChain4j |
+| `quarkus-qute` | `io.quarkus` | Server-side HTML templates — powers the chat UI |
 | `quarkus-langchain4j-easy-rag` | `io.quarkiverse.langchain4j` | Document ingestion + RAG (bonus step) |
 
 !!! warning "Different group ID"
@@ -191,7 +192,9 @@ public interface BaristaAiService {
 
 ---
 
-## Step 5 — Create the Chat Endpoint
+## Step 5 — Create the REST Endpoint
+
+This endpoint powers both the Swagger UI (for testing) and the chat UI (for humans).
 
 Create `src/main/java/org/coffee/ChatResource.java`:
 
@@ -233,7 +236,137 @@ public class ChatResource {
 
 ---
 
-## Step 6 — Start and Test
+## Step 6 — Add the Qute Chat UI
+
+Instead of typing in Swagger UI, let's add a proper HTML form powered by **Qute** — Quarkus' server-side templating engine. Two files do the whole thing.
+
+### Add the Qute extension
+
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus ext add qute
+    ```
+
+=== "Maven"
+
+    ```bash
+    ./mvnw quarkus:add-extension -Dextensions="qute"
+    ```
+
+### Create the UI resource
+
+Create `src/main/java/org/coffee/ChatUiResource.java`:
+
+```bash
+touch src/main/java/org/coffee/ChatUiResource.java
+```
+
+Open `ChatUiResource.java` in your IDE and paste in the following:
+
+```java
+package org.coffee;
+
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+@Path("/")
+public class ChatUiResource {
+
+    @Inject
+    Template chat;                       // (1)
+
+    @Inject
+    BaristaAiService baristaAiService;
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance index() {
+        return chat.data("message", null, "reply", null); // (2)
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance ask(@FormParam("message") String message) { // (3)
+        String reply = (message == null || message.isBlank())
+                ? "Please type a question first!"
+                : baristaAiService.chat(message);
+        return chat.data("message", message, "reply", reply);
+    }
+}
+```
+
+1. Quarkus injects the template by field name — `chat` maps to `src/main/resources/templates/chat.html` automatically.
+2. `GET /` renders the empty form.
+3. `POST /` reads the submitted `message` form field, calls the AI service, and re-renders the page with the reply.
+
+!!! note "What just happened?"
+    Qute resolves the `Template chat` injection by matching the field name to a file in `src/main/resources/templates/`. No path annotation needed — convention over configuration.
+
+### Create the Qute template
+
+```bash
+mkdir -p src/main/resources/templates && touch src/main/resources/templates/chat.html
+```
+
+Open `chat.html` in your IDE and paste in the following:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Quarkus Cafe — Barista Bot</title>
+  <style>
+    body { font-family: -apple-system, "Segoe UI", sans-serif; max-width: 640px;
+           margin: 3rem auto; padding: 0 1rem; color: #1f2328; }
+    h1   { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    p.sub{ color: #57606a; margin-top: 0; margin-bottom: 2rem; font-size: 0.9rem; }
+    form { display: flex; gap: 0.5rem; }
+    input[type=text] { flex: 1; padding: 0.55rem 0.75rem; font-size: 1rem;
+                       border: 1px solid #d0d7de; border-radius: 6px; }
+    button { padding: 0.55rem 1.1rem; font-size: 1rem; background: #3b82d4;
+             color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #2563be; }
+    .reply { margin-top: 1.75rem; padding: 1rem 1.25rem;
+             background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px;
+             line-height: 1.6; white-space: pre-wrap; }
+    .label { font-size: 0.75rem; color: #57606a; margin-bottom: 0.3rem; }
+  </style>
+</head>
+<body>
+
+  <h1>☕ Barista Bot</h1>
+  <p class="sub">Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.</p>
+
+  <form method="post" action="/">
+    <input type="text" name="message" placeholder="e.g. What's in a flat white?"
+           value="{#if message}{message}{/if}" autofocus>
+    <button type="submit">Ask</button>
+  </form>
+
+  {#if reply}
+  <div class="reply">
+    <div class="label">Barista Bot says:</div>
+    {reply}
+  </div>
+  {/if}
+
+</body>
+</html>
+```
+
+### Start and test
 
 === "Quarkus CLI"
 
@@ -247,14 +380,14 @@ public class ChatResource {
     ./mvnw quarkus:dev
     ```
 
-Open `http://localhost:8080/q/swagger-ui` and find `GET /chat`.
+Open **`http://localhost:8080`** in your browser. Type a question and press **Ask**:
 
-Click **Try it out**, enter a message, and execute:
-
-| message | Example response |
+| Question | Example response |
 |---------|-----------------|
-| `What's a good coffee for a Monday morning?` | *"I'd recommend a double Espresso or a strong Flat White — both give you a bold caffeine kick to start the week. If you prefer something smoother, a Cappuccino with its rich foam is a great choice!"* |
-| `How is cold brew made?` | *"Cold brew is made by steeping coarsely ground coffee in cold water for 12-24 hours. The slow, cold extraction produces a smooth, low-acid concentrate that's naturally sweet."* |
+| `What's a good coffee for a Monday morning?` | *"I'd recommend a double Espresso or a strong Flat White — both give you a bold caffeine kick to start the week."* |
+| `How is cold brew made?` | *"Cold brew is made by steeping coarsely ground coffee in cold water for 12–24 hours."* |
+
+The Swagger UI at `http://localhost:8080/q/swagger-ui` still works too — `GET /chat?message=...` is unchanged.
 
 Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JSON payload sent to OpenAI and the response received.
 
