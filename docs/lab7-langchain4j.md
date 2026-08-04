@@ -384,7 +384,10 @@ Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JS
 
 With Dev Mode still running, open **`http://localhost:8080`** and ask:
 
-> **Do you have oat milk?**
+
+```bash
+Do you have oat milk?
+```
 
 The model will answer from its training data — it may guess, make up a price, or say something that doesn't match your actual menu. Note the response.
 
@@ -467,6 +470,219 @@ Save all files. Quarkus live-reloads. Now ask the chatbot:
 
 ---
 
+## Step 8 — Bonus: Conversation Memory with `@MemoryId`
+
+!!! info "Optional — add this if time allows"
+    Right now every message is stateless — the bot has no memory of previous turns. Add `@MemoryId` to give each browser session its own conversation history, so the bot can say *"As I mentioned earlier…"* and follow-up questions work naturally.
+
+### How it works
+
+LangChain4j keeps a per-key `ChatMemory` (a sliding window of recent messages). You add a `@MemoryId` parameter to the AI service method and pass a stable ID per user/session. Quarkus stores the memory in-process (no database needed).
+
+### Update the AI Service
+
+Open `BaristaAiService.java` and add the `@MemoryId` parameter:
+
+```java
+package org.coffee;
+
+import dev.langchain4j.service.MemoryId;
+import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
+import io.quarkiverse.langchain4j.RegisterAiService;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@RegisterAiService  // (1)
+@ApplicationScoped
+@SystemMessage("""
+    You are a friendly and knowledgeable barista at The Quarkus Cafe.
+    Answer questions about coffee, our menu, and brewing methods.
+    Keep responses concise — 2-3 sentences maximum.
+    If asked about something unrelated to coffee, politely redirect the conversation.
+    """)
+public interface BaristaAiService {
+
+    String chat(@MemoryId String memoryId, @UserMessage String message); // (2)
+}
+```
+
+1. No other annotation needed — Quarkus automatically creates an in-memory `ChatMemoryStore` keyed by `memoryId`.
+2. `@MemoryId` — the value you pass here is the key for the per-session message history. Same value = same conversation thread.
+
+### Update the UI Resource
+
+Open `ChatUiResource.java` and replace its contents with:
+
+```java
+package org.coffee;
+
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.CookieParam;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Path("/")
+public class ChatUiResource {
+
+    @Inject
+    Template chat;
+
+    @Inject
+    BaristaAiService baristaAiService;
+
+    // In-memory history store: sessionId → list of {role, text} pairs  // (1)
+    private final Map<String, List<Map<String, String>>> sessions = new ConcurrentHashMap<>();
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance index(@CookieParam("session") String session) { // (2)
+        List<Map<String, String>> history = session != null
+                ? sessions.getOrDefault(session, List.of())
+                : List.of();
+        return chat.data("history", history);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    public Response ask(
+            @CookieParam("session") String session,
+            @FormParam("message") String message) {
+
+        if (message == null || message.isBlank()) {
+            return Response.ok(chat.data("history", List.of())
+                    .render()).type(MediaType.TEXT_HTML).build();
+        }
+
+        // Create a new session ID if this is the first message  // (3)
+        String sessionId = (session != null && !session.isBlank()) ? session : UUID.randomUUID().toString();
+
+        String reply = baristaAiService.chat(sessionId, message.trim()); // (4)
+
+        List<Map<String, String>> history =
+                sessions.computeIfAbsent(sessionId, k -> new ArrayList<>());
+        history.add(Map.of("role", "user", "text", message.trim()));
+        history.add(Map.of("role", "bot",  "text", reply));
+
+        NewCookie cookie = new NewCookie.Builder("session")    // (5)
+                .value(sessionId).path("/").build();
+
+        return Response.ok(chat.data("history", history).render())
+                .type(MediaType.TEXT_HTML)
+                .cookie(cookie)
+                .build();
+    }
+}
+```
+
+1. A simple in-process map holds the display history for the UI. LangChain4j keeps its own token-window copy for the LLM — both are keyed by the same `sessionId`.
+2. The session cookie is read on every request. If it's absent, we treat this as a new conversation.
+3. On the first `POST`, a UUID is minted and written back as a cookie so every subsequent request reuses the same key.
+4. `sessionId` is passed as `@MemoryId` — LangChain4j automatically appends the new turn to the stored `ChatMemory` for that key before calling the model.
+5. The cookie is returned in the response header. The browser stores it and sends it automatically on the next request.
+
+### Update the Qute Template
+
+Open `src/main/resources/templates/chat.html` and replace its contents with:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Quarkus Cafe — Barista Bot</title>
+  <style>
+    body { font-family: -apple-system, "Segoe UI", sans-serif; max-width: 640px;
+           margin: 3rem auto; padding: 0 1rem; color: #1f2328; }
+    h1   { font-size: 1.4rem; margin-bottom: 0.25rem; }
+    p.sub{ color: #57606a; margin-top: 0; margin-bottom: 2rem; font-size: 0.9rem; }
+    .input-row { display: flex; gap: 0.5rem; }
+    input[type=text] { flex: 1; padding: 0.55rem 0.75rem; font-size: 1rem;
+                       border: 1px solid #d0d7de; border-radius: 6px; }
+    button { padding: 0.55rem 1.1rem; font-size: 1rem; border: none;
+             border-radius: 6px; cursor: pointer; }
+    .btn-ask   { background: #3b82d4; color: #fff; }
+    .btn-ask:hover { background: #2563be; }
+    .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
+    .btn-clear:hover { background: #e5e7eb; }
+    .history { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .label   { font-size: 0.75rem; font-weight: 600; color: #57606a; margin-bottom: 0.2rem; }
+    .bubble  { padding: 0.75rem 1rem; border-radius: 6px; line-height: 1.6; }
+    .user    { background: #dbeafe; }
+    .bot     { background: #f7f8fa; border: 1px solid #e5e7eb; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+
+  <h1>☕ Barista Bot</h1>
+  <p class="sub">Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.</p>
+
+  <form method="post" action="/">
+    <div class="input-row">
+      <input type="text" name="message" placeholder="e.g. What's in a flat white?" autofocus>
+      <button type="submit" class="btn-ask">Ask</button>
+      <a href="/"><button type="button" class="btn-clear">Clear</button></a>
+    </div>
+  </form>
+
+  {#if history}                                {! only render if history is non-empty !}
+  <div class="history">
+    {#for turn in history}
+      {#if turn.role == "user"}
+      <div>
+        <div class="label">You</div>
+        <div class="bubble user">{turn.text}</div>
+      </div>
+      {#else}
+      <div>
+        <div class="label">Barista Bot</div>
+        <div class="bubble bot">{turn.text}</div>
+      </div>
+      {/if}
+    {/for}
+  </div>
+  {/if}
+
+</body>
+</html>
+```
+
+### Test the memory
+
+With Dev Mode still running, open **`http://localhost:8080`** and try a multi-turn conversation:
+
+| Turn | You type | What you'll see |
+|------|----------|-----------------|
+| 1 | `What's in a flat white?` | Explanation of espresso + microfoam |
+| 2 | `How does that compare to a cappuccino?` | Comparison — bot remembers you asked about a flat white |
+| 3 | `Which one has more milk?` | Correct answer referencing both drinks from earlier turns |
+
+Click **Clear** to start a fresh conversation (a new session cookie is minted on the next `POST`).
+
+!!! note "Memory window"
+    By default, LangChain4j keeps the last **10 messages** (5 turns) in memory. You can tune this in `application.properties`:
+
+    ```properties
+    quarkus.langchain4j.chat-memory.max-messages=20
+    ```
+
+---
+
 ## Summary
 
 | What | How |
@@ -475,6 +691,7 @@ Save all files. Quarkus live-reloads. Now ask the chatbot:
 | ✅ No HTTP client boilerplate | Quarkus generates the CDI proxy |
 | ✅ API key from environment | `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY` |
 | ✅ Grounded responses (bonus) | `quarkus-langchain4j-easy-rag` + `menu.txt` |
+| ✅ Multi-turn memory (bonus) | `@MemoryId` parameter + cookie-based session |
 
 !!! tip "Stuck or fell behind?"
     Two complete solutions are available:

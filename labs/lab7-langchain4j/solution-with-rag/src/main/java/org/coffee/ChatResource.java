@@ -19,6 +19,6 @@ public class ChatResource {
         if (message == null || message.isBlank()) {
             return "Ask me anything about coffee! Try: ?message=What's a good morning coffee?";
         }
-        return baristaAiService.chat(message);
+        return baristaAiService.chat("swagger", message);
     }
 }

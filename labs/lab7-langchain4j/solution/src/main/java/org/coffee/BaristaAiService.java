@@ -1,5 +1,6 @@
 package org.coffee;
 
+import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
@@ -15,5 +16,5 @@ import jakarta.enterprise.context.ApplicationScoped;
     """)
 public interface BaristaAiService {
 
-    String chat(@UserMessage String message);
+    String chat(@MemoryId String memoryId, @UserMessage String message);
 }
