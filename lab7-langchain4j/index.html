@@ -1099,7 +1099,7 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.15.1:create<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.33.3:create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>-DprojectGroupId<span class="o">=</span>org.coffee<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>-DprojectArtifactId<span class="o">=</span>barista-bot<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>-Dextensions<span class="o">=</span>rest-jackson,smallrye-openapi<span class="w"> </span><span class="se">\</span>
@@ -1114,26 +1114,29 @@ It also has its own BOM that must be added to <code>dependencyManagement</code>.
 <p>The Quarkus CLI cannot add Quarkiverse extensions directly, so edit <code>pom.xml</code> manually.</p>
 <p><strong>Add the LangChain4j BOM</strong> inside the existing <code>&lt;dependencyManagement&gt;</code> section, after the Quarkus BOM:</p>
 <div class="language-xml highlight"><span class="filename">pom.xml — dependencyManagement section</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.langchain4j<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkus.platform<span class="nt">&lt;/groupId&gt;</span><span class="w">   </span><span class="cm">&lt;!-- (1) --&gt;</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>quarkus-langchain4j-bom<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;version&gt;</span>1.0.1<span class="nt">&lt;/version&gt;</span><span class="w">   </span><span class="cm">&lt;!-- (1) --&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;version&gt;</span>3.33.1<span class="nt">&lt;/version&gt;</span><span class="w">               </span><span class="cm">&lt;!-- (2) --&gt;</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">&lt;/dependency&gt;</span>
 </span></code></pre></div>
 <ol>
-<li>Check <a href="https://mvnrepository.com/artifact/io.quarkiverse.langchain4j/quarkus-langchain4j-bom">mvnrepository.com</a> for the latest version compatible with Quarkus 3.15.x.</li>
+<li>As of Quarkus 3.20, LangChain4j is part of the <strong>Quarkus Platform</strong> — the BOM group is now <code>io.quarkus.platform</code>, not <code>io.quarkiverse.langchain4j</code>.</li>
+<li>The BOM version tracks the Quarkus platform version. Use <code>3.33.1</code> to match Quarkus 3.33 LTS.</li>
 </ol>
 <p><strong>Add the OpenAI runtime dependency</strong> in the <code>&lt;dependencies&gt;</code> section:</p>
 <div class="language-xml highlight"><span class="filename">pom.xml — dependencies section</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.langchain4j<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.langchain4j<span class="nt">&lt;/groupId&gt;</span><span class="w">  </span><span class="cm">&lt;!-- runtime artifacts keep the quarkiverse groupId --&gt;</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>quarkus-langchain4j-openai<span class="nt">&lt;/artifactId&gt;</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="cm">&lt;!-- version managed by the BOM above --&gt;</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nt">&lt;/dependency&gt;</span>
 </span></code></pre></div>
 <div class="admonition note">
-<p class="admonition-title">Why a separate BOM?</p>
-<p>The LangChain4j Quarkiverse extension has its own release cadence and BOM. Adding it to <code>dependencyManagement</code> ensures all LangChain4j sub-modules use consistent versions — same pattern as the Quarkus BOM itself.</p>
+<p class="admonition-title">BOM vs runtime groupId</p>
+<p>The <strong>BOM</strong> (<code>quarkus-langchain4j-bom</code>) is now published under <code>io.quarkus.platform</code> — same as the Quarkus core BOM.
+The <strong>runtime extension JARs</strong> (<code>quarkus-langchain4j-openai</code>, <code>quarkus-langchain4j-easy-rag</code>, etc.) still use <code>io.quarkiverse.langchain4j</code>.
+This is a common pattern in the Quarkus ecosystem — the platform BOM manages versions, the Quarkiverse group publishes the artifacts.</p>
 </div>
 <hr />
 <h2 id="step-3-configure-the-application">Step 3 — Configure the Application<a class="headerlink" href="#step-3-configure-the-application" title="Permanent link">&para;</a></h2>
