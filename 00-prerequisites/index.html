@@ -513,10 +513,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-verify-your-setup" class="md-nav__link">
+  <a href="#6-clone-the-workshop-repository" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Verify Your Setup
+        6. Clone the Workshop Repository
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verify-your-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verify Your Setup
       
     </span>
   </a>
@@ -922,10 +933,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-verify-your-setup" class="md-nav__link">
+  <a href="#6-clone-the-workshop-repository" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Verify Your Setup
+        6. Clone the Workshop Repository
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-verify-your-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Verify Your Setup
       
     </span>
   </a>
@@ -1095,16 +1117,29 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 </div>
 </div>
 <hr />
-<h2 id="6-verify-your-setup">6. Verify Your Setup<a class="headerlink" href="#6-verify-your-setup" title="Permanent link">&para;</a></h2>
-<p>Run the prerequisite check script to confirm everything is ready:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># From the root of the workshop repo</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>chmod<span class="w"> </span>+x<span class="w"> </span>prereq-check.sh
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>./prereq-check.sh
+<h2 id="6-clone-the-workshop-repository">6. Clone the Workshop Repository<a class="headerlink" href="#6-clone-the-workshop-repository" title="Permanent link">&para;</a></h2>
+<p>The workshop repo contains the <code>prereq-check.sh</code> script and all solution code. Clone it now so it's ready before the session starts.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/learn-quarkus/quarkus-beginners-lab.git
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">cd</span><span class="w"> </span>quarkus-beginners-lab
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">What's in the repo?</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>quarkus-beginners-lab/
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── docs/           ← this website&#39;s source
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├── labs/           ← complete solution code for every lab
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>└── prereq-check.sh ← environment validation script
+</span></code></pre></div>
+</div>
+<hr />
+<h2 id="7-verify-your-setup">7. Verify Your Setup<a class="headerlink" href="#7-verify-your-setup" title="Permanent link">&para;</a></h2>
+<p>Run the prerequisite check script from inside the cloned repo:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>prereq-check.sh
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>./prereq-check.sh
 </span></code></pre></div>
 <p>Or check manually:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>java<span class="w"> </span>-version<span class="w">       </span><span class="c1"># should show 21.x</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>quarkus<span class="w"> </span>version<span class="w">     </span><span class="c1"># should show 3.x   (or: mvn -version for Maven)</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>java<span class="w"> </span>-version<span class="w">       </span><span class="c1"># should show 21.x</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>quarkus<span class="w"> </span>version<span class="w">     </span><span class="c1"># should show 3.x   (or: mvn -version for Maven)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
 </span></code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">OpenAI key — Lab 7 only</p>
