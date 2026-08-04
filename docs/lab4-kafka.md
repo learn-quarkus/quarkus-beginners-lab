@@ -39,8 +39,7 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
 
     ```bash
     quarkus create app org.coffee:order-service \
-      --extensions=rest-jackson,smallrye-openapi,messaging-kafka \
-      --no-code
+      --extensions=rest-jackson,smallrye-openapi,messaging-kafka
     cd order-service
     ```
 
@@ -50,13 +49,18 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
     mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=order-service \
-      -Dextensions=rest-jackson,smallrye-openapi,messaging-kafka \
-      -DnoCode
+      -Dextensions=rest-jackson,smallrye-openapi,messaging-kafka
     cd order-service
     ```
 
 !!! note "What just happened?"
     You created a second standalone Quarkus project. It will run on port **8081** (Quarkus auto-detects the conflict with `menu-service` on 8080 and picks a free port in Dev Mode).
+
+!!! tip "Delete the generated sample files"
+    ```bash
+    rm src/main/java/org/coffee/GreetingResource.java
+    rm src/test/java/org/coffee/GreetingResourceTest.java
+    ```
 
 ---
 

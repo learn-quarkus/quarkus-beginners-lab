@@ -23,8 +23,7 @@ Run the following command in your terminal:
 
     ```bash
     quarkus create app org.coffee:menu-service \
-      --extensions=rest-jackson,smallrye-openapi \
-      --no-code
+      --extensions=rest-jackson,smallrye-openapi
     cd menu-service
     ```
 
@@ -34,13 +33,12 @@ Run the following command in your terminal:
     mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=menu-service \
-      -Dextensions=rest-jackson,smallrye-openapi \
-      -DnoCode
+      -Dextensions=rest-jackson,smallrye-openapi
     cd menu-service
     ```
 
 !!! note "What just happened?"
-    Quarkus generated a complete Maven project in seconds with your chosen extensions already wired into `pom.xml`. No dependency hunting, no version alignment — the Quarkus BOM manages all of that.
+    Quarkus generated a complete Maven project in seconds with your chosen extensions already wired into `pom.xml`. It also generated a sample `GreetingResource.java` and a matching test — we'll replace those with our own code in the next steps.
 
 Now open the project in your IDE. The structure looks like this:
 
@@ -57,6 +55,13 @@ menu-service/
 ```
 
 Open `pom.xml` and notice your two extensions are already listed — no manual XML to write.
+
+!!! tip "Delete the generated sample files"
+    The scaffold includes `GreetingResource.java` and `GreetingResourceTest.java`. Delete them now to keep the project tidy:
+    ```bash
+    rm src/main/java/org/coffee/GreetingResource.java
+    rm src/test/java/org/coffee/GreetingResourceTest.java
+    ```
 
 ---
 
@@ -223,7 +228,7 @@ You'll see the updated description — **without restarting the server**.
 
 Continuous testing means your tests re-run automatically every time you save a file — **without leaving your IDE or typing any command**.
 
-First, create the test file at `src/test/java/org/coffee/MenuResourceTest.java`:
+Create the test file at `src/test/java/org/coffee/MenuResourceTest.java`:
 
 ```bash
 mkdir -p src/test/java/org/coffee && touch src/test/java/org/coffee/MenuResourceTest.java

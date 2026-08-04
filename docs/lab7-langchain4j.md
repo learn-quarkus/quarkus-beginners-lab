@@ -64,8 +64,7 @@ In a new terminal (separate from `menu-service`):
 
     ```bash
     quarkus create app org.coffee:barista-bot \
-      --extensions=rest-jackson,smallrye-openapi \
-      --no-code
+      --extensions=rest-jackson,smallrye-openapi
     cd barista-bot
     ```
 
@@ -75,9 +74,14 @@ In a new terminal (separate from `menu-service`):
     mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=barista-bot \
-      -Dextensions=rest-jackson,smallrye-openapi \
-      -DnoCode
+      -Dextensions=rest-jackson,smallrye-openapi
     cd barista-bot
+    ```
+
+!!! tip "Delete the generated sample files"
+    ```bash
+    rm src/main/java/org/coffee/GreetingResource.java
+    rm src/test/java/org/coffee/GreetingResourceTest.java
     ```
 
 ---
