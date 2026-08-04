@@ -7,15 +7,25 @@
     Define the entire chatbot as a **plain Java interface** with four annotations. Then extend it with **Easy RAG** so it answers questions from your actual menu document — no hallucination, no vector database setup.
 
 !!! warning "OpenAI API key required"
-    This lab calls the OpenAI API. Before starting, confirm your key is set:
-    ```bash
-    echo $QUARKUS_LANGCHAIN4J_OPENAI_API_KEY   # should print sk-...
-    ```
-    If it's empty, set it:
-    ```bash
-    export OPENAI_API_KEY=sk-...
-    export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
-    ```
+    This lab calls the OpenAI API. You need a key set in your terminal before running `quarkus dev`.
+
+    **Instructor-led workshop:** your instructor will provide a key — use that.
+
+    **Self-paced:** use your own key from [platform.openai.com](https://platform.openai.com).
+
+    Set it in the terminal you will use for this lab (session only — not saved permanently):
+
+    === "macOS / Linux"
+
+        ```bash
+        export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
+        ```
+
+    === "Windows (PowerShell)"
+
+        ```powershell
+        $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="sk-..."
+        ```
 
 **Extensions used:**
 

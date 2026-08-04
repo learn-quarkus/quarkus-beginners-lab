@@ -114,34 +114,27 @@ You only need **one** of these. The Quarkus CLI is recommended — it makes boot
 !!! info "Required for Lab 7 only"
     Labs 1–6 do not require an API key.
 
-1. Sign in or create an account at [platform.openai.com](https://platform.openai.com)
-2. Navigate to **API Keys** → **Create new secret key**
-3. Copy the key — you will not be able to see it again
+!!! tip "Workshop instructor key"
+    If you are attending an instructor-led session, your instructor will provide a shared API key for Lab 7. You do not need to create your own OpenAI account.
 
-Set it in your shell for the workshop session:
+    If you are working through this workshop independently, you can use your own key from [platform.openai.com](https://platform.openai.com).
+
+You will need to set the key as an environment variable in the terminal where you run `quarkus dev` for Lab 7. This is a **session-only** setting — it is not saved permanently.
 
 === "macOS / Linux"
 
     ```bash
-    export OPENAI_API_KEY=sk-...
     export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
     ```
-
-    To persist across sessions, add those lines to your `~/.zshrc` or `~/.bashrc`.
 
 === "Windows (PowerShell)"
 
     ```powershell
-    $env:OPENAI_API_KEY="sk-..."
     $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="sk-..."
     ```
 
-Alternatively, create a `.env` file in the `labs/lab7-langchain4j/` directory:
-
-```properties title=".env"
-OPENAI_API_KEY=sk-...
-QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
-```
+!!! warning "Session only"
+    This sets the key for the current terminal session only. It is not written to any file and disappears when you close the terminal — which is exactly what you want for a shared or temporary key.
 
 ---
 
@@ -178,8 +171,10 @@ Or check manually:
 java -version       # should show 21.x
 quarkus version     # should show 3.x   (or: mvn -version for Maven)
 docker ps           # should show an empty table, not an error
-echo $OPENAI_API_KEY  # should show sk-...  (needed only for Lab 7)
 ```
+
+!!! info "OpenAI key — Lab 7 only"
+    You do not need the API key until Lab 7. Your instructor will provide one at that point, or you can use your own.
 
 !!! success "All green? You're ready!"
     [→ Start Lab 1](lab1-rest.md){ .md-button .md-button--primary }
