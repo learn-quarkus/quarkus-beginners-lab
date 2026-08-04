@@ -29,7 +29,7 @@ A progressive **Coffee Shop** application across 7 labs:
 - Docker Desktop or Podman (Labs 4 & 5 only)
 - OpenAI API key (Lab 7 only)
 
-See the [Prerequisites page](https://your-org.github.io/quarkus-workshop/00-prerequisites/) for full setup instructions.
+See the [Prerequisites page](https://learn-quarkus.github.io/quarkus-beginners-lab/00-prerequisites/) for full setup instructions.
 
 ## Repository Structure
 
@@ -53,3 +53,7 @@ mkdocs serve
 ## License
 
 Apache License 2.0
+
+## Acknowledgements
+
+This workshop was built with the assistance of [IBM Bob](https://www.ibm.com/products/ibm-bob), an AI software engineering assistant by IBM.
