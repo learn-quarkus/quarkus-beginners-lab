@@ -156,6 +156,8 @@ Create `src/main/java/org/coffee/BaristaAiService.java`:
 mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/BaristaAiService.java
 ```
 
+Open `BaristaAiService.java` in your IDE and paste in the following:
+
 ```java
 package org.coffee;
 
@@ -195,6 +197,8 @@ Create `src/main/java/org/coffee/ChatResource.java`:
 ```bash
 touch src/main/java/org/coffee/ChatResource.java
 ```
+
+Open `ChatResource.java` in your IDE and paste in the following:
 
 ```java
 package org.coffee;

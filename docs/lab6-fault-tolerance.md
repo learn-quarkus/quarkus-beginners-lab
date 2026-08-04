@@ -61,6 +61,8 @@ Create `src/main/java/org/coffee/PricingService.java`:
 touch src/main/java/org/coffee/PricingService.java
 ```
 
+Open `PricingService.java` in your IDE and paste in the following:
+
 ```java
 package org.coffee;
 

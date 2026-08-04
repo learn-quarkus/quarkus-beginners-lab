@@ -72,6 +72,8 @@ Create `src/main/java/org/coffee/Order.java`:
 mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/Order.java
 ```
 
+Open `Order.java` in your IDE and paste in the following:
+
 ```java
 package org.coffee;
 
@@ -99,6 +101,8 @@ Create `src/main/java/org/coffee/OrderResource.java`:
 ```bash
 touch src/main/java/org/coffee/OrderResource.java
 ```
+
+Open `OrderResource.java` in your IDE and paste in the following:
 
 ```java
 package org.coffee;
@@ -215,6 +219,8 @@ Create `src/main/java/org/coffee/OrderConsumer.java`:
 ```bash
 touch src/main/java/org/coffee/OrderConsumer.java
 ```
+
+Open `OrderConsumer.java` in your IDE and paste in the following:
 
 ```java
 package org.coffee;

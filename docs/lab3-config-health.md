@@ -155,6 +155,8 @@ Create `src/main/java/org/coffee/CoffeeShopHealthCheck.java`:
 touch src/main/java/org/coffee/CoffeeShopHealthCheck.java
 ```
 
+Open `CoffeeShopHealthCheck.java` in your IDE and paste in the following:
+
 ```java
 package org.coffee;
 

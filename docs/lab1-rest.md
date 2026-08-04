@@ -73,6 +73,8 @@ Create the file `src/main/java/org/coffee/MenuItem.java`:
 mkdir -p src/main/java/org/coffee && touch src/main/java/org/coffee/MenuItem.java
 ```
 
+Open `MenuItem.java` in your IDE and paste in the following:
+
 ```java
 package org.coffee;
 
@@ -103,6 +105,8 @@ Create the file `src/main/java/org/coffee/MenuResource.java`:
 ```bash
 touch src/main/java/org/coffee/MenuResource.java
 ```
+
+Open `MenuResource.java` in your IDE and paste in the following:
 
 ```java
 package org.coffee;
@@ -233,6 +237,8 @@ Create the test file at `src/test/java/org/coffee/MenuResourceTest.java`:
 ```bash
 mkdir -p src/test/java/org/coffee && touch src/test/java/org/coffee/MenuResourceTest.java
 ```
+
+Open `MenuResourceTest.java` in your IDE and paste in the following:
 
 ```java
 package org.coffee;
