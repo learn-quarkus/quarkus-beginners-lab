@@ -419,7 +419,7 @@ quarkus-workshop/
 - `@SystemMessage` can be on the interface (applies to all methods) or on individual methods
 - Easy RAG auto-ingests files from `src/main/resources` — no vector DB setup needed for the demo
 
-**Status:** [ ] pending
+**Status:** [x] done
 
 ---
 
