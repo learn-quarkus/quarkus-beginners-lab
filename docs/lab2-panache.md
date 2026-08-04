@@ -225,13 +225,24 @@ Quarkus Dev UI has a live database browser. Open:
 http://localhost:8080/q/dev-ui
 ```
 
-Find the **Datasources** card (under Hibernate ORM or Agroal). Click **Open** to open a browser-based SQL query interface against your H2 database. Run:
+Navigate to the database browser in two steps:
+
+1. Find the **Hibernate ORM** card and click **Entity Types**
+2. In the entity list, click the **`MenuItem`** table name link — this opens a live SQL query browser against your H2 database
+
+Run the following query:
 
 ```sql
 SELECT * FROM MenuItem;
 ```
 
 You'll see your rows — including any you just `POST`ed — live in the browser with no external tooling needed.
+
+!!! tip "Can't find the Hibernate ORM card?"
+    The Dev UI shows only the extensions active in your project. If the card isn't visible, scroll down — cards are ordered alphabetically. You can also go directly to:
+    ```
+    http://localhost:8080/q/dev-ui/io.quarkus.quarkus-hibernate-orm/persistence-units
+    ```
 
 !!! tip "Active Record vs Repository"
     Panache supports two patterns:
