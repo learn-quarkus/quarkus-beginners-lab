@@ -1244,7 +1244,7 @@
 <blockquote>
 <p>"Quarkus is a Java framework that feels very different from Spring Boot the moment you start it. Today we're going to feel that difference, not just read about it. By the end of the hour you'll have a REST API, a database, Kafka, security, and an AI chatbot — all running on your laptop."</p>
 </blockquote>
-<p><strong>Pause and explain:</strong> Draw or show the Coffee Shop architecture: <code>order-service</code> → Kafka → <code>menu-service</code>, and <code>barista-bot</code> as a separate AI-powered service.</p>
+<p><strong>Pause and explain:</strong> Walk through the use case on screen or on the whiteboard. The Quarkus Cafe has three services: <code>menu-service</code> (menu REST API + DB + security), <code>order-service</code> (Kafka producer for customer orders), and <code>barista-bot</code> (AI assistant grounded in the actual menu). Customers browse the menu and chat with the bot; staff place orders and manage the menu. All three talk to real infrastructure that Quarkus DevServices starts automatically.</p>
 <hr />
 <h3 id="lab-1-first-rest-api-0500-1700">Lab 1 — First REST API (05:00 – 17:00)<a class="headerlink" href="#lab-1-first-rest-api-0500-1700" title="Permanent link">&para;</a></h3>
 <p><strong>Key moments to call out:</strong>
@@ -1267,7 +1267,7 @@
 - <em>"What about production? H2 is just for testing right?"</em> — Correct. In prod you'd use PostgreSQL. If you add <code>quarkus-jdbc-postgresql</code> instead of H2, DevServices auto-starts a Postgres container for dev. Same pattern.
 - <em>"What's the Repository pattern vs Active Record?"</em> — Active Record (this lab) puts the DB methods on the entity itself. Repository separates them. Both work in Quarkus.</p>
 <p><strong>Pitfalls:</strong>
-- Forgetting <code>@Transactional</code> on POST → <code>javax.persistence.TransactionRequiredException</code>. Show the error message and the fix.
+- Forgetting <code>@Transactional</code> on POST → <code>jakarta.persistence.TransactionRequiredException</code>. Show the error message and the fix.
 - <code>import.sql</code> not picked up — must be in <code>src/main/resources</code>, not <code>src/test/resources</code>.</p>
 <hr />
 <h3 id="lab-3-config-health-2500-3100">Lab 3 — Config &amp; Health (25:00 – 31:00)<a class="headerlink" href="#lab-3-config-health-2500-3100" title="Permanent link">&para;</a></h3>
@@ -1285,7 +1285,7 @@
 <h3 id="lab-4-kafka-with-devservices-3100-3800">Lab 4 — Kafka with DevServices (31:00 – 38:00)<a class="headerlink" href="#lab-4-kafka-with-devservices-3100-3800" title="Permanent link">&para;</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Pre-flight check</p>
-<p>Before starting this lab, confirm Docker Desktop or Podman is running on every attendee's laptop. Ask them to run <code>docker ps</code> or <code>podman ps</code> and confirm they see an empty table (not an error).</p>
+<p>Before starting this lab, confirm Docker Desktop or Podman is running on every attendee's laptop. Ask them to run <code>docker ps</code> or <code>podman ps</code> and confirm they see an empty table (not an error). Remind them that <code>prereq-check.sh</code> times out after 5 seconds — if it reported "not running" but the daemon has since started, that's fine.</p>
 </div>
 <p><strong>Key moments to call out:</strong>
 - Before running <code>quarkus dev</code>: "We haven't installed Kafka. We haven't written a <code>docker-compose.yml</code>. We haven't set a broker URL. Watch what happens when we just add the extension."
@@ -1307,9 +1307,9 @@
 - After adding <code>quarkus-oidc</code> and restarting: Point to <code>Dev Services for Keycloak started</code> in the log. "Full Keycloak — with a realm, a client, and test users — started automatically."
 - The 401 without a token: Run the curl command first with no token. Show the 401. "Without a token, the request is rejected before your code ever runs."
 - Getting the token from Dev UI: This is the best UI moment of the lab. Walk through it step by step — the OIDC panel is intuitive.
-- The 403 for wrong role: Show alice (user role) hitting <code>/menu/admin</code>. "Authenticated — yes. Authorised — no. Different error, different meaning."</p>
+- The 403 for wrong role: Show alice (user role) hitting <code>POST /menu/admin</code> — which requires the <code>admin</code> role. "Authenticated — yes. Authorised — no. Different error, different meaning."</p>
 <p><strong>Common questions:</strong>
-- <em>"Where are the Keycloak users defined?"</em> — DevServices creates them automatically: <code>alice</code> with <code>user</code> role, <code>bob</code> with <code>admin</code> role.
+- <em>"Where are the Keycloak users defined?"</em> — DevServices creates them automatically: <code>alice</code> with <code>user</code> role, <code>bob</code> with <code>admin</code> role. The <code>POST /menu</code> endpoint accepts any valid token (<code>@Authenticated</code>); <code>POST /menu/admin</code> requires the <code>admin</code> role (<code>@RolesAllowed("admin")</code>).
 - <em>"What happens in production?"</em> — You set <code>quarkus.oidc.auth-server-url</code> to your real Keycloak/OIDC provider. Everything else stays the same.
 - <em>"Do we need to write login pages?"</em> — No, for a REST API (bearer token flow). If you needed a web app with login pages, you'd use <code>application-type=web-app</code>.</p>
 <p><strong>Pitfalls:</strong>
@@ -1335,7 +1335,7 @@
 - First response from Swagger UI: Pause and let the response appear. "That response was generated by GPT-4o-mini, called from our Java interface, returned as a plain <code>String</code>."
 - After adding Easy RAG: Ask "Do you have oat milk?" before and after the RAG step. "Before RAG, the model could hallucinate. After RAG, it answers from our actual menu document."</p>
 <p><strong>Common questions:</strong>
-- <em>"Why <code>io.quarkiverse.langchain4j</code> not <code>io.quarkus</code>?"</em> — LangChain4j is a Quarkiverse extension — community-maintained under the Quarkus umbrella but not part of the core platform. Has its own BOM.
+- <em>"Why <code>io.quarkiverse.langchain4j</code> not <code>io.quarkus</code>?"</em> — The BOM is now under <code>io.quarkus.platform</code> (part of the Quarkus platform since 3.20), but the runtime JARs still use the <code>io.quarkiverse.langchain4j</code> group ID. The lab step adds both a <code>&lt;properties&gt;</code> entry and the BOM snippet — point attendees there if they get confused.
 - <em>"Can I use other models?"</em> — Yes. Swap <code>quarkus-langchain4j-openai</code> for <code>quarkus-langchain4j-ollama</code> (local) or <code>quarkus-langchain4j-azure-openai</code>. The <code>BaristaAiService</code> interface stays unchanged.
 - <em>"What is RAG?"</em> — Retrieval Augmented Generation. Instead of relying on the model's training data, you inject relevant documents into the context at query time. Easy RAG does the embedding and retrieval automatically.</p>
 <hr />
@@ -1414,11 +1414,31 @@
 <hr />
 <h2 id="catch-up-instructions-for-attendees">Catch-Up Instructions for Attendees<a class="headerlink" href="#catch-up-instructions-for-attendees" title="Permanent link">&para;</a></h2>
 <p>If an attendee falls behind, they can jump to any lab's solution directory and continue from there:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>./mvnw<span class="w"> </span>quarkus:dev
+</span></code></pre></div>
+</div>
+</div>
+</div>
 <p>All solution projects are standalone Maven projects that run independently.</p>
+<div class="admonition note">
+<p class="admonition-title">Lab 4 needs two terminals</p>
+<p><code>labs/lab4-kafka/solution</code> has two separate services (<code>order-service</code> and <code>menu-service</code>). Start each in its own terminal.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Lab 5 — import.sql</p>
+<p>If starting directly from <code>labs/lab5-security/solution</code>, confirm <code>src/main/resources/import.sql</code> is present — it seeds the initial menu items.</p>
+</div>
 
 
 
