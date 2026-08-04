@@ -294,59 +294,109 @@ Open `chat.html` in your IDE and paste in the following:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Quarkus Cafe — Barista Bot</title>
   <style>
-    body { font-family: -apple-system, "Segoe UI", sans-serif; max-width: 640px;
-           margin: 3rem auto; padding: 0 1rem; color: #1f2328; }
-    h1   { font-size: 1.4rem; margin-bottom: 0.25rem; }
-    p.sub{ color: #57606a; margin-top: 0; margin-bottom: 2rem; font-size: 0.9rem; }
-    .input-row { display: flex; gap: 0.5rem; }
-    input[type=text] { flex: 1; padding: 0.55rem 0.75rem; font-size: 1rem;
-                       border: 1px solid #d0d7de; border-radius: 6px; }
-    button { padding: 0.55rem 1.1rem; font-size: 1rem; border: none;
-             border-radius: 6px; cursor: pointer; }
-    .btn-ask   { background: #3b82d4; color: #fff; }
-    .btn-ask:hover { background: #2563be; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      background: #f0f2f5; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .card {                                               /* (1) */
+      width: 100%; max-width: 560px; background: #fff;
+      border-radius: 16px; border: 1px solid #e5e7eb;
+      display: flex; flex-direction: column; height: 620px; overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.25rem; border-bottom: 1px solid #e5e7eb;
+      display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0;
+    }
+    .avatar {
+      width: 36px; height: 36px; background: #1d4ed8; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .card-header h1 { font-size: 1rem; font-weight: 600; color: #1f2328; }
+    .card-header p  { font-size: 0.78rem; color: #57606a; }
+    .messages {                                           /* (2) */
+      flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
+      display: flex; flex-direction: column; gap: 0.85rem;
+    }
+    .empty { margin: auto; text-align: center; color: #8b949e; font-size: 0.85rem; line-height: 1.7; }
+    .empty strong { display: block; font-size: 1.1rem; color: #57606a; margin-bottom: 0.3rem; }
+    .row      { display: flex; flex-direction: column; max-width: 78%; }
+    .row.user { align-self: flex-end;  align-items: flex-end; }   /* (3) */
+    .row.bot  { align-self: flex-start; align-items: flex-start; }
+    .sender   { font-size: 0.68rem; font-weight: 600; color: #8b949e;
+                margin-bottom: 3px; text-transform: uppercase; }
+    .bubble   { padding: 0.6rem 0.9rem; border-radius: 14px; font-size: 0.92rem;
+                line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+    .row.user .bubble { background: #1d4ed8; color: #fff; border-bottom-right-radius: 4px; }
+    .row.bot  .bubble { background: #f7f8fa; color: #1f2328; border: 1px solid #e5e7eb;
+                        border-bottom-left-radius: 4px; }
+    .input-bar  { padding: 0.85rem 1.25rem; border-top: 1px solid #e5e7eb; flex-shrink: 0; }
+    .input-row  { display: flex; gap: 0.5rem; }
+    input[type=text] {
+      flex: 1; padding: 0.55rem 0.85rem; font-size: 0.95rem;
+      border: 1px solid #d0d7de; border-radius: 8px; outline: none;
+    }
+    input[type=text]:focus { border-color: #3b82d4; }
+    button { padding: 0.55rem 1rem; font-size: 0.9rem; border: none;
+             border-radius: 8px; cursor: pointer; font-weight: 500; }
+    .btn-send  { background: #1d4ed8; color: #fff; }
+    .btn-send:hover  { background: #1e40af; }
     .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
     .btn-clear:hover { background: #e5e7eb; }
-    .qa    { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .label { font-size: 0.75rem; font-weight: 600; color: #57606a; margin-bottom: 0.2rem; }
-    .bubble{ padding: 0.75rem 1rem; border-radius: 6px; line-height: 1.6; }
-    .q     { background: #dbeafe; }
-    .a     { background: #f7f8fa; border: 1px solid #e5e7eb; white-space: pre-wrap; }
   </style>
 </head>
 <body>
-
-  <h1>☕ Barista Bot</h1>
-  <p class="sub">Powered by OpenAI + Quarkus LangChain4j. Ask me anything about coffee.</p>
-
-  <form method="post" action="/">
-    <div class="input-row">
-      <input type="text" name="message" placeholder="e.g. What's in a flat white?" autofocus>
-      <button type="submit" class="btn-ask">Ask</button>        <!-- (1) -->
-      <a href="/"><button type="button" class="btn-clear">Clear</button></a>  <!-- (2) -->
-    </div>
-  </form>
-
-  {#if question}                                                <!-- (3) -->
-  <div class="qa">
+<div class="card">
+  <div class="card-header">
+    <div class="avatar">☕</div>
     <div>
-      <div class="label">You asked:</div>
-      <div class="bubble q">{question}</div>
-    </div>
-    <div>
-      <div class="label">Barista Bot says:</div>
-      <div class="bubble a">{reply}</div>
+      <h1>Barista Bot</h1>
+      <p>Powered by OpenAI · Quarkus LangChain4j</p>
     </div>
   </div>
-  {/if}
-
+  <div class="messages" id="msgs">
+    {#if history}
+      {#for turn in history}
+        {#if turn.role == "user"}
+        <div class="row user">
+          <span class="sender">You</span>
+          <div class="bubble">{turn.text}</div>         <!-- (4) -->
+        </div>
+        {#else}
+        <div class="row bot">
+          <span class="sender">Barista Bot</span>
+          <div class="bubble">{turn.text}</div>
+        </div>
+        {/if}
+      {/for}
+    {#else}
+      <div class="empty">
+        <strong>☕ Welcome!</strong>
+        Ask me anything about coffee, our menu,<br>or how your favourite drink is made.
+      </div>
+    {/if}
+  </div>
+  <div class="input-bar">
+    <form method="post" action="/">
+      <div class="input-row">
+        <input type="text" name="message"
+               placeholder="e.g. What's in a flat white?" autofocus>
+        <button type="submit" class="btn-send">Send</button>   <!-- (5) -->
+        <a href="/"><button type="button" class="btn-clear">Clear</button></a>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>
 ```
 
-1. **Ask** — submits the form via `POST /`; text box clears because the page re-renders with an empty `<input>`.
-2. **Clear** — navigates to `GET /`, which returns `question=null` so the Q&A block disappears.
-3. `{#if question}` — Q&A section only appears after a successful reply.
+1. `.card` — a fixed-height flexbox column: header + scrollable messages + input bar.
+2. `.messages` — `flex: 1` so it fills remaining height; `overflow-y: auto` makes it scroll when the conversation grows.
+3. `.row.user` right-aligns your messages; `.row.bot` left-aligns the bot's — standard chat bubble layout.
+4. Both bubble types share the `.bubble` class; colour is set by the parent `.row.user` / `.row.bot` selector.
+5. **Send** submits; **Clear** navigates to `GET /` which resets the history.
 
 ### Start and test
 
@@ -481,7 +531,7 @@ LangChain4j keeps a per-key `ChatMemory` (a sliding window of recent messages). 
 
 ### Update the AI Service
 
-Open `BaristaAiService.java` and add the `@MemoryId` parameter:
+Open `BaristaAiService.java` and replace the file with the following to add the `@MemoryId` parameter:
 
 ```java
 package org.coffee;
