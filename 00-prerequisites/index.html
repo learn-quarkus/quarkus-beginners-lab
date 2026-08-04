@@ -534,6 +534,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#8-serve-the-docs-locally-optional-self-paced-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Serve the Docs Locally (Optional — self-paced only)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -954,6 +965,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#8-serve-the-docs-locally-optional-self-paced-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Serve the Docs Locally (Optional — self-paced only)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1148,6 +1170,26 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 <div class="admonition success">
 <p class="admonition-title">All green? You're ready!</p>
 <p><a class="md-button md-button--primary" href="../lab1-rest/">→ Start Lab 1</a></p>
+</div>
+<hr />
+<h2 id="8-serve-the-docs-locally-optional-self-paced-only">8. Serve the Docs Locally (Optional — self-paced only)<a class="headerlink" href="#8-serve-the-docs-locally-optional-self-paced-only" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Instructor-led sessions</p>
+<p>Your instructor will project the lab guide. Skip this section.</p>
+</div>
+<p>If you are working through this workshop independently, you can run the docs site on your laptop so you can read it offline or in a side-by-side window.</p>
+<p><strong>Install the dependencies</strong> (one-time):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs-material<span class="w"> </span>pymdown-extensions
+</span></code></pre></div>
+<p><strong>Start the local docs server</strong> from inside the cloned repo:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mkdocs<span class="w"> </span>serve
+</span></code></pre></div>
+<p>Open <strong><code>http://127.0.0.1:8000</code></strong> in your browser. The site hot-reloads whenever a doc file changes.</p>
+<div class="admonition tip">
+<p class="admonition-title">Port conflict?</p>
+<p>If port 8000 clashes with something else, use a different port:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>mkdocs<span class="w"> </span>serve<span class="w"> </span>--dev-addr<span class="w"> </span><span class="m">127</span>.0.0.1:8001
+</span></code></pre></div></p>
 </div>
 
 
