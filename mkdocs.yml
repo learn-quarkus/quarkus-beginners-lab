@@ -1,0 +1,80 @@
+site_name: "Quarkus Workshop: From Zero to AI-Powered Microservices"
+site_description: "A 60-minute hands-on Quarkus workshop for Java developers — REST APIs, Panache ORM, Kafka, OIDC Security, Fault Tolerance, and LangChain4j AI."
+site_author: "IBM"
+docs_dir: docs
+repo_url: https://github.com/your-org/quarkus-workshop
+repo_name: quarkus-workshop
+edit_uri: ""
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Prerequisites: 00-prerequisites.md
+  - Labs:
+    - "Lab 1: First REST API": lab1-rest.md
+    - "Lab 2: Panache ORM": lab2-panache.md
+    - "Lab 3: Config & Health": lab3-config-health.md
+    - "Lab 4: Kafka Messaging": lab4-kafka.md
+    - "Lab 5: OIDC Security": lab5-security.md
+    - "Lab 6: Fault Tolerance": lab6-fault-tolerance.md
+    - "Lab 7: AI with LangChain4j": lab7-langchain4j.md
+  - Wrap-Up: wrap-up.md
+  - Facilitator Guide: facilitator-guide.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/your-org/quarkus-workshop
