@@ -158,9 +158,17 @@ quarkus.swagger-ui.always-include=true
 
 In the `order-service` terminal, run:
 
-```bash
-quarkus dev
-```
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus dev
+    ```
+
+=== "Maven"
+
+    ```bash
+    ./mvnw quarkus:dev
+    ```
 
 Watch the terminal carefully. You'll see a line like:
 

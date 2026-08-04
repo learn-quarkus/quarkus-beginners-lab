@@ -251,10 +251,17 @@ Shows the status of your last test run. Click **"Run all tests"** or press `r` i
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab3-config-health/solution/`. Run it with:
-    ```bash
-    cd labs/lab3-config-health/solution
-    quarkus dev
-    ```
+
+    === "Quarkus CLI"
+        ```bash
+        cd labs/lab3-config-health/solution
+        quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        cd labs/lab3-config-health/solution
+        ./mvnw quarkus:dev
+        ```
 
 ---
 

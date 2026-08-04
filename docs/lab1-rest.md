@@ -141,9 +141,17 @@ public class MenuResource {
 
 In your terminal (inside the `menu-service` directory), run:
 
-```bash
-quarkus dev
-```
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus dev
+    ```
+
+=== "Maven"
+
+    ```bash
+    ./mvnw quarkus:dev
+    ```
 
 You'll see output like this:
 
@@ -335,10 +343,17 @@ In 12 minutes you have:
 
 !!! tip "Stuck or fell behind?"
     The complete solution for this lab is in `labs/lab1-rest/solution/`. Run it with:
-    ```bash
-    cd labs/lab1-rest/solution
-    quarkus dev
-    ```
+
+    === "Quarkus CLI"
+        ```bash
+        cd labs/lab1-rest/solution
+        quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        cd labs/lab1-rest/solution
+        ./mvnw quarkus:dev
+        ```
 
 ---
 

@@ -263,10 +263,17 @@ Back in the Dev UI OpenID Connect panel, you can inspect what Keycloak auto-conf
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab5-security/solution/`. Run it with:
-    ```bash
-    cd labs/lab5-security/solution
-    quarkus dev
-    ```
+
+    === "Quarkus CLI"
+        ```bash
+        cd labs/lab5-security/solution
+        quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        cd labs/lab5-security/solution
+        ./mvnw quarkus:dev
+        ```
 
 ---
 

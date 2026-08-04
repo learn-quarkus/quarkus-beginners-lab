@@ -218,9 +218,17 @@ public class ChatResource {
 
 ## Step 6 — Start and Test
 
-```bash
-quarkus dev
-```
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus dev
+    ```
+
+=== "Maven"
+
+    ```bash
+    ./mvnw quarkus:dev
+    ```
 
 Open `http://localhost:8080/q/swagger-ui` and find `GET /chat`.
 
@@ -311,13 +319,23 @@ Save all files. Quarkus live-reloads. Now ask the chatbot:
 
 !!! tip "Stuck or fell behind?"
     Two complete solutions are available:
-    ```bash
-    # Without RAG:
-    cd labs/lab7-langchain4j/solution && quarkus dev
 
-    # With RAG:
-    cd labs/lab7-langchain4j/solution-with-rag && quarkus dev
-    ```
+    === "Quarkus CLI"
+        ```bash
+        # Without RAG:
+        cd labs/lab7-langchain4j/solution && quarkus dev
+
+        # With RAG:
+        cd labs/lab7-langchain4j/solution-with-rag && quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        # Without RAG:
+        cd labs/lab7-langchain4j/solution && ./mvnw quarkus:dev
+
+        # With RAG:
+        cd labs/lab7-langchain4j/solution-with-rag && ./mvnw quarkus:dev
+        ```
 
 ---
 

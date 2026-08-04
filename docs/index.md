@@ -9,22 +9,33 @@
 
 ## What You'll Build
 
-Throughout this workshop you build a progressive **Coffee Shop** application. Each lab adds a new capability — the same domain, growing richer with every step.
+Imagine you're running **The Quarkus Cafe** — a small coffee shop that needs a real backend system. By the end of this workshop you will have built three microservices from scratch:
+
+**`menu-service`** is the heart of the system. It exposes the coffee menu over a REST API, persists items in a database, and enforces security so only authenticated staff can add new items. It also exposes a health endpoint so the platform knows it's alive.
+
+**`order-service`** is the café's order intake. When a customer places an order it publishes the order as an event to a Kafka topic — decoupling the intake from fulfilment so the system stays responsive under load.
+
+**`barista-bot`** is an AI assistant built on top of OpenAI. Customers can ask it anything about the menu — what's in a flat white, whether there's oat milk, what the cheapest drink is — and it answers from the actual menu document, not from guesswork.
+
+The three services talk to each other and to real infrastructure (a database, a Kafka broker, a Keycloak identity provider), all started automatically by Quarkus DevServices — no `docker-compose.yml`, no manual setup.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Coffee Shop System                         │
-│                                                                 │
-│  ┌──────────────────┐      Kafka       ┌──────────────────┐    │
-│  │   order-service  │ ─────────────▶  │   menu-service   │    │
-│  │  POST /orders    │  coffee-orders   │  GET  /menu      │    │
-│  └──────────────────┘                 │  POST /menu 🔒   │    │
-│                                       │  GET  /menu/info  │    │
-│  ┌──────────────────┐                 └──────────────────┘    │
-│  │   barista-bot    │                                          │
-│  │  GET /chat  🤖   │  ◀── OpenAI API + RAG from menu.txt     │
-│  └──────────────────┘                                          │
-└─────────────────────────────────────────────────────────────────┘
+  Customer                   Staff / Admin
+     │                            │
+     ▼                            ▼
+GET /menu          POST /orders   POST /menu 🔒   POST /menu/admin 🔒
+     │                  │
+     │            order-service  ──── Kafka (coffee-orders) ────▶  menu-service
+     │                                                               (logs order)
+     ▼
+menu-service  ──── H2 database (menu items, persisted)
+     │
+     └──── GET /menu/info  (shop name + item count from config)
+     └──── GET /q/health   (liveness: menu has items; readiness: DB is up)
+
+GET /chat?message=...
+     │
+  barista-bot  ──── OpenAI GPT-4o-mini  ◀── menu.txt (RAG)
 ```
 
 ---

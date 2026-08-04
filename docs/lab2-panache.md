@@ -258,10 +258,17 @@ You'll see your rows — including any you just `POST`ed — live in the browser
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab2-panache/solution/`. Run it with:
-    ```bash
-    cd labs/lab2-panache/solution
-    quarkus dev
-    ```
+
+    === "Quarkus CLI"
+        ```bash
+        cd labs/lab2-panache/solution
+        quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        cd labs/lab2-panache/solution
+        ./mvnw quarkus:dev
+        ```
 
 ---
 

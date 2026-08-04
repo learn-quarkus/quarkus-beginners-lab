@@ -196,10 +196,17 @@ Notice: **the endpoint always returns a value** — never a 500 error — even w
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab6-fault-tolerance/solution/`. Run it with:
-    ```bash
-    cd labs/lab6-fault-tolerance/solution
-    quarkus dev
-    ```
+
+    === "Quarkus CLI"
+        ```bash
+        cd labs/lab6-fault-tolerance/solution
+        quarkus dev
+        ```
+    === "Maven"
+        ```bash
+        cd labs/lab6-fault-tolerance/solution
+        ./mvnw quarkus:dev
+        ```
 
 ---
 
