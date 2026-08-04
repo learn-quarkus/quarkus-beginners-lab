@@ -56,4 +56,4 @@ Apache License 2.0
 
 ## Acknowledgements
 
-This workshop was built with the assistance of [IBM Bob](https://www.ibm.com/products/ibm-bob), an AI software engineering assistant by IBM.
+This workshop was built with the assistance of <a href="https://www.ibm.com/products/ibm-bob" target="_blank">IBM Bob</a>, an AI software engineering assistant by IBM.
