@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 2 — Panache ORM Simulation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+    color: #1f2328;
+  }
+  h1 { font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 0.3rem; }
+  .subtitle { text-align: center; font-size: 0.8rem; color: #57606a; margin-bottom: 1.25rem; }
+
+  .layout {
+    display: flex;
+    gap: 1.25rem;
+    max-width: 980px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+
+  /* ── panels ── */
+  .panel {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+  }
+  .panel-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .badge-db  { background: #fef9c3; color: #854d0e; }
+  .badge-api { background: #dbeafe; color: #1e40af; }
+  .panel-title { font-size: 0.88rem; font-weight: 600; }
+  .panel-sub { font-size: 0.72rem; color: #8b949e; margin-left: auto; font-family: monospace; }
+
+  /* ── DB table ── */
+  .table-wrap { padding: 0.75rem 1rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  thead th {
+    background: #f7f8fa;
+    border-bottom: 2px solid #e5e7eb;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    font-weight: 700;
+    color: #57606a;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid #f0f2f5; transition: background 0.4s; }
+  tbody tr:nth-child(odd)  { background: #fff; }
+  tbody tr:nth-child(even) { background: #f7f8fa; }
+  tbody tr.flash { background: #fef08a !important; }
+  tbody td {
+    padding: 0.45rem 0.6rem;
+    vertical-align: middle;
+    font-size: 0.8rem;
+  }
+  td.id-col { font-family: monospace; color: #8b949e; font-size: 0.75rem; }
+  td.price-col { font-family: monospace; font-weight: 600; color: #166534; }
+
+  /* ── SQL log ── */
+  .sql-log-wrap { padding: 0.6rem 1rem 0.75rem; }
+  .sql-log-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  #sql-log {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 0.55rem 0.75rem;
+    min-height: 68px;
+    max-height: 110px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.7rem;
+    line-height: 1.85;
+    color: #8b949e;
+  }
+  #sql-log .log-empty { font-style: italic; }
+  #sql-log .log-insert { color: #56d364; }
+  #sql-log .log-ts { color: #484f58; margin-right: 0.4rem; }
+
+  /* ── connector ── */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    flex-shrink: 0;
+    gap: 4px;
+  }
+  .conn-arrow { font-size: 1.3rem; color: #3b82d4; }
+  .conn-label { font-size: 0.63rem; color: #8b949e; text-align: center; }
+
+  /* ── REST API panel ── */
+  .api-section { padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; }
+  .api-section:last-of-type { border-bottom: none; }
+  .api-section h3 {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.55rem;
+  }
+  .method-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+  .method-badge {
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 5px;
+  }
+  .method-get  { background: #dcfce7; color: #166534; }
+  .method-post { background: #fef9c3; color: #854d0e; }
+  .endpoint {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #1f2328;
+    font-weight: 600;
+  }
+
+  /* response box */
+  .resp-box {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 0.55rem 0.75rem;
+    font-family: monospace;
+    font-size: 0.7rem;
+    line-height: 1.75;
+    max-height: 220px;
+    overflow-y: auto;
+    color: #cdd9e5;
+    white-space: pre;
+  }
+  .json-key    { color: #79c0ff; }
+  .json-str    { color: #a5d6ff; }
+  .json-num    { color: #f78166; }
+  .json-punct  { color: #8b949e; }
+  .json-new    { background: rgba(86,211,100,0.12); border-radius: 3px; }
+
+  /* POST form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem 0.6rem;
+    margin-bottom: 0.55rem;
+  }
+  .form-grid label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #57606a;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .form-grid input {
+    width: 100%;
+    padding: 0.38rem 0.55rem;
+    font-size: 0.82rem;
+    border: 1px solid #d0d7de;
+    border-radius: 7px;
+    outline: none;
+    background: #fff;
+    color: #1f2328;
+    font-family: inherit;
+  }
+  .form-grid input:focus { border-color: #3b82d4; }
+  .full-col { grid-column: 1 / -1; }
+
+  /* buttons */
+  .btn {
+    padding: 0.45rem 1rem;
+    font-size: 0.82rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .btn-get  { background: #dcfce7; color: #166534; }
+  .btn-get:hover  { background: #bbf7d0; }
+  .btn-post { background: #1d4ed8; color: #fff; }
+  .btn-post:hover { background: #1e40af; }
+  .btn-post:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  /* validation error */
+  .form-error {
+    font-size: 0.72rem;
+    color: #b91c1c;
+    margin-bottom: 0.35rem;
+    min-height: 1rem;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #8b949e;
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 640px) {
+    .layout { flex-direction: column; }
+    .connector { flex-direction: row; padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Lab 2 — Panache ORM Simulation</h1>
+<p class="subtitle">Quarkus Panache &nbsp;+&nbsp; H2 in-memory database &nbsp;→&nbsp; REST API on :8080</p>
+
+<div class="layout">
+
+  <!-- ═══════════════ LEFT: H2 DATABASE ═══════════════ -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="badge badge-db">H2 DATABASE</span>
+      <span class="panel-title">menu_item</span>
+      <span class="panel-sub">in-memory</span>
+    </div>
+
+    <div class="table-wrap">
+      <table id="db-table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>price</th>
+          </tr>
+        </thead>
+        <tbody id="db-tbody">
+          <!-- seeded by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sql-log-wrap">
+      <div class="sql-log-label">SQL log</div>
+      <div id="sql-log"><span class="log-empty">-- awaiting writes…</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CONNECTOR ═══════════════ -->
+  <div class="connector">
+    <div class="conn-arrow">⇄</div>
+    <div class="conn-label">Panache<br>ORM</div>
+  </div>
+
+  <!-- ═══════════════ RIGHT: REST API ═══════════════ -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="badge badge-api">REST API</span>
+      <span class="panel-title">MenuResource</span>
+      <span class="panel-sub">:8080</span>
+    </div>
+
+    <!-- GET /menu -->
+    <div class="api-section">
+      <h3>Read all items</h3>
+      <div class="method-row">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint">/menu</span>
+        <button class="btn btn-get" id="btn-get" style="margin-left:auto;">Execute</button>
+      </div>
+      <div class="resp-box" id="get-response"><!-- populated by JS --></div>
+    </div>
+
+    <!-- POST /menu -->
+    <div class="api-section">
+      <h3>Add a new item</h3>
+      <div class="method-row">
+        <span class="method-badge method-post">POST</span>
+        <span class="endpoint">/menu</span>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="f-name">name</label>
+          <input type="text" id="f-name" placeholder="e.g. Matcha Latte">
+        </div>
+        <div>
+          <label for="f-price">price</label>
+          <input type="text" id="f-price" placeholder="e.g. 4.50" inputmode="decimal">
+        </div>
+        <div class="full-col">
+          <label for="f-desc">description</label>
+          <input type="text" id="f-desc" placeholder="e.g. Ceremonial grade matcha">
+        </div>
+      </div>
+
+      <div class="form-error" id="form-error"></div>
+      <button class="btn btn-post" id="btn-post">Execute POST</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>Made with IBM Bob &mdash; open this file directly in your browser</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ─── State ─────────────────────────────────────── */
+  let nextId = 4;
+  const rows = [
+    { id: 1, name: 'Espresso',   description: 'Rich single shot',          price: 2.50 },
+    { id: 2, name: 'Cappuccino', description: 'Espresso with steamed milk', price: 3.75 },
+    { id: 3, name: 'Cold Brew',  description: 'Slow-steeped cold coffee',   price: 4.00 },
+  ];
+
+  /* ─── Helpers ────────────────────────────────────── */
+  function fmtPrice(p) {
+    return '$' + Number(p).toFixed(2);
+  }
+
+  function ts() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+
+  /* ─── DB table rendering ─────────────────────────── */
+  function renderTable(flashId) {
+    const tbody = document.getElementById('db-tbody');
+    tbody.innerHTML = '';
+    rows.forEach(function (r) {
+      const tr = document.createElement('tr');
+      if (r.id === flashId) tr.classList.add('flash');
+      tr.innerHTML =
+        '<td class="id-col">' + r.id + '</td>' +
+        '<td>' + escHtml(r.name) + '</td>' +
+        '<td style="color:#57606a;font-size:0.77rem;">' + escHtml(r.description) + '</td>' +
+        '<td class="price-col">' + fmtPrice(r.price) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    if (flashId != null) {
+      setTimeout(function () {
+        const tr = tbody.querySelector('tr.flash');
+        if (tr) tr.classList.remove('flash');
+      }, 1400);
+    }
+  }
+
+  /* ─── GET response rendering ─────────────────────── */
+  function renderGet(highlightId) {
+    const box = document.getElementById('get-response');
+    let out = '<span class="json-punct">[</span>\n';
+    rows.forEach(function (r, i) {
+      const comma = i < rows.length - 1 ? '<span class="json-punct">,</span>' : '';
+      const wrap  = r.id === highlightId ? ' class="json-new"' : '';
+      out += '  <span' + wrap + '>';
+      out += '<span class="json-punct">{</span> ';
+      out += '<span class="json-key">"id"</span><span class="json-punct">:</span> <span class="json-num">' + r.id + '</span><span class="json-punct">,</span> ';
+      out += '<span class="json-key">"name"</span><span class="json-punct">:</span> <span class="json-str">"' + escHtml(r.name) + '"</span><span class="json-punct">,</span> ';
+      out += '<span class="json-key">"description"</span><span class="json-punct">:</span> <span class="json-str">"' + escHtml(r.description) + '"</span><span class="json-punct">,</span> ';
+      out += '<span class="json-key">"price"</span><span class="json-punct">:</span> <span class="json-num">' + Number(r.price).toFixed(2) + '</span>';
+      out += ' <span class="json-punct">}</span>' + comma + '</span>\n';
+    });
+    out += '<span class="json-punct">]</span>';
+    box.innerHTML = out;
+    // scroll to bottom so new item is visible
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ─── SQL log ────────────────────────────────────── */
+  let sqlLogEmpty = true;
+  function appendSqlLog(msg) {
+    const el = document.getElementById('sql-log');
+    if (sqlLogEmpty) { el.innerHTML = ''; sqlLogEmpty = false; }
+    const line = document.createElement('div');
+    line.innerHTML = '<span class="log-ts">' + ts() + '</span><span class="log-insert">' + escHtml(msg) + '</span>';
+    el.appendChild(line);
+    el.scrollTop = el.scrollHeight;
+  }
+
+  /* ─── Escape HTML ────────────────────────────────── */
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ─── GET button ─────────────────────────────────── */
+  document.getElementById('btn-get').addEventListener('click', function () {
+    renderGet(null);
+    // brief button feedback
+    const btn = this;
+    btn.textContent = '200 OK ✓';
+    btn.style.background = '#bbf7d0';
+    setTimeout(function () {
+      btn.textContent = 'Execute';
+      btn.style.background = '';
+    }, 1000);
+  });
+
+  /* ─── POST button ────────────────────────────────── */
+  document.getElementById('btn-post').addEventListener('click', function () {
+    const nameVal  = document.getElementById('f-name').value.trim();
+    const descVal  = document.getElementById('f-desc').value.trim();
+    const priceRaw = document.getElementById('f-price').value.trim();
+    const errEl    = document.getElementById('form-error');
+
+    // validation
+    if (!nameVal) {
+      errEl.textContent = '⚠ name is required.';
+      document.getElementById('f-name').focus();
+      return;
+    }
+    const priceNum = parseFloat(priceRaw);
+    if (!priceRaw || isNaN(priceNum) || priceNum <= 0) {
+      errEl.textContent = '⚠ price must be a positive number.';
+      document.getElementById('f-price').focus();
+      return;
+    }
+    errEl.textContent = '';
+
+    // insert
+    const newRow = { id: nextId++, name: nameVal, description: descVal || '', price: priceNum };
+    rows.push(newRow);
+
+    // update UI
+    renderTable(newRow.id);
+    renderGet(newRow.id);
+    appendSqlLog(
+      'INSERT INTO menu_item (id, name, description, price) VALUES (' +
+      newRow.id + ", '" + newRow.name.replace(/'/g, "''") + "', '" +
+      newRow.description.replace(/'/g, "''") + "', " +
+      Number(newRow.price).toFixed(2) + ');  ✓'
+    );
+
+    // reset form & feedback
+    document.getElementById('f-name').value  = '';
+    document.getElementById('f-desc').value  = '';
+    document.getElementById('f-price').value = '';
+
+    const btn = this;
+    btn.textContent = '201 Created ✓';
+    btn.disabled = true;
+    setTimeout(function () {
+      btn.textContent = 'Execute POST';
+      btn.disabled = false;
+    }, 1200);
+  });
+
+  /* ─── Boot ───────────────────────────────────────── */
+  renderTable(null);
+  // show initial GET response so the panel isn't blank
+  renderGet(null);
+
+}());
+</script>
+</body>
+</html>

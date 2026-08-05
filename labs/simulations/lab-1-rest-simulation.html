@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 1 — REST API Simulation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+    color: #1f2328;
+  }
+  h1 { font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 0.3rem; }
+  .subtitle { text-align: center; font-size: 0.8rem; color: #57606a; margin-bottom: 1.25rem; }
+
+  .layout {
+    display: flex;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+
+  /* ── Panels ────────────────────────────────────── */
+  .panel {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .badge-dev    { background: #dcfce7; color: #166534; }
+  .badge-swagger{ background: #dbeafe; color: #1e40af; }
+  .panel-title  { font-size: 0.88rem; font-weight: 600; }
+  .panel-port   { font-size: 0.72rem; color: #8b949e; margin-left: auto; font-family: monospace; }
+
+  /* ── Terminal (left) ───────────────────────────── */
+  .terminal-panel { width: 320px; flex-shrink: 0; }
+
+  .terminal-body {
+    background: #0d1117;
+    font-family: "Fira Mono", "Consolas", "Courier New", monospace;
+    font-size: 0.69rem;
+    line-height: 1.75;
+    padding: 0.75rem 0.9rem;
+    overflow-y: auto;
+    max-height: 580px;
+    min-height: 400px;
+  }
+  .tline         { display: block; white-space: pre; }
+  .tline.green   { color: #56d364; }
+  .tline.yellow  { color: #e3b341; }
+  .tline.cyan    { color: #79c0ff; }
+  .tline.gray    { color: #484f58; }
+  .tline.white   { color: #c9d1d9; }
+  .tline.blank   { color: transparent; user-select: none; } /* spacer */
+
+  .live-reload-bar {
+    padding: 0.35rem 1rem;
+    background: #0d1117;
+    border-top: 1px solid #1e2a1e;
+    font-family: "Fira Mono", monospace;
+    font-size: 0.7rem;
+    color: #56d364;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 1.9rem;
+    transition: opacity 0.3s;
+  }
+  .live-reload-bar .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #56d364;
+    flex-shrink: 0;
+  }
+  .live-reload-bar.flash .dot { background: #f7c948; }
+  .live-reload-bar.flash      { color: #f7c948; }
+  .live-reload-text { transition: color 0.3s; }
+
+  /* ── Swagger (right) ───────────────────────────── */
+  .swagger-panel { flex: 1; min-width: 0; }
+
+  .sw-info {
+    padding: 0.65rem 1rem;
+    background: #f7f8fa;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.72rem;
+    color: #57606a;
+  }
+  .sw-info strong { color: #1f2328; }
+
+  /* endpoint block */
+  .endpoint {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .endpoint-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    user-select: none;
+    background: #fff;
+  }
+  .endpoint-header:hover { background: #f7f8fa; }
+  .method {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 3.5rem;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+  .method-get  { background: #d1fae5; color: #065f46; }
+  .method-post { background: #fef3c7; color: #92400e; }
+  .endpoint-path {
+    font-family: monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #1f2328;
+  }
+  .endpoint-summary {
+    font-size: 0.74rem;
+    color: #57606a;
+    margin-left: auto;
+  }
+  .chevron {
+    font-size: 0.7rem;
+    color: #8b949e;
+    transition: transform 0.2s;
+    margin-left: 0.25rem;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* endpoint body */
+  .endpoint-body {
+    display: none;
+    padding: 0.75rem 1rem 1rem;
+    background: #fafbfc;
+    border-top: 1px solid #e5e7eb;
+  }
+  .endpoint-body.open { display: block; }
+
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8b949e;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Parameters / response display */
+  .param-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.78rem;
+  }
+  .param-name  { font-family: monospace; color: #cf222e; min-width: 90px; }
+  .param-type  { font-size: 0.68rem; color: #8b949e; }
+  .param-desc  { color: #57606a; }
+
+  /* form fields */
+  .form-field { margin-bottom: 0.55rem; }
+  .form-field label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #57606a;
+    margin-bottom: 2px;
+  }
+  .form-field input {
+    width: 100%;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    color: #1f2328;
+  }
+  .form-field input:focus { border-color: #3b82d4; }
+
+  button.sw-btn {
+    padding: 0.38rem 0.9rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .sw-btn-get  { background: #065f46; color: #fff; }
+  .sw-btn-get:hover  { background: #064e3b; }
+  .sw-btn-post { background: #92400e; color: #fff; }
+  .sw-btn-post:hover { background: #78350f; }
+
+  /* response box */
+  .response-box {
+    display: none;
+    margin-top: 0.75rem;
+  }
+  .response-box.open { display: block; }
+  .response-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+  .status-200 { color: #065f46; }
+  .status-201 { color: #1d4ed8; }
+  .response-pre {
+    background: #0d1117;
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    font-family: "Fira Mono", "Consolas", monospace;
+    font-size: 0.7rem;
+    color: #c9d1d9;
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 220px;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #8b949e;
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<h1>Lab 1 — First REST API</h1>
+<p class="subtitle">Dev Mode &nbsp;·&nbsp; Live Reload &nbsp;·&nbsp; Swagger UI &nbsp;&nbsp;|&nbsp;&nbsp; <code>GET /menu</code> &amp; <code>POST /menu</code></p>
+
+<div class="layout">
+
+  <!-- ═══════════════════════════════════════════════
+       LEFT — Dev Mode Terminal
+  ════════════════════════════════════════════════ -->
+  <div class="panel terminal-panel">
+    <div class="panel-header">
+      <span class="badge badge-dev">DEV MODE</span>
+      <span class="panel-title">quarkus:dev</span>
+      <span class="panel-port">:8080</span>
+    </div>
+
+    <div class="terminal-body" id="terminal">
+      <!-- lines injected by JS -->
+    </div>
+
+    <div class="live-reload-bar" id="reload-bar">
+      <div class="dot"></div>
+      <span class="live-reload-text" id="reload-text">Listening for changes…</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       RIGHT — Swagger UI
+  ════════════════════════════════════════════════ -->
+  <div class="panel swagger-panel">
+    <div class="panel-header">
+      <span class="badge badge-swagger">SWAGGER UI</span>
+      <span class="panel-title">coffee-shop API</span>
+      <span class="panel-port">/q/swagger-ui</span>
+    </div>
+
+    <div class="sw-info">
+      <strong>coffee-shop</strong> &nbsp;·&nbsp; OpenAPI 3.0 &nbsp;·&nbsp;
+      Base URL: <code>http://localhost:8080</code>
+    </div>
+
+    <!-- GET /menu -->
+    <div class="endpoint" id="ep-get">
+      <div class="endpoint-header" id="hdr-get">
+        <span class="method method-get">GET</span>
+        <span class="endpoint-path">/menu</span>
+        <span class="endpoint-summary">List all menu items</span>
+        <span class="chevron" id="chev-get">▼</span>
+      </div>
+      <div class="endpoint-body" id="body-get">
+        <div class="section-label">Responses</div>
+        <div class="param-row">
+          <span class="param-name">200</span>
+          <span class="param-type">application/json</span>
+          <span class="param-desc">Array of MenuItem objects</span>
+        </div>
+        <button class="sw-btn sw-btn-get" id="btn-get">▶ Execute</button>
+        <div class="response-box" id="resp-get">
+          <div class="response-status status-200">● 200 OK</div>
+          <pre class="response-pre" id="pre-get"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST /menu -->
+    <div class="endpoint" id="ep-post">
+      <div class="endpoint-header" id="hdr-post">
+        <span class="method method-post">POST</span>
+        <span class="endpoint-path">/menu</span>
+        <span class="endpoint-summary">Add a new menu item</span>
+        <span class="chevron" id="chev-post">▼</span>
+      </div>
+      <div class="endpoint-body" id="body-post">
+        <div class="section-label" style="margin-bottom:0.55rem;">Request body &nbsp;<span style="font-weight:400;color:#cf222e;font-size:0.68rem;">required</span></div>
+
+        <div class="form-field">
+          <label for="f-name">name <span style="color:#cf222e">*</span> <span style="font-weight:400;color:#8b949e">(string)</span></label>
+          <input type="text" id="f-name" placeholder="e.g. Flat White">
+        </div>
+        <div class="form-field">
+          <label for="f-desc">description <span style="font-weight:400;color:#8b949e">(string)</span></label>
+          <input type="text" id="f-desc" placeholder="e.g. Espresso with steamed milk">
+        </div>
+        <div class="form-field">
+          <label for="f-price">price <span style="color:#cf222e">*</span> <span style="font-weight:400;color:#8b949e">(number)</span></label>
+          <input type="text" id="f-price" placeholder="e.g. 4.00" style="max-width:140px">
+        </div>
+
+        <button class="sw-btn sw-btn-post" id="btn-post">▶ Execute</button>
+        <div class="response-box" id="resp-post">
+          <div class="response-status status-201">● 201 Created</div>
+          <pre class="response-pre" id="pre-post"></pre>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /swagger-panel -->
+
+</div><!-- /layout -->
+
+<footer>Made with IBM Bob &mdash; open this file directly in your browser</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════ */
+var menuItems = [
+  { name: "Espresso",   description: "A concentrated shot of coffee",    price: 2.50 },
+  { name: "Cappuccino", description: "Espresso with steamed milk foam",  price: 3.75 },
+  { name: "Cold Brew",  description: "12-hour cold-steeped coffee",      price: 4.00 }
+];
+
+/* ═══════════════════════════════════════════════════════
+   TERMINAL BOOT SEQUENCE
+═══════════════════════════════════════════════════════ */
+var bootLines = [
+  { text: "$ ./mvnw quarkus:dev",                                           cls: "white"  },
+  { text: "",                                                                cls: "blank"  },
+  { text: "[INFO] Scanning for projects...",                                 cls: "gray"   },
+  { text: "[INFO] --- quarkus-maven-plugin:3.x:dev ---",                    cls: "gray"   },
+  { text: "",                                                                cls: "blank"  },
+  { text: "__  ____  __  _____   ___  __ ____  ______ ",                    cls: "green"  },
+  { text: " --/ __ \\/ / / / _ | / _ \\/ //_/ / / / __/ ",                  cls: "green"  },
+  { text: " -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\\ \\   ",                  cls: "green"  },
+  { text: "--\\\\___\\_\\____/_/ |_/_/|_/_/|_|\\____/___/   ",                 cls: "green"  },
+  { text: "",                                                                cls: "blank"  },
+  { text: "  2024-06-01 10:14:02,331 INFO  [io.quarkus]",                   cls: "cyan"   },
+  { text: "    coffee-shop 1.0.0-SNAPSHOT on JVM",                          cls: "cyan"   },
+  { text: "    (powered by Quarkus 3.11.0)",                                cls: "cyan"   },
+  { text: "",                                                                cls: "blank"  },
+  { text: "  Profile dev activated. Live Coding activated.",                 cls: "green"  },
+  { text: "  Installed features: [cdi, resteasy-jackson, smallrye-openapi]", cls: "white"  },
+  { text: "",                                                                cls: "blank"  },
+  { text: "  WARN  No @ApplicationPath or basePath configured.",             cls: "yellow" },
+  { text: "        Defaulting to '/'.",                                      cls: "yellow" },
+  { text: "",                                                                cls: "blank"  },
+  { text: "  Tests paused. Press [r] to resume, [h] for help.",             cls: "gray"   },
+  { text: "",                                                                cls: "blank"  },
+  { text: "  --",                                                            cls: "gray"   },
+  { text: "  Listening on: http://localhost:8080",                          cls: "green"  },
+  { text: "  Swagger UI:   http://localhost:8080/q/swagger-ui",             cls: "green"  },
+  { text: "  Dev UI:       http://localhost:8080/q/dev/",                   cls: "green"  },
+  { text: "--",                                                              cls: "gray"   },
+];
+
+function renderTerminal() {
+  var term = document.getElementById("terminal");
+  bootLines.forEach(function(l) {
+    var span = document.createElement("span");
+    span.className = "tline " + l.cls;
+    span.textContent = l.text;
+    term.appendChild(span);
+  });
+}
+renderTerminal();
+
+/* ═══════════════════════════════════════════════════════
+   LIVE RELOAD FLASH
+═══════════════════════════════════════════════════════ */
+var reloadFlashTimer = null;
+function flashReload() {
+  var bar = document.getElementById("reload-bar");
+  var txt = document.getElementById("reload-text");
+  var term = document.getElementById("terminal");
+
+  /* append reload line to terminal */
+  var ts = new Date().toLocaleTimeString("en-GB", { hour12: false });
+  var line = document.createElement("span");
+  line.className = "tline yellow";
+  line.textContent = "  " + ts + " INFO  [io.quarkus.dev.DevModeMain] Live reload triggered.";
+  term.appendChild(line);
+  var line2 = document.createElement("span");
+  line2.className = "tline green";
+  line2.textContent = "  " + ts + " INFO  [io.quarkus.dev.DevModeMain] Quarkus restarted in 412ms.";
+  term.appendChild(line2);
+  term.scrollTop = term.scrollHeight;
+
+  bar.classList.add("flash");
+  txt.textContent = "↺ Live reload detected — restarted in 412 ms";
+
+  clearTimeout(reloadFlashTimer);
+  reloadFlashTimer = setTimeout(function() {
+    bar.classList.remove("flash");
+    txt.textContent = "Listening for changes…";
+  }, 3500);
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACCORDION (endpoint expand / collapse)
+═══════════════════════════════════════════════════════ */
+function toggleEndpoint(bodyId, chevId) {
+  var body = document.getElementById(bodyId);
+  var chev = document.getElementById(chevId);
+  var isOpen = body.classList.contains("open");
+  body.classList.toggle("open", !isOpen);
+  chev.classList.toggle("open", !isOpen);
+}
+
+document.getElementById("hdr-get").addEventListener("click", function() {
+  toggleEndpoint("body-get", "chev-get");
+});
+document.getElementById("hdr-post").addEventListener("click", function() {
+  toggleEndpoint("body-post", "chev-post");
+});
+
+/* ═══════════════════════════════════════════════════════
+   GET /menu — Execute
+═══════════════════════════════════════════════════════ */
+document.getElementById("btn-get").addEventListener("click", function() {
+  var pre = document.getElementById("pre-get");
+  var box = document.getElementById("resp-get");
+
+  pre.textContent = JSON.stringify(menuItems, null, 2);
+  box.classList.add("open");
+});
+
+/* ═══════════════════════════════════════════════════════
+   POST /menu — Execute
+═══════════════════════════════════════════════════════ */
+document.getElementById("btn-post").addEventListener("click", function() {
+  var nameVal  = document.getElementById("f-name").value.trim();
+  var descVal  = document.getElementById("f-desc").value.trim();
+  var priceVal = parseFloat(document.getElementById("f-price").value.trim());
+
+  /* basic validation */
+  if (!nameVal) {
+    document.getElementById("f-name").focus();
+    document.getElementById("f-name").style.borderColor = "#cf222e";
+    return;
+  }
+  if (isNaN(priceVal) || priceVal < 0) {
+    document.getElementById("f-price").focus();
+    document.getElementById("f-price").style.borderColor = "#cf222e";
+    return;
+  }
+
+  /* reset border colours */
+  document.getElementById("f-name").style.borderColor  = "";
+  document.getElementById("f-price").style.borderColor = "";
+
+  var newItem = {
+    name: nameVal,
+    description: descVal || "",
+    price: Math.round(priceVal * 100) / 100
+  };
+
+  /* add to in-memory list */
+  menuItems.push(newItem);
+
+  /* show 201 response */
+  var pre = document.getElementById("pre-post");
+  var box = document.getElementById("resp-post");
+  pre.textContent = JSON.stringify(newItem, null, 2);
+  box.classList.add("open");
+
+  /* clear form */
+  document.getElementById("f-name").value  = "";
+  document.getElementById("f-desc").value  = "";
+  document.getElementById("f-price").value = "";
+
+  /* if GET response is currently visible, refresh it */
+  if (document.getElementById("resp-get").classList.contains("open")) {
+    document.getElementById("pre-get").textContent = JSON.stringify(menuItems, null, 2);
+  }
+
+  /* trigger live reload flash */
+  flashReload();
+});
+</script>
+</body>
+</html>

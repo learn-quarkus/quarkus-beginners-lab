@@ -3,3 +3,4 @@ site/
 # Maven build output
 target/
 **/target/
+.DS_Store

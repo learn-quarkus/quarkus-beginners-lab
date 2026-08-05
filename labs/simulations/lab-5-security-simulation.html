@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 5 — OIDC Security + Keycloak DevServices</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    header .logo span { color: #4ecca3; }
+    header .subtitle {
+      font-size: 13px;
+      color: #9ba3b8;
+      margin-top: 2px;
+    }
+    header .badge {
+      margin-left: auto;
+      background: #4ecca3;
+      color: #1a1a2e;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      padding: 24px 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 20px 12px;
+      border-bottom: 1px solid #eef0f4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .panel-header .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .icon-keycloak { background: #fff3e0; }
+    .icon-request  { background: #e8f4fd; }
+    .icon-response { background: #e8fdf0; }
+
+    .panel-header h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .panel-header p {
+      font-size: 11px;
+      color: #9ba3b8;
+      margin-top: 1px;
+    }
+
+    .panel-body { padding: 18px 20px; }
+
+    /* ── LEFT PANEL ── */
+    .user-card {
+      border: 1.5px solid #eef0f4;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      transition: border-color .2s;
+    }
+    .user-card:last-of-type { margin-bottom: 0; }
+    .user-card.active { border-color: #4ecca3; }
+
+    .user-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .user-info { display: flex; align-items: center; gap: 10px; }
+    .avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 15px; color: #fff;
+    }
+    .avatar-alice { background: #6c63ff; }
+    .avatar-bob   { background: #f7634d; }
+
+    .user-name { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+    .user-meta { font-size: 11px; color: #9ba3b8; margin-top: 1px; }
+
+    .role-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .role-user  { background: #ede9ff; color: #6c63ff; }
+    .role-admin { background: #ffeaea; color: #e53e3e; }
+
+    .btn-get-token {
+      margin-top: 12px;
+      width: 100%;
+      padding: 8px 0;
+      background: #1a1a2e;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background .15s, transform .1s;
+    }
+    .btn-get-token:hover  { background: #2d2d50; }
+    .btn-get-token:active { transform: scale(.98); }
+
+    .token-output-box {
+      margin-top: 18px;
+      background: #f7f8fa;
+      border: 1.5px solid #eef0f4;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .token-output-box label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ba3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .token-value {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      color: #1a1a2e;
+      word-break: break-all;
+      line-height: 1.6;
+      min-height: 36px;
+      color: #4a5568;
+    }
+    .token-value.empty { color: #c0c4d0; font-style: italic; font-family: inherit; }
+    .token-owner {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #9ba3b8;
+    }
+    .token-owner strong { color: #4ecca3; }
+
+    /* ── MIDDLE PANEL ── */
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ba3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 7px;
+    }
+
+    select, .token-input {
+      width: 100%;
+      border: 1.5px solid #eef0f4;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      color: #1a1a2e;
+      background: #fff;
+      outline: none;
+      transition: border-color .2s;
+    }
+    select:focus, .token-input:focus { border-color: #6c63ff; }
+
+    .token-field-wrap { position: relative; }
+    .token-input {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      padding-right: 80px;
+      color: #4a5568;
+    }
+    .token-input::placeholder { color: #c0c4d0; font-style: italic; font-family: inherit; }
+
+    .clear-token-link {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: #9ba3b8;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 2px 4px;
+    }
+    .clear-token-link:hover { color: #e53e3e; }
+
+    .endpoint-info {
+      background: #f7f8fa;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #4a5568;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .method-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      text-transform: uppercase;
+    }
+    .method-get  { background: #c6f6d5; color: #276749; }
+    .method-post { background: #bee3f8; color: #2b6cb0; }
+
+    .security-label {
+      margin-left: auto;
+      font-size: 10px;
+      color: #9ba3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lock-icon { font-size: 12px; }
+
+    .btn-send {
+      width: 100%;
+      padding: 11px 0;
+      background: linear-gradient(135deg, #6c63ff, #4ecca3);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: opacity .15s, transform .1s;
+    }
+    .btn-send:hover  { opacity: .9; }
+    .btn-send:active { transform: scale(.98); }
+
+    /* ── RIGHT PANEL ── */
+    .response-empty {
+      text-align: center;
+      padding: 36px 20px;
+      color: #c0c4d0;
+    }
+    .response-empty .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .response-empty p { font-size: 13px; }
+
+    .response-content { display: none; }
+    .response-content.visible { display: block; }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef0f4;
+    }
+    .status-badge {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    .status-2xx { background: #c6f6d5; color: #22543d; }
+    .status-4xx { background: #fed7d7; color: #742a2a; }
+
+    .status-text { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+    .status-time { margin-left: auto; font-size: 11px; color: #9ba3b8; }
+
+    .response-meta {
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #718096;
+      display: flex;
+      gap: 16px;
+    }
+    .response-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .response-body-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9ba3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .response-body {
+      background: #1a1a2e;
+      color: #a8ff78;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .response-body.error-body { color: #ff8a80; }
+
+    /* animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeIn .25s ease forwards; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 11px;
+      color: #9ba3b8;
+      border-top: 1px solid #e4e7ed;
+      background: #fff;
+    }
+    footer strong { color: #4ecca3; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Lab 5 — <span>OIDC Security</span> + Keycloak DevServices</div>
+    <div class="subtitle">Quarkus Workshop · Interactive Simulation</div>
+  </div>
+  <div class="badge">SIMULATION</div>
+</header>
+
+<div class="workspace">
+
+  <!-- ════════════════════════════════════════
+       LEFT PANEL — Keycloak DevServices
+  ════════════════════════════════════════ -->
+  <div class="panel" id="panel-keycloak">
+    <div class="panel-header">
+      <div class="icon icon-keycloak">🔑</div>
+      <div>
+        <h2>Keycloak DevServices</h2>
+        <p>Auto-provisioned test realm &amp; users</p>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <!-- alice -->
+      <div class="user-card" id="card-alice">
+        <div class="user-card-top">
+          <div class="user-info">
+            <div class="avatar avatar-alice">A</div>
+            <div>
+              <div class="user-name">alice</div>
+              <div class="user-meta">test-realm / alice@example.com</div>
+            </div>
+          </div>
+          <div>
+            <span class="role-badge role-user">user</span>
+          </div>
+        </div>
+        <button class="btn-get-token" id="btn-alice">🔐 Get Token (alice)</button>
+      </div>
+
+      <!-- bob -->
+      <div class="user-card" id="card-bob">
+        <div class="user-card-top">
+          <div class="user-info">
+            <div class="avatar avatar-bob">B</div>
+            <div>
+              <div class="user-name">bob</div>
+              <div class="user-meta">test-realm / bob@example.com</div>
+            </div>
+          </div>
+          <div>
+            <span class="role-badge role-admin">admin</span>
+          </div>
+        </div>
+        <button class="btn-get-token" id="btn-bob">🔐 Get Token (bob)</button>
+      </div>
+
+      <!-- Token output box -->
+      <div class="token-output-box">
+        <label>Active Token</label>
+        <div class="token-value empty" id="token-display">No token generated yet — click "Get Token" above</div>
+        <div class="token-owner" id="token-owner" style="display:none">Issued for: <strong id="token-owner-name"></strong></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       MIDDLE PANEL — Request Builder
+  ════════════════════════════════════════ -->
+  <div class="panel" id="panel-request">
+    <div class="panel-header">
+      <div class="icon icon-request">🛠️</div>
+      <div>
+        <h2>Request Builder</h2>
+        <p>Craft your HTTP request</p>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <div class="form-group">
+        <label>Endpoint</label>
+        <select id="endpoint-select">
+          <option value="GET /menu">GET /menu</option>
+          <option value="POST /menu">POST /menu</option>
+          <option value="POST /menu/admin">POST /menu/admin</option>
+        </select>
+      </div>
+
+      <div class="endpoint-info" id="endpoint-info">
+        <span class="method-badge method-get" id="endpoint-method-badge">GET</span>
+        <span id="endpoint-path-label">/menu</span>
+        <span class="security-label" id="endpoint-security-label">
+          <span class="lock-icon">🔓</span> Public
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Authorization Bearer Token</label>
+        <div class="token-field-wrap">
+          <input
+            type="text"
+            class="token-input"
+            id="token-field"
+            placeholder="Paste JWT token or use Get Token →"
+          />
+          <button class="clear-token-link" id="clear-token-btn">Clear</button>
+        </div>
+      </div>
+
+      <button class="btn-send" id="send-btn">▶ Send Request</button>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       RIGHT PANEL — Response
+  ════════════════════════════════════════ -->
+  <div class="panel" id="panel-response">
+    <div class="panel-header">
+      <div class="icon icon-response">📨</div>
+      <div>
+        <h2>Response</h2>
+        <p>Server reply</p>
+      </div>
+    </div>
+    <div class="panel-body">
+
+      <div class="response-empty" id="response-empty">
+        <div class="empty-icon">📭</div>
+        <p>Hit <strong>Send Request</strong> to see the response</p>
+      </div>
+
+      <div class="response-content" id="response-content">
+        <div class="status-row">
+          <span class="status-badge" id="status-badge">200</span>
+          <span class="status-text" id="status-text">OK</span>
+          <span class="status-time" id="status-time">12 ms</span>
+        </div>
+        <div class="response-meta">
+          <span>📍 <span id="resp-endpoint"></span></span>
+          <span>👤 <span id="resp-user"></span></span>
+        </div>
+        <div class="response-body-label">Response Body</div>
+        <div class="response-body" id="response-body"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /workspace -->
+
+<footer>Made with <strong>IBM Bob</strong> — open this file directly in your browser &nbsp;·&nbsp; No network calls are made; everything runs locally.</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── Fake JWT tokens ──────────────────────────────────────────────────────
+  var TOKENS = {
+    alice: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRlc3Qta2V5LTEifQ" +
+           ".eyJzdWIiOiJ1c2VyLWFsaWNlLTAwMSIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsaWNlIiwiZW1haWwiOiJhbGljZUBleGFtcGxlLmNvbSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJ1c2VyIl19LCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6OTk5OTk5OTk5OX0" +
+           ".ALICE_SIGNATURE_PLACEHOLDER_xZq8mN3kRt7vLpQwYsUjBhCfEd",
+    bob:   "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRlc3Qta2V5LTEifQ" +
+           ".eyJzdWIiOiJ1c2VyLWJvYi0wMDIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJib2IiLCJlbWFpbCI6ImJvYkBleGFtcGxlLmNvbSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJ1c2VyIiwiYWRtaW4iXX0sImlhdCI6MTcwMDAwMDAwMCwiZXhwIjo5OTk5OTk5OTk5fQ" +
+           ".BOB_SIGNATURE_PLACEHOLDER_aK5nP2eWrM8uHdVxOiTcFgBjNy"
+  };
+
+  var TRUNCATED = {
+    alice: TOKENS.alice.substring(0, 48) + "...",
+    bob:   TOKENS.bob.substring(0,   48) + "..."
+  };
+
+  // ── Endpoint metadata ───────────────────────────────────────────────────
+  var ENDPOINTS = {
+    "GET /menu":        { method: "GET",  path: "/menu",       security: "Public",         requiresToken: false },
+    "POST /menu":       { method: "POST", path: "/menu",       security: "@Authenticated", requiresToken: true  },
+    "POST /menu/admin": { method: "POST", path: "/menu/admin", security: "@RolesAllowed(\"admin\")", requiresToken: true  }
+  };
+
+  // ── Response matrix ─────────────────────────────────────────────────────
+  function buildResponse(endpoint, tokenOwner) {
+    var now   = Math.floor(Math.random() * 30) + 8; // fake ms
+    var ep    = ENDPOINTS[endpoint];
+
+    if (endpoint === "GET /menu") {
+      return {
+        status: 200, text: "OK", time: now + " ms", owner: tokenOwner || "anonymous",
+        body: JSON.stringify({
+          items: [
+            { id: 1, name: "Margherita Pizza",  price: 12.99, available: true  },
+            { id: 2, name: "Cheeseburger",       price: 9.49,  available: true  },
+            { id: 3, name: "Caesar Salad",       price: 7.99,  available: false }
+          ]
+        }, null, 2)
+      };
+    }
+
+    if (endpoint === "POST /menu") {
+      if (!tokenOwner) {
+        return {
+          status: 401, text: "Unauthorized", time: now + " ms", owner: "anonymous",
+          body: JSON.stringify({ error: "Unauthorized", message: "Bearer token is missing. Please authenticate first.", hint: "Add a valid JWT in the Authorization header." }, null, 2)
+        };
+      }
+      return {
+        status: 200, text: "OK", time: now + " ms", owner: tokenOwner,
+        body: JSON.stringify({ message: "Menu item created successfully", createdBy: tokenOwner, item: { id: 4, name: "New Seasonal Dish", price: 14.99, available: true } }, null, 2)
+      };
+    }
+
+    if (endpoint === "POST /menu/admin") {
+      if (!tokenOwner) {
+        return {
+          status: 401, text: "Unauthorized", time: now + " ms", owner: "anonymous",
+          body: JSON.stringify({ error: "Unauthorized", message: "Bearer token is missing. Please authenticate first.", hint: "Add a valid JWT in the Authorization header." }, null, 2)
+        };
+      }
+      if (tokenOwner === "alice") {
+        return {
+          status: 403, text: "Forbidden", time: now + " ms", owner: "alice",
+          body: JSON.stringify({ error: "Forbidden", message: "Access denied. Required role: admin", authenticatedAs: "alice", roles: ["user"], hint: "Try with bob's token — he has the admin role." }, null, 2)
+        };
+      }
+      if (tokenOwner === "bob") {
+        return {
+          status: 200, text: "OK", time: now + " ms", owner: "bob",
+          body: JSON.stringify({ message: "Admin operation completed", performedBy: "bob", roles: ["user", "admin"], action: "Menu visibility updated — 3 items toggled" }, null, 2)
+        };
+      }
+    }
+
+    return { status: 400, text: "Bad Request", time: now + " ms", owner: tokenOwner || "?", body: '{}' };
+  }
+
+  // ── State ────────────────────────────────────────────────────────────────
+  var activeToken     = "";   // full token string
+  var activeTokenUser = "";   // "alice" | "bob" | ""
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────
+  var tokenDisplay      = document.getElementById("token-display");
+  var tokenOwnerEl      = document.getElementById("token-owner");
+  var tokenOwnerName    = document.getElementById("token-owner-name");
+  var tokenField        = document.getElementById("token-field");
+  var endpointSelect    = document.getElementById("endpoint-select");
+  var endpointInfo      = document.getElementById("endpoint-info");
+  var endpointMethod    = document.getElementById("endpoint-method-badge");
+  var endpointPathLabel = document.getElementById("endpoint-path-label");
+  var endpointSecLabel  = document.getElementById("endpoint-security-label");
+  var sendBtn           = document.getElementById("send-btn");
+  var clearBtn          = document.getElementById("clear-token-btn");
+  var cardAlice         = document.getElementById("card-alice");
+  var cardBob           = document.getElementById("card-bob");
+
+  var responseEmpty   = document.getElementById("response-empty");
+  var responseContent = document.getElementById("response-content");
+  var statusBadge     = document.getElementById("status-badge");
+  var statusText      = document.getElementById("status-text");
+  var statusTime      = document.getElementById("status-time");
+  var respEndpoint    = document.getElementById("resp-endpoint");
+  var respUser        = document.getElementById("resp-user");
+  var responseBody    = document.getElementById("response-body");
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function setTokenForUser(user) {
+    activeToken     = TOKENS[user];
+    activeTokenUser = user;
+
+    // update left panel display
+    tokenDisplay.textContent = TRUNCATED[user];
+    tokenDisplay.classList.remove("empty");
+    tokenOwnerEl.style.display   = "block";
+    tokenOwnerName.textContent   = user;
+
+    // highlight active card
+    cardAlice.classList.toggle("active", user === "alice");
+    cardBob.classList.toggle("active",   user === "bob");
+
+    // auto-fill middle panel token field
+    tokenField.value = TRUNCATED[user];
+  }
+
+  function clearToken() {
+    activeToken     = "";
+    activeTokenUser = "";
+    tokenField.value = "";
+    tokenDisplay.textContent = "No token generated yet — click \"Get Token\" above";
+    tokenDisplay.classList.add("empty");
+    tokenOwnerEl.style.display = "none";
+    cardAlice.classList.remove("active");
+    cardBob.classList.remove("active");
+  }
+
+  function updateEndpointInfo(value) {
+    var ep = ENDPOINTS[value];
+    if (!ep) return;
+
+    endpointMethod.textContent = ep.method;
+    endpointMethod.className   = "method-badge " + (ep.method === "GET" ? "method-get" : "method-post");
+    endpointPathLabel.textContent = ep.path;
+
+    var isSecure = ep.requiresToken;
+    endpointSecLabel.innerHTML = isSecure
+      ? "<span class=\"lock-icon\">🔒</span> " + ep.security
+      : "<span class=\"lock-icon\">🔓</span> Public";
+  }
+
+  function resolveTokenOwner() {
+    var val = tokenField.value.trim();
+    if (!val) return "";
+    if (val.startsWith(TRUNCATED.alice.substring(0, 20)) || val === TOKENS.alice) return "alice";
+    if (val.startsWith(TRUNCATED.bob.substring(0,   20)) || val === TOKENS.bob)   return "bob";
+    // unknown token — treat as generic authenticated user
+    return "unknown";
+  }
+
+  function showResponse(result) {
+    var is2xx = result.status >= 200 && result.status < 300;
+
+    statusBadge.textContent = result.status;
+    statusBadge.className   = "status-badge " + (is2xx ? "status-2xx" : "status-4xx");
+    statusText.textContent  = result.text;
+    statusTime.textContent  = result.time;
+    respEndpoint.textContent  = endpointSelect.value;
+    respUser.textContent      = result.owner;
+    responseBody.textContent  = result.body;
+    responseBody.className    = "response-body" + (is2xx ? "" : " error-body");
+
+    responseEmpty.style.display = "none";
+    responseContent.classList.add("visible");
+    responseContent.classList.remove("animate-in");
+    // force reflow to restart animation
+    void responseContent.offsetWidth;
+    responseContent.classList.add("animate-in");
+  }
+
+  // ── Event listeners ──────────────────────────────────────────────────────
+  document.getElementById("btn-alice").addEventListener("click", function () {
+    setTokenForUser("alice");
+  });
+
+  document.getElementById("btn-bob").addEventListener("click", function () {
+    setTokenForUser("bob");
+  });
+
+  clearBtn.addEventListener("click", function () {
+    clearToken();
+  });
+
+  endpointSelect.addEventListener("change", function () {
+    updateEndpointInfo(this.value);
+  });
+
+  sendBtn.addEventListener("click", function () {
+    var endpoint  = endpointSelect.value;
+    var tokenUser = resolveTokenOwner();
+    var result    = buildResponse(endpoint, tokenUser);
+    showResponse(result);
+  });
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  updateEndpointInfo(endpointSelect.value);
+
+}());
+</script>
+</body>
+</html>

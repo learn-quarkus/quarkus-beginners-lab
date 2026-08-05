@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 6 — Fault Tolerance Simulation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #161b22;
+      color: #e6edf3;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 2px solid #da3633;
+    }
+    header .badge {
+      background: #da3633;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    header .sub {
+      font-size: 13px;
+      color: #8b949e;
+      margin-left: auto;
+    }
+
+    .workspace {
+      display: flex;
+      flex: 1;
+      gap: 0;
+      padding: 28px 32px;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    /* ── LEFT PANEL ── */
+    .panel-config {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 28px 28px 24px;
+      width: 380px;
+      flex-shrink: 0;
+    }
+    .panel-config h2 {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #57606a;
+      margin-bottom: 22px;
+    }
+
+    .control-group {
+      margin-bottom: 22px;
+    }
+    .control-group label.group-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #24292f;
+      margin-bottom: 10px;
+    }
+
+    /* Failure rate radio pills */
+    .rate-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .rate-pills input[type="radio"] { display: none; }
+    .rate-pills label {
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 2px solid #d0d7de;
+      font-size: 13px;
+      font-weight: 600;
+      color: #57606a;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .rate-pills input[type="radio"]:checked + label {
+      border-color: #da3633;
+      background: #fff0f0;
+      color: #da3633;
+    }
+
+    /* Timeout checkbox */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #da3633;
+      cursor: pointer;
+    }
+    .checkbox-row span {
+      font-size: 13px;
+      color: #24292f;
+    }
+    .checkbox-row .hint {
+      font-size: 11px;
+      color: #8b949e;
+      margin-top: 4px;
+    }
+
+    /* Fixed info row */
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f6f8fa;
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .info-row .info-label {
+      font-size: 13px;
+      color: #57606a;
+    }
+    .info-row .info-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0969da;
+      margin-left: auto;
+    }
+
+    /* Annotation block */
+    .annotation-block {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+    }
+    .annotation-block pre {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #c9d1d9;
+    }
+    .annotation-block .ann-active { color: #79c0ff; }
+    .annotation-block .ann-dim    { color: #484f58; }
+    .annotation-block .ann-param  { color: #ffa657; }
+    .annotation-block .ann-string { color: #a5d6ff; }
+
+    /* Trigger button */
+    .btn-trigger {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-radius: 8px;
+      background: #1a7f37;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-trigger:hover:not(:disabled) { background: #196c2e; }
+    .btn-trigger:active:not(:disabled) { transform: scale(0.98); }
+    .btn-trigger:disabled {
+      background: #8c959f;
+      cursor: not-allowed;
+    }
+    .btn-trigger .method {
+      font-size: 11px;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .panel-log {
+      flex: 1;
+      background: #0d1117;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      min-height: 520px;
+      overflow: hidden;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+    }
+    .log-header h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #8b949e;
+    }
+    .log-dots { display: flex; gap: 6px; }
+    .log-dots span {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .log-dots span:nth-child(1) { background: #ff5f57; }
+    .log-dots span:nth-child(2) { background: #ffbd2e; }
+    .log-dots span:nth-child(3) { background: #28c840; }
+
+    .btn-clear {
+      background: none;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-clear:hover { border-color: #8b949e; color: #c9d1d9; }
+
+    .log-body {
+      flex: 1;
+      padding: 18px 20px;
+      overflow-y: auto;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .log-empty {
+      color: #484f58;
+      font-style: italic;
+      font-size: 13px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    .log-line { display: flex; align-items: flex-start; gap: 8px; animation: fadein 0.2s ease; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .log-ts  { color: #484f58; flex-shrink: 0; }
+    .log-txt { flex: 1; }
+
+    .col-yellow  { color: #e3b341; }
+    .col-red     { color: #f85149; }
+    .col-green   { color: #3fb950; }
+    .col-blue    { color: #79c0ff; }
+    .col-orange  { color: #ffa657; }
+    .col-dim     { color: #484f58; }
+    .col-white   { color: #e6edf3; }
+
+    .log-divider {
+      border: none;
+      border-top: 1px solid #21262d;
+      margin: 8px 0;
+    }
+
+    .result-badge {
+      padding: 14px 20px;
+      border-top: 1px solid #21262d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .badge-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      min-width: 200px;
+    }
+    .badge-box.success { background: #0d3320; color: #3fb950; border: 1px solid #238636; }
+    .badge-box.failure { background: #300c0c; color: #f85149; border: 1px solid #da3633; }
+    .badge-box.fallback { background: #271d06; color: #ffa657; border: 1px solid #9e6a03; }
+    .badge-box.idle    { background: #161b22; color: #484f58; border: 1px solid #30363d; }
+
+    .stats-row {
+      display: flex;
+      gap: 16px;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat .stat-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e6edf3;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+    }
+    .stat .stat-lbl {
+      font-size: 10px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat.s-ok  .stat-val { color: #3fb950; }
+    .stat.s-err .stat-val { color: #f85149; }
+    .stat.s-fb  .stat-val { color: #ffa657; }
+
+    footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 11px;
+      color: #8b949e;
+      background: #f0f2f5;
+      border-top: 1px solid #d0d7de;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="badge">Lab 6</span>
+  <h1>Fault Tolerance — @Retry · @Fallback · @Timeout</h1>
+  <span class="sub">MicroProfile Fault Tolerance · Quarkus</span>
+</header>
+
+<div class="workspace">
+
+  <!-- ══════════════════════════════════
+       LEFT PANEL — Configuration
+  ══════════════════════════════════ -->
+  <div class="panel-config">
+    <h2>PricingService Configuration</h2>
+
+    <!-- Failure Rate -->
+    <div class="control-group">
+      <label class="group-label">Failure Rate</label>
+      <div class="rate-pills">
+        <input type="radio" name="failrate" id="fr0"  value="0"   checked />
+        <label for="fr0">0%</label>
+
+        <input type="radio" name="failrate" id="fr33" value="33" />
+        <label for="fr33">33%</label>
+
+        <input type="radio" name="failrate" id="fr66" value="66" />
+        <label for="fr66">66%</label>
+
+        <input type="radio" name="failrate" id="fr100" value="100" />
+        <label for="fr100">100%</label>
+      </div>
+    </div>
+
+    <!-- Simulate Timeout -->
+    <div class="control-group">
+      <label class="group-label">Timeout Simulation</label>
+      <div class="checkbox-row">
+        <input type="checkbox" id="chkTimeout" />
+        <div>
+          <span>Simulate slow response (3 s)</span>
+          <div class="hint">Triggers @Timeout(value = 2, unit = SECONDS)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Max Retries (read-only) -->
+    <div class="control-group">
+      <label class="group-label">Max Retries</label>
+      <div class="info-row">
+        <span class="info-label">@Retry(maxRetries = …)</span>
+        <span class="info-value" id="maxRetriesDisplay">3</span>
+      </div>
+    </div>
+
+    <!-- Active Annotations -->
+    <div class="annotation-block" id="annotationBlock">
+      <pre id="annotationPre"></pre>
+    </div>
+
+    <!-- Trigger Button -->
+    <button class="btn-trigger" id="btnTrigger">
+      <span class="method">GET</span>
+      /menu/1/price
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════
+       RIGHT PANEL — Execution Log
+  ══════════════════════════════════ -->
+  <div class="panel-log">
+    <div class="log-header">
+      <div class="log-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <h2>Execution Log</h2>
+      <button class="btn-clear" id="btnClear">Clear</button>
+    </div>
+
+    <div class="log-body" id="logBody">
+      <span class="log-empty">▌ Press "GET /menu/1/price" to begin a simulated call…</span>
+    </div>
+
+    <div class="result-badge">
+      <div class="badge-box idle" id="resultBadge">
+        ⬤ &nbsp;Awaiting request
+      </div>
+      <div class="stats-row">
+        <div class="stat s-ok">
+          <div class="stat-val" id="statOk">0</div>
+          <div class="stat-lbl">Success</div>
+        </div>
+        <div class="stat s-fb">
+          <div class="stat-val" id="statFb">0</div>
+          <div class="stat-lbl">Fallback</div>
+        </div>
+        <div class="stat s-err">
+          <div class="stat-val" id="statErr">0</div>
+          <div class="stat-lbl">All Failed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Made with IBM Bob — open this file directly in your browser</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── DOM refs ── */
+  const btnTrigger        = document.getElementById('btnTrigger');
+  const btnClear          = document.getElementById('btnClear');
+  const logBody           = document.getElementById('logBody');
+  const resultBadge       = document.getElementById('resultBadge');
+  const annotationPre     = document.getElementById('annotationPre');
+  const chkTimeout        = document.getElementById('chkTimeout');
+  const statOk            = document.getElementById('statOk');
+  const statFb            = document.getElementById('statFb');
+  const statErr           = document.getElementById('statErr');
+
+  /* ── Simulation constants ── */
+  const MAX_RETRIES     = 3;           // matches @Retry annotation
+  const TOTAL_ATTEMPTS  = MAX_RETRIES + 1;
+  const TIMEOUT_LIMIT   = 2000;        // @Timeout(value=2, unit=SECONDS)
+  const SIMULATED_DELAY = 3000;        // the "slow" call duration in ms
+  const SUCCESS_DELAY   = 400;         // fast successful call
+  const FAIL_DELAY      = 200;         // failed call (exception thrown fast)
+  const FALLBACK_PRICE  = '$3.99';
+  const SUCCESS_PRICE   = '$4.25';
+
+  /* ── Stats counters ── */
+  let cntOk = 0, cntFb = 0, cntErr = 0;
+
+  /* ── Running flag ── */
+  let running = false;
+
+  /* ── Time helper ── */
+  function now() {
+    const d = new Date();
+    return d.toTimeString().slice(0, 8);
+  }
+
+  /* ── sleep helper ── */
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /* ── Render annotations panel ── */
+  function renderAnnotations() {
+    const isTimeout = chkTimeout.checked;
+    const failRate  = Number(document.querySelector('input[name="failrate"]:checked').value);
+
+    const ann = (cls, text) => `<span class="${cls}">${text}</span>`;
+
+    const retryClass   = 'ann-active';
+    const fallbackClass = 'ann-active';
+    const timeoutClass  = isTimeout ? 'ann-active' : 'ann-dim';
+
+    annotationPre.innerHTML =
+      ann(retryClass,   '@Retry') +
+      '(' +
+      ann('ann-param', 'maxRetries') + ' = ' +
+      ann('ann-param', String(MAX_RETRIES)) +
+      ')\n' +
+      ann(fallbackClass, '@Fallback') +
+      '(' +
+      ann('ann-param', 'fallbackMethod') + ' = ' +
+      ann('ann-string', '"defaultPrice"') +
+      ')\n' +
+      ann(timeoutClass, '@Timeout') +
+      '(' +
+      ann('ann-param', 'value') + ' = ' +
+      ann('ann-param', '2') +
+      ', ' +
+      ann('ann-param', 'unit') + ' = ' +
+      ann('ann-string', 'SECONDS') +
+      ')';
+  }
+
+  /* ── Log helpers ── */
+  function clearLog() {
+    logBody.innerHTML = '<span class="log-empty">▌ Log cleared. Press "GET /menu/1/price" to run again…</span>';
+    setResultBadge('idle', '⬤ \u00a0Awaiting request');
+  }
+
+  function ensureLogReady() {
+    const empty = logBody.querySelector('.log-empty');
+    if (empty) logBody.innerHTML = '';
+  }
+
+  function appendLine(colorClass, text, timestamp) {
+    ensureLogReady();
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML =
+      `<span class="log-ts col-dim">[${timestamp || now()}]</span>` +
+      `<span class="log-txt ${colorClass}">${text}</span>`;
+    logBody.appendChild(line);
+    logBody.scrollTop = logBody.scrollHeight;
+    return line;
+  }
+
+  function appendDivider() {
+    ensureLogReady();
+    const hr = document.createElement('hr');
+    hr.className = 'log-divider';
+    logBody.appendChild(hr);
+  }
+
+  /* Update a previously appended line in place */
+  function updateLine(lineEl, colorClass, text) {
+    lineEl.querySelector('.log-txt').className = `log-txt ${colorClass}`;
+    lineEl.querySelector('.log-txt').textContent = text;
+    logBody.scrollTop = logBody.scrollHeight;
+  }
+
+  /* ── Result badge ── */
+  function setResultBadge(type, text) {
+    resultBadge.className = 'badge-box ' + type;
+    resultBadge.innerHTML = text;
+  }
+
+  /* ── Determine if an attempt fails given failure rate ── */
+  function attemptFails(failRate) {
+    if (failRate === 0)   return false;
+    if (failRate === 100) return true;
+    return Math.random() * 100 < failRate;
+  }
+
+  /* ── Core simulation ── */
+  async function runSimulation() {
+    if (running) return;
+    running = true;
+    btnTrigger.disabled = true;
+
+    const failRate      = Number(document.querySelector('input[name="failrate"]:checked').value);
+    const simulateTO    = chkTimeout.checked;
+    const ts            = now();
+
+    appendLine('col-blue',
+      `▶ GET /menu/1/price  [failRate=${failRate}%${simulateTO ? ', timeout-mode' : ''}]`,
+      ts);
+    appendDivider();
+
+    let successOnAttempt = -1; // which attempt (1-based) succeeded, -1 = none
+
+    for (let attempt = 1; attempt <= TOTAL_ATTEMPTS; attempt++) {
+      const attemptTs = now();
+      const label     = `Attempt ${attempt}/${TOTAL_ATTEMPTS}`;
+
+      /* ── Timeout path ── */
+      if (simulateTO) {
+        const pendingLine = appendLine(
+          'col-yellow',
+          `${label}: calling PricingService… ⏳`,
+          attemptTs
+        );
+
+        /* Show countdown ticks — the call takes SIMULATED_DELAY but timeout fires at TIMEOUT_LIMIT */
+        await sleep(TIMEOUT_LIMIT);
+        updateLine(pendingLine, 'col-red',
+          `${label}: calling PricingService… ✗ TIMEOUT (exceeded ${TIMEOUT_LIMIT / 1000}s) — TimeoutException`);
+
+        /* After the timeout all retries also timeout, then fallback */
+        if (attempt === TOTAL_ATTEMPTS) break;
+        await sleep(150); // brief pause between timeout-retries
+        continue;
+      }
+
+      /* ── Normal path ── */
+      const fails = attemptFails(failRate);
+
+      if (!fails) {
+        /* SUCCESS */
+        const pendingLine = appendLine(
+          'col-yellow',
+          `${label}: calling PricingService… ⏳`,
+          attemptTs
+        );
+        await sleep(SUCCESS_DELAY);
+        updateLine(pendingLine, 'col-green',
+          `${label}: calling PricingService… ✓ SUCCESS → ${SUCCESS_PRICE}`);
+        successOnAttempt = attempt;
+        break;
+      } else {
+        /* FAILURE */
+        const pendingLine = appendLine(
+          'col-yellow',
+          `${label}: calling PricingService… ⏳`,
+          attemptTs
+        );
+        await sleep(FAIL_DELAY);
+        const errMsg = pickError();
+        updateLine(pendingLine, 'col-red',
+          `${label}: calling PricingService… ✗ FAILED (${errMsg})`);
+        if (attempt < TOTAL_ATTEMPTS) {
+          await sleep(180); // small gap before next retry
+        }
+      }
+    }
+
+    appendDivider();
+
+    /* ── Outcome ── */
+    if (simulateTO) {
+      /* All attempts timed out → fallback */
+      appendLine('col-orange',
+        `↳ All ${TOTAL_ATTEMPTS} attempts timed out.`, now());
+      appendLine('col-orange',
+        `↳ @Fallback triggered → defaultPrice() → returning ${FALLBACK_PRICE}`, now());
+      setResultBadge('fallback',
+        `⏱ TIMEOUT → Fallback: ${FALLBACK_PRICE}`);
+      cntFb++;
+      statFb.textContent = cntFb;
+
+    } else if (successOnAttempt !== -1) {
+      /* Real success */
+      appendLine('col-green',
+        `↳ Response: price = ${SUCCESS_PRICE}  (after ${successOnAttempt} attempt${successOnAttempt > 1 ? 's' : ''})`,
+        now());
+      setResultBadge('success',
+        `✓ SUCCESS → ${SUCCESS_PRICE}`);
+      cntOk++;
+      statOk.textContent = cntOk;
+
+    } else {
+      /* All failed → fallback */
+      appendLine('col-orange',
+        `↳ All ${TOTAL_ATTEMPTS} attempts failed.`, now());
+      appendLine('col-orange',
+        `↳ @Fallback triggered → defaultPrice() → returning ${FALLBACK_PRICE}`, now());
+      setResultBadge('fallback',
+        `⚠ FALLBACK → ${FALLBACK_PRICE}`);
+      cntFb++;
+      statFb.textContent = cntFb;
+    }
+
+    running = false;
+    btnTrigger.disabled = false;
+  }
+
+  /* ── Random exception messages (flavour) ── */
+  const ERRORS = [
+    'RuntimeException: upstream unavailable',
+    'ConnectException: connection refused',
+    'IOException: read timeout',
+    'ServiceUnavailableException: 503',
+    'IllegalStateException: price service down',
+  ];
+  function pickError() {
+    return ERRORS[Math.floor(Math.random() * ERRORS.length)];
+  }
+
+  /* ── Event listeners ── */
+  btnTrigger.addEventListener('click', runSimulation);
+
+  btnClear.addEventListener('click', function () {
+    if (!running) clearLog();
+  });
+
+  document.querySelectorAll('input[name="failrate"]').forEach(function (radio) {
+    radio.addEventListener('change', renderAnnotations);
+  });
+
+  chkTimeout.addEventListener('change', renderAnnotations);
+
+  /* ── Init ── */
+  renderAnnotations();
+
+}());
+</script>
+</body>
+</html>

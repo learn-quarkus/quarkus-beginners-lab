@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 3 Simulation - Config, Health, and Dev UI</title>
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #0f62fe;
+      --accent-soft: #e8f0ff;
+      --success: #198038;
+      --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-height: 100%;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+
+    .panel p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .button-row,
+    .health-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .property-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .property-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #fafafa;
+    }
+
+    .property-key {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .property-value {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .result-box {
+      background: #111827;
+      color: #e5e7eb;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      min-height: 150px;
+      overflow: auto;
+    }
+
+    .status {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #d9f2e3;
+      color: var(--success);
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .dev-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .dev-card {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafafa;
+      padding: 14px 12px;
+      text-align: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .dev-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .popup {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      background: #f9fbff;
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 72px;
+    }
+
+    .popup-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 880px) {
+      .panels {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lab 3 Simulation</h1>
+    <p class="subtitle">Config Profiles + Health Checks + Dev UI</p>
+
+    <div class="panels">
+      <section class="panel">
+        <h2>Config Profiles</h2>
+        <p>Switch profiles to see how profile-specific values change what the application exposes.</p>
+
+        <div class="button-row" id="profileButtons">
+          <button type="button" data-profile="dev" class="active">dev</button>
+          <button type="button" data-profile="test">test</button>
+          <button type="button" data-profile="prod">prod</button>
+        </div>
+
+        <div class="property-list">
+          <div class="property-item">
+            <span class="property-key">coffee.shop.name</span>
+            <span class="property-value" id="shopName"></span>
+          </div>
+          <div class="property-item">
+            <span class="property-key">quarkus.log.level</span>
+            <span class="property-value" id="logLevel"></span>
+          </div>
+        </div>
+
+        <p><strong>GET /menu/info</strong></p>
+        <div class="result-box" id="menuInfoBox"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Health Checks</h2>
+        <p>Inspect liveness and readiness endpoints like the ones exposed by SmallRye Health in Quarkus.</p>
+
+        <div class="health-buttons">
+          <button type="button" id="liveButton">GET /q/health/live</button>
+          <button type="button" id="readyButton">GET /q/health/ready</button>
+        </div>
+
+        <span class="status">Status: UP</span>
+        <div class="result-box" id="healthBox"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Dev UI</h2>
+        <p>Click a Dev UI card to view a quick explanation of what that area helps you inspect during development.</p>
+
+        <div class="dev-grid" id="devGrid">
+          <div class="dev-card" data-title="Extensions">Extensions</div>
+          <div class="dev-card" data-title="Configuration">Configuration</div>
+          <div class="dev-card" data-title="Hibernate ORM">Hibernate ORM</div>
+          <div class="dev-card" data-title="Swagger UI">Swagger UI</div>
+          <div class="dev-card" data-title="Continuous Testing">Continuous Testing</div>
+        </div>
+
+        <div class="popup" id="devPopup">
+          <div class="popup-title">Extensions</div>
+          <div id="devPopupText">Shows the Quarkus extensions currently installed in the application.</div>
+        </div>
+      </section>
+    </div>
+
+    <footer>Made with IBM Bob — open this file directly in your browser</footer>
+  </div>
+
+  <script>
+    const profileData = {
+      dev: {
+        coffeeShopName: 'The Quarkus Cafe (Dev)',
+        logLevel: 'DEBUG'
+      },
+      test: {
+        coffeeShopName: 'Test Cafe',
+        logLevel: 'INFO'
+      },
+      prod: {
+        coffeeShopName: 'The Quarkus Cafe',
+        logLevel: 'WARN'
+      }
+    };
+
+    const devDescriptions = {
+      'Extensions': 'Shows the Quarkus extensions currently installed in the application.',
+      'Configuration': 'Lets you inspect active configuration values and profile-specific settings.',
+      'Hibernate ORM': 'Helps explore entities, persistence behavior, and ORM-related developer tools.',
+      'Swagger UI': 'Provides an interactive view of your REST endpoints and request/response models.',
+      'Continuous Testing': 'Runs tests automatically as code changes so feedback stays fast during development.'
+    };
+
+    const healthResponses = {
+      live: {
+        status: 'UP',
+        checks: [
+          {
+            name: 'SmallRye Liveness check',
+            status: 'UP'
+          },
+          {
+            name: 'CoffeeShopHealthCheck',
+            status: 'UP',
+            data: {
+              shop: 'Coffee service is accepting requests'
+            }
+          }
+        ]
+      },
+      ready: {
+        status: 'UP',
+        checks: [
+          {
+            name: 'SmallRye Readiness check',
+            status: 'UP'
+          },
+          {
+            name: 'CoffeeShopHealthCheck',
+            status: 'UP',
+            data: {
+              shop: 'Configuration loaded and menu service is ready'
+            }
+          }
+        ]
+      }
+    };
+
+    const shopNameEl = document.getElementById('shopName');
+    const logLevelEl = document.getElementById('logLevel');
+    const menuInfoBoxEl = document.getElementById('menuInfoBox');
+    const healthBoxEl = document.getElementById('healthBox');
+    const profileButtonsEl = document.getElementById('profileButtons');
+    const devGridEl = document.getElementById('devGrid');
+    const devPopupEl = document.getElementById('devPopup');
+    const devPopupTextEl = document.getElementById('devPopupText');
+    const liveButtonEl = document.getElementById('liveButton');
+    const readyButtonEl = document.getElementById('readyButton');
+
+    function updateProfile(profile) {
+      const values = profileData[profile];
+      shopNameEl.textContent = values.coffeeShopName;
+      logLevelEl.textContent = values.logLevel;
+      menuInfoBoxEl.textContent = JSON.stringify(
+        {
+          profile: profile,
+          coffeeShopName: values.coffeeShopName,
+          logLevel: values.logLevel,
+          menuEndpoint: '/menu/info'
+        },
+        null,
+        2
+      );
+
+      const buttons = profileButtonsEl.querySelectorAll('button');
+      buttons.forEach(function(button) {
+        button.classList.toggle('active', button.getAttribute('data-profile') === profile);
+      });
+    }
+
+    function showHealthResponse(type) {
+      healthBoxEl.textContent = JSON.stringify(healthResponses[type], null, 2);
+    }
+
+    profileButtonsEl.addEventListener('click', function(event) {
+      const button = event.target.closest('button[data-profile]');
+      if (!button) {
+        return;
+      }
+
+      updateProfile(button.getAttribute('data-profile'));
+    });
+
+    liveButtonEl.addEventListener('click', function() {
+      showHealthResponse('live');
+    });
+
+    readyButtonEl.addEventListener('click', function() {
+      showHealthResponse('ready');
+    });
+
+    devGridEl.addEventListener('click', function(event) {
+      const card = event.target.closest('.dev-card');
+      if (!card) {
+        return;
+      }
+
+      const title = card.getAttribute('data-title');
+      const titleEl = devPopupEl.querySelector('.popup-title');
+      titleEl.textContent = title;
+      devPopupTextEl.textContent = devDescriptions[title];
+    });
+
+    updateProfile('dev');
+    showHealthResponse('live');
+  </script>
+</body>
+</html>

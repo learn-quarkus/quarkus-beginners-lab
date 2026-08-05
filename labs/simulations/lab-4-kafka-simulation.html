@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 4 — Kafka Messaging with DevServices</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .page-header .badge {
+      background: #e67e22;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+    .page-header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .page-header p {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: auto;
+    }
+
+    /* ── Main layout ── */
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr 1fr;
+      gap: 20px;
+      padding: 24px 28px;
+      align-items: start;
+    }
+
+    /* ── Panel base ── */
+    .panel {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .panel-header .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .panel-header h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .panel-header .port-tag {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* Order service — blue tint */
+    #panel-order .panel-header  { background: #eef4ff; }
+    #panel-order .dot            { background: #3b82f6; }
+    #panel-order .port-tag       { background: #dbeafe; color: #1d4ed8; }
+
+    /* Kafka — amber tint */
+    #panel-kafka .panel-header  { background: #fff7ed; }
+    #panel-kafka .dot            { background: #f59e0b; }
+    #panel-kafka .port-tag       { background: #fde68a; color: #92400e; }
+
+    /* Menu service — green tint */
+    #panel-menu .panel-header   { background: #ecfdf5; }
+    #panel-menu .dot             { background: #10b981; }
+    #panel-menu .port-tag        { background: #d1fae5; color: #065f46; }
+
+    .panel-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── Form elements ── */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .field label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .field input,
+    .field select {
+      border: 1.5px solid #d1d5db;
+      border-radius: 7px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #111827;
+      outline: none;
+      transition: border-color .2s;
+      background: #fafafa;
+      width: 100%;
+    }
+    .field input:focus,
+    .field select:focus {
+      border-color: #3b82f6;
+      background: #fff;
+    }
+
+    .btn-post {
+      width: 100%;
+      padding: 10px;
+      background: #3b82f6;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: .04em;
+      transition: background .2s, transform .1s;
+    }
+    .btn-post:hover  { background: #2563eb; }
+    .btn-post:active { transform: scale(.97); }
+
+    /* ── Outgoing log (order service) ── */
+    .outgoing-log {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-height: 110px;
+      max-height: 180px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .outgoing-log .hint {
+      color: #484f58;
+      font-size: 12px;
+      font-style: italic;
+    }
+    .outgoing-log .log-line {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 11.5px;
+      color: #58a6ff;
+      line-height: 1.45;
+      animation: fadeSlideIn .3s ease;
+    }
+    .outgoing-log .log-line span.arrow { color: #f59e0b; }
+    .outgoing-log .log-line span.topic { color: #79c0ff; }
+    .outgoing-log .log-line span.json  { color: #aff7c2; }
+
+    /* ── Kafka topic panel ── */
+    .kafka-header-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px 0;
+    }
+    .topic-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400e;
+      background: #fde68a;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .msg-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .kafka-messages {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 340px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .kafka-hint {
+      color: #9ca3af;
+      font-size: 12px;
+      font-style: italic;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .kafka-card {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 12px;
+      animation: fadeSlideIn .35s ease;
+      transition: box-shadow .2s;
+    }
+    .kafka-card.highlight {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245,158,11,.25);
+    }
+    .kafka-card .card-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 10.5px;
+      color: #92400e;
+      margin-bottom: 5px;
+    }
+    .kafka-card .card-meta .offset {
+      font-weight: 700;
+      background: #f59e0b;
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .kafka-card pre {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 11px;
+      color: #1a1a2e;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    /* ── Menu service terminal ── */
+    .terminal-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 0 16px;
+    }
+    .terminal {
+      margin: 0 16px 16px;
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 12px 14px;
+      min-height: 280px;
+      max-height: 360px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .terminal .t-hint {
+      color: #484f58;
+      font-size: 12px;
+      font-style: italic;
+    }
+    .terminal .t-line {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 11.5px;
+      line-height: 1.5;
+      animation: fadeSlideIn .3s ease;
+    }
+    .terminal .t-line.info    { color: #58a6ff; }
+    .terminal .t-line.success { color: #3fb950; }
+    .terminal .t-line.muted   { color: #8b949e; }
+
+    .counter-box {
+      margin: 0 16px 16px;
+      background: #ecfdf5;
+      border: 1.5px solid #6ee7b7;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .counter-box .counter-label {
+      font-size: 12px;
+      color: #065f46;
+      font-weight: 600;
+    }
+    .counter-box .counter-value {
+      margin-left: auto;
+      font-size: 22px;
+      font-weight: 800;
+      color: #059669;
+      min-width: 36px;
+      text-align: right;
+      transition: transform .2s;
+    }
+    .counter-box .counter-value.bump {
+      transform: scale(1.35);
+    }
+
+    /* ── Flow arrows overlay label ── */
+    .flow-hint {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 0 28px 6px;
+      font-size: 11px;
+      color: #9ca3af;
+      align-items: center;
+    }
+    .flow-hint .arr { color: #f59e0b; font-size: 16px; }
+
+    /* ── Footer ── */
+    footer {
+      background: #1a1a2e;
+      color: #6b7280;
+      text-align: center;
+      font-size: 11px;
+      padding: 10px 16px;
+      letter-spacing: .04em;
+    }
+    footer span { color: #f59e0b; font-weight: 700; }
+
+    /* ── Animations ── */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Scrollbar styling ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════ PAGE HEADER ══════════════════════════════════ -->
+<header class="page-header">
+  <span class="badge">Lab 4</span>
+  <h1>Kafka Messaging with DevServices</h1>
+  <p>Quarkus + SmallRye Reactive Messaging &nbsp;·&nbsp; Interactive Simulation</p>
+</header>
+
+<!-- ══════════════════════════════════ FLOW HINT ════════════════════════════════════ -->
+<div class="flow-hint">
+  <span>order-service :8081</span>
+  <span class="arr">──▶</span>
+  <span>coffee-orders (Kafka topic)</span>
+  <span class="arr">──▶</span>
+  <span>menu-service :8080</span>
+</div>
+
+<!-- ══════════════════════════════════ MAIN PANELS ══════════════════════════════════ -->
+<main class="main">
+
+  <!-- ── LEFT: order-service ── -->
+  <div class="panel" id="panel-order">
+    <div class="panel-header">
+      <div class="dot"></div>
+      <h2>order-service</h2>
+      <span class="port-tag">:8081</span>
+    </div>
+    <div class="panel-body">
+      <div class="field">
+        <label for="customer">Customer Name</label>
+        <input type="text" id="customer" placeholder="e.g. Alice" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="item">Item</label>
+        <select id="item">
+          <option value="Espresso">Espresso</option>
+          <option value="Cappuccino">Cappuccino</option>
+          <option value="Flat White">Flat White</option>
+          <option value="Latte">Latte</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="qty">Quantity</label>
+        <input type="number" id="qty" min="1" max="5" value="1" />
+      </div>
+
+      <button class="btn-post" id="btn-post">POST &nbsp;/orders</button>
+
+      <!-- outgoing log -->
+      <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;">
+        Outgoing Producer Log
+      </div>
+      <div class="outgoing-log" id="outgoing-log">
+        <span class="hint">No messages sent yet…</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MIDDLE: Kafka Topic ── -->
+  <div class="panel" id="panel-kafka">
+    <div class="panel-header">
+      <div class="dot"></div>
+      <h2>Kafka Topic</h2>
+      <span class="port-tag">coffee-orders</span>
+    </div>
+    <div class="kafka-header-row">
+      <span class="topic-name">coffee-orders</span>
+      <span class="msg-count" id="msg-count">0 messages</span>
+    </div>
+    <div class="kafka-messages" id="kafka-messages">
+      <p class="kafka-hint" id="kafka-hint">No messages yet — post an order to begin</p>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: menu-service ── -->
+  <div class="panel" id="panel-menu">
+    <div class="panel-header">
+      <div class="dot"></div>
+      <h2>menu-service</h2>
+      <span class="port-tag">:8080</span>
+    </div>
+
+    <div class="counter-box">
+      <span class="counter-label">Orders received</span>
+      <span class="counter-value" id="counter">0</span>
+    </div>
+
+    <div class="terminal-label">@Incoming consumer log</div>
+    <div class="terminal" id="terminal">
+      <span class="t-hint">Waiting for messages on <em>coffee-orders</em>…</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+<footer>
+  Made with <span>IBM Bob</span> &nbsp;—&nbsp; open this file directly in your browser &nbsp;·&nbsp; no server required
+</footer>
+
+<!-- ══════════════════════════════════ SCRIPT ═══════════════════════════════════════ -->
+<script>
+(function () {
+  "use strict";
+
+  /* ── State ── */
+  let offsetCounter = 0;
+  let receivedCount = 0;
+  let posting = false;
+
+  /* ── DOM refs ── */
+  const btnPost      = document.getElementById("btn-post");
+  const customerEl   = document.getElementById("customer");
+  const itemEl       = document.getElementById("item");
+  const qtyEl        = document.getElementById("qty");
+  const outgoingLog  = document.getElementById("outgoing-log");
+  const kafkaPanel   = document.getElementById("kafka-messages");
+  const kafkaHint    = document.getElementById("kafka-hint");
+  const msgCountEl   = document.getElementById("msg-count");
+  const terminal     = document.getElementById("terminal");
+  const counterEl    = document.getElementById("counter");
+
+  /* ── Helpers ── */
+  function pad2(n) { return String(n).padStart(2, "0"); }
+
+  function nowTimestamp() {
+    const d = new Date();
+    return (
+      d.getFullYear() + "-" +
+      pad2(d.getMonth() + 1) + "-" +
+      pad2(d.getDate()) + "T" +
+      pad2(d.getHours()) + ":" +
+      pad2(d.getMinutes()) + ":" +
+      pad2(d.getSeconds()) + "." +
+      String(d.getMilliseconds()).padStart(3, "0") + "Z"
+    );
+  }
+
+  function clearHint(parent, hintId) {
+    const hint = document.getElementById(hintId) || parent.querySelector(".hint, .kafka-hint, .t-hint");
+    if (hint) hint.remove();
+  }
+
+  function scrollBottom(el) {
+    el.scrollTop = el.scrollHeight;
+  }
+
+  /* ── Step 1: append to outgoing log ── */
+  function addOutgoingLine(payload) {
+    clearHint(outgoingLog, null);
+    const line = document.createElement("div");
+    line.className = "log-line";
+    line.innerHTML =
+      '<span class="arrow">→</span> Sent to ' +
+      '<span class="topic">coffee-orders</span>: ' +
+      '<span class="json">' + JSON.stringify(payload) + "</span>";
+    outgoingLog.appendChild(line);
+    scrollBottom(outgoingLog);
+  }
+
+  /* ── Step 2: add card to Kafka panel ── */
+  function addKafkaCard(offset, timestamp, payload) {
+    clearHint(kafkaPanel, "kafka-hint");
+
+    const card = document.createElement("div");
+    card.className = "kafka-card highlight";
+
+    const meta = document.createElement("div");
+    meta.className = "card-meta";
+    meta.innerHTML =
+      '<span class="offset">offset ' + offset + "</span>" +
+      "<span>partition: 0</span>" +
+      "<span>" + timestamp + "</span>";
+
+    const pre = document.createElement("pre");
+    pre.textContent = JSON.stringify(payload, null, 2);
+
+    card.appendChild(meta);
+    card.appendChild(pre);
+
+    /* Insert newest at top */
+    kafkaPanel.insertBefore(card, kafkaPanel.firstChild);
+
+    /* Remove highlight after animation */
+    setTimeout(function () { card.classList.remove("highlight"); }, 1400);
+
+    offsetCounter++;
+    const total = offsetCounter;
+    msgCountEl.textContent = total + (total === 1 ? " message" : " messages");
+  }
+
+  /* ── Step 3: append to terminal ── */
+  function addTerminalLine(text, type) {
+    clearHint(terminal, null);
+    const line = document.createElement("div");
+    line.className = "t-line " + (type || "info");
+    line.textContent = text;
+    terminal.appendChild(line);
+    scrollBottom(terminal);
+  }
+
+  function bumpCounter() {
+    receivedCount++;
+    counterEl.textContent = receivedCount;
+    counterEl.classList.add("bump");
+    setTimeout(function () { counterEl.classList.remove("bump"); }, 300);
+  }
+
+  /* ── Main POST flow ── */
+  function handlePost() {
+    if (posting) return;
+
+    const customer = customerEl.value.trim() || "Anonymous";
+    const item     = itemEl.value;
+    const qty      = Math.min(5, Math.max(1, parseInt(qtyEl.value, 10) || 1));
+
+    const payload = {
+      orderId:  "ORD-" + String(offsetCounter + 1).padStart(4, "0"),
+      customer: customer,
+      item:     item,
+      qty:      qty
+    };
+
+    const ts = nowTimestamp();
+
+    posting = true;
+    btnPost.disabled = true;
+    btnPost.textContent = "Sending…";
+
+    /* ── T+0 ms: producer log ── */
+    addOutgoingLine(payload);
+
+    /* ── T+300 ms: Kafka card ── */
+    setTimeout(function () {
+      addKafkaCard(offsetCounter, ts, payload);
+    }, 300);
+
+    /* ── T+900 ms: consumer log (Kafka → menu-service) ── */
+    setTimeout(function () {
+      addTerminalLine(
+        "[INFO ] @Incoming coffee-orders — offset " + (offsetCounter - 1) + " received",
+        "muted"
+      );
+      addTerminalLine(
+        "Received order: " + JSON.stringify(payload),
+        "success"
+      );
+      addTerminalLine(
+        "[INFO ] Processing → item=" + item + " qty=" + qty + " customer=" + customer,
+        "info"
+      );
+      bumpCounter();
+
+      posting = false;
+      btnPost.disabled = false;
+      btnPost.textContent = "POST \u00a0/orders";
+    }, 900);
+  }
+
+  /* ── Bind events ── */
+  btnPost.addEventListener("click", handlePost);
+
+  /* Allow Enter in the customer field to trigger POST */
+  customerEl.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") handlePost();
+  });
+
+  /* Clamp qty on blur */
+  qtyEl.addEventListener("blur", function () {
+    let v = parseInt(qtyEl.value, 10);
+    if (isNaN(v) || v < 1) v = 1;
+    if (v > 5) v = 5;
+    qtyEl.value = v;
+  });
+
+  /* ── Boot log line in terminal ── */
+  addTerminalLine("[INFO ] SmallRye Reactive Messaging started", "muted");
+  addTerminalLine("[INFO ] Subscribed to channel: coffee-orders", "muted");
+
+})();
+</script>
+</body>
+</html>

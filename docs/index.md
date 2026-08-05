@@ -73,6 +73,33 @@ Before the workshop, make sure you have everything installed and working.
 
 ---
 
+## 🖥️ Lab Simulations
+
+Want to preview what each lab does before (or without) running it locally?
+Each lab has a self-contained interactive simulation — no Quarkus install needed.
+
+!!! tip "Run simulations locally"
+    After cloning the repo:
+    ```bash
+    git clone https://github.com/learn-quarkus/quarkus-beginners-lab
+    ```
+    Open any file from `labs/simulations/` directly in your browser:
+
+    | Simulation | Open |
+    |------------|------|
+    | Lab 1 — First REST API | `labs/simulations/lab-1-rest-simulation.html` |
+    | Lab 2 — Panache ORM | `labs/simulations/lab-2-panache-simulation.html` |
+    | Lab 3 — Config & Health | `labs/simulations/lab-3-config-health-simulation.html` |
+    | Lab 4 — Kafka Messaging | `labs/simulations/lab-4-kafka-simulation.html` |
+    | Lab 5 — OIDC Security | `labs/simulations/lab-5-security-simulation.html` |
+    | Lab 6 — Fault Tolerance | `labs/simulations/lab-6-fault-tolerance-simulation.html` |
+    | Lab 7 — AI with LangChain4j | `labs/simulations/lab-7-langchain4j-simulation.html` |
+    | Lab 8 — MCP Server | `labs/simulations/lab-8-mcp-server-simulation.html` |
+
+    No server, no install — just double-click the file.
+
+---
+
 ## Why Quarkus?
 
 Quarkus is a cloud-native Java framework built for speed and developer joy:
