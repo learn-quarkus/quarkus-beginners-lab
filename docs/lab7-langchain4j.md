@@ -2,6 +2,10 @@
 
 **Duration:** 8 minutes &nbsp;|&nbsp; **Project:** `barista-bot` (new)
 
+!!! tip "Want to use a different LLM provider?"
+    **See [Lab 7B: Alternative LLM Providers](lab7b-langchain4j-alternatives.md)** for OpenAI, LlamaCloud free tier, or IBM Watson X AI.
+    The same barista code works with all three — only dependencies and configuration change!
+
 !!! info "What you'll build"
     Build `barista-bot` — an AI-powered coffee shop assistant backed by OpenAI GPT-4o-mini.
     Define the entire chatbot as a **plain Java interface** with four annotations. Then extend it with **Easy RAG** so it answers questions from your actual menu document — no hallucination, no vector database setup.
