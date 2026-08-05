@@ -205,13 +205,14 @@ public class ChatResource {
         if (message == null || message.isBlank()) {
             return "Ask me anything about coffee! Try: ?message=What's a good morning coffee?";
         }
-        return baristaAiService.chat(message);
+        return baristaAiService.chat(message); // (3)
     }
 }
 ```
 
 1. Inject the AI service like any other CDI bean — Quarkus generated the implementation.
 2. `@QueryParam("message")` — the user's question arrives as a URL query parameter, e.g. `/chat?message=What+is+a+flat+white?`
+3. Calls the AI service with the user's message — Quarkus routes it to OpenAI and returns the response as a plain `String`.
 
 ---
 
@@ -242,6 +243,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Path("/")
 public class ChatUiResource {
@@ -252,10 +256,12 @@ public class ChatUiResource {
     @Inject
     BaristaAiService baristaAiService;
 
+    private final List<Map<String, String>> history = new ArrayList<>(); // (2)
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance index() {
-        return chat.data("question", null, "reply", null); // (2)
+        return chat.data("history", List.copyOf(history));
     }
 
     @POST
@@ -263,17 +269,19 @@ public class ChatUiResource {
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance ask(@FormParam("message") String message) { // (3)
         if (message == null || message.isBlank()) {
-            return chat.data("question", null, "reply", null);
+            return chat.data("history", List.copyOf(history));
         }
         String reply = baristaAiService.chat(message.trim());
-        return chat.data("question", message.trim(), "reply", reply);
+        history.add(Map.of("role", "user", "text", message.trim()));
+        history.add(Map.of("role", "bot",  "text", reply));
+        return chat.data("history", List.copyOf(history));
     }
 }
 ```
 
 1. Quarkus injects the template by field name — `chat` maps to `src/main/resources/templates/chat.html` automatically.
-2. `GET /` renders the form with no Q&A section (question and reply are null).
-3. `POST /` calls the AI service and re-renders with `question` + `reply` populated — the input renders empty because there is no `value` attribute.
+2. In-memory list keeps the conversation turns for the current dev session. Each turn is a `{role, text}` map matching the `{#for turn in history}` loop in the template.
+3. `POST /` calls the AI service, appends both turns, and re-renders with the updated history.
 
 !!! note "What just happened?"
     Qute resolves the `Template chat` injection by matching the field name to a file in `src/main/resources/templates/`. No path annotation needed — convention over configuration.
@@ -412,7 +420,7 @@ Open `chat.html` in your IDE and paste in the following:
     ./mvnw quarkus:dev
     ```
 
-Open **`http://localhost:8080`** in your browser. Type a question and press **Ask**:
+Open **`http://localhost:8080`** in your browser. Type a question and press **Send**:
 
 | Question | Example response |
 |---------|-----------------|

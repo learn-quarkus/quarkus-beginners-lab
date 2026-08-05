@@ -16,6 +16,25 @@ check_pass() { echo -e "  ${GREEN}✔${NC}  $1"; ((PASS++)); }
 check_fail() { echo -e "  ${RED}✗${NC}  $1"; ((FAIL++)); }
 check_warn() { echo -e "  ${YELLOW}⚠${NC}  $1"; }
 
+# macOS does not ship GNU timeout; use gtimeout (from coreutils) or a shell fallback
+if command -v timeout &>/dev/null; then
+  TIMEOUT_CMD="timeout"
+elif command -v gtimeout &>/dev/null; then
+  TIMEOUT_CMD="gtimeout"
+else
+  # Simple fallback: run the command without a timeout
+  TIMEOUT_CMD=""
+fi
+
+run_with_timeout() {
+  local secs=$1; shift
+  if [ -n "$TIMEOUT_CMD" ]; then
+    $TIMEOUT_CMD "$secs" "$@"
+  else
+    "$@"
+  fi
+}
+
 echo ""
 echo "============================================"
 echo " Quarkus Workshop — Prerequisites Check"
@@ -39,10 +58,10 @@ echo ""
 # ── 2. Quarkus CLI or Maven 3.9+ ─────────────────
 echo "[ Build Tool ]"
 if command -v quarkus &>/dev/null; then
-  QUARKUS_VER=$(timeout 10 quarkus version 2>&1 | head -1)
+  QUARKUS_VER=$(run_with_timeout 10 quarkus version 2>&1 | head -1)
   check_pass "Quarkus CLI found — $QUARKUS_VER"
 elif command -v mvn &>/dev/null; then
-  MVN_VER=$(timeout 10 mvn -version 2>&1 | head -1 | sed 's/Apache Maven \([0-9.]*\).*/\1/')
+  MVN_VER=$(run_with_timeout 10 mvn -version 2>&1 | head -1 | sed 's/Apache Maven \([0-9.]*\).*/\1/')
   MVN_MAJOR=$(echo "$MVN_VER" | cut -d. -f1)
   MVN_MINOR=$(echo "$MVN_VER" | cut -d. -f2)
   if [ "$MVN_MAJOR" -ge 3 ] && [ "$MVN_MINOR" -ge 9 ] 2>/dev/null; then
@@ -61,7 +80,7 @@ DOCKER_OK=false
 PODMAN_OK=false
 
 if command -v docker &>/dev/null; then
-  if timeout 5 docker ps &>/dev/null; then
+  if run_with_timeout 5 docker ps &>/dev/null; then
     check_pass "Docker is installed and running"
     DOCKER_OK=true
   else
@@ -70,7 +89,7 @@ if command -v docker &>/dev/null; then
 fi
 
 if command -v podman &>/dev/null; then
-  if timeout 5 podman ps &>/dev/null; then
+  if run_with_timeout 5 podman ps &>/dev/null; then
     check_pass "Podman is installed and running"
     PODMAN_OK=true
   else

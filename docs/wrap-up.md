@@ -65,15 +65,18 @@ In 60 minutes, starting from nothing, you built:
 ┌──────────────────────────────────────────────────────────────────┐
 │                     The Quarkus Cafe System                      │
 │                                                                  │
-│  ┌────────────────────┐  Kafka "coffee-orders"  ┌─────────────┐ │
-│  │   order-service    │ ──────────────────────▶ │menu-service │ │
-│  │  POST /orders      │                         │GET  /menu   │ │
-│  └────────────────────┘                         │POST /menu 🔒│ │
-│                                                 │GET  /menu/  │ │
-│  ┌────────────────────┐                         │     info    │ │
-│  │   barista-bot      │                         │GET  /menu/  │ │
-│  │  GET /chat?msg 🤖  │                         │   {id}/price│ │
-│  └────────────────────┘                         └─────────────┘ │
+│  ┌────────────────────┐  Kafka "coffee-orders"  ┌─────────────┐  │
+│  │   order-service    │ ──────────────────────▶ │menu-service │  │
+│  │  POST /orders      │                         │GET  /menu   │  │
+│  └────────────────────┘                         │POST /menu 🔒│  │
+│                                                 │GET  /menu/  │  │
+│  ┌────────────────────┐                         │     info    │  │
+│  │   barista-bot      │◀── MCP ──┐              │GET  /menu/  │  │
+│  │  GET /chat?msg 🤖  │          │              │   {id}/price│  │
+│  └────────────────────┘  ┌───────┴────────┐     └─────────────┘  │
+│                          │menu-mcp-server │                      │
+│                          │  @Tool methods │                      │
+│                          └────────────────┘                      │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -86,6 +89,7 @@ In 60 minutes, starting from nothing, you built:
 | Lab 5 | OIDC security, Keycloak DevServices, `@Authenticated`, `@RolesAllowed` |
 | Lab 6 | Fault tolerance: `@Retry`, `@Fallback`, `@Timeout` |
 | Lab 7 | AI chatbot with `@RegisterAiService`, Easy RAG |
+| Lab 8 | MCP server with `@Tool`, AI tool calling via `@McpToolBox` |
 
 ---
 
@@ -135,5 +139,5 @@ Questions? Comments? The Quarkus community is active at:
 
 ---
 
-[← Lab 7: AI with LangChain4j](lab7-langchain4j.md){ .md-button }
+[← Lab 8: MCP Server](lab8-mcp-server.md){ .md-button }
 [↑ Back to Home](index.md){ .md-button .md-button--primary }

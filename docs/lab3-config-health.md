@@ -163,7 +163,7 @@ package org.coffee;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Liveness; // (1)
+import org.eclipse.microprofile.health.Liveness;
 
 @Liveness // (1)
 @ApplicationScoped
@@ -187,7 +187,7 @@ public class CoffeeShopHealthCheck implements HealthCheck { // (2)
 }
 ```
 
-1. `@Liveness` registers this as a liveness check — available at `/q/health/live`. Use `@Readiness` for readiness checks.
+1. `@Liveness` — registers this bean as a liveness check, available at `/q/health/live`. Use `@Readiness` for readiness checks.
 2. Implement `HealthCheck` and override `call()` — return UP or DOWN with optional data.
 3. `HealthCheckResponse.named("coffee-menu")` names the check in the JSON output.
 

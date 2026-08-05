@@ -54,7 +54,7 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
     ```
 
 !!! note "What just happened?"
-    You created a second standalone Quarkus project. It will run on port **8081** (Quarkus auto-detects the conflict with `menu-service` on 8080 and picks a free port in Dev Mode).
+    You created a second standalone Quarkus project. It will run on port **8081** — you'll configure this explicitly in Step 4 so it doesn't clash with `menu-service` on 8080.
 
 !!! tip "Delete the generated sample files"
     ```bash
@@ -153,6 +153,9 @@ public class OrderResource {
 Open `src/main/resources/application.properties` in `order-service` and add:
 
 ```properties title="order-service/application.properties"
+# Run on port 8081 so it doesn't clash with menu-service on 8080
+quarkus.http.port=8081
+
 # Kafka outgoing channel — DevServices starts the broker automatically
 mp.messaging.outgoing.coffee-orders.connector=smallrye-kafka
 mp.messaging.outgoing.coffee-orders.value.serializer=org.apache.kafka.common.serialization.StringSerializer
@@ -318,7 +321,7 @@ Send a test message from the Dev UI and watch it appear in the `menu-service` te
 | ✅ Two services share one broker | DevServices coordinates automatically |
 
 !!! tip "Stuck or fell behind?"
-    Complete solutions are in. **Run each command in a separate terminal** — each service needs its own shell:
+    Complete solutions are in `labs/lab4-kafka/solution/`. **Run each command in a separate terminal** — each service needs its own shell:
 
     Terminal 1:
     ```bash
