@@ -27,7 +27,7 @@
     
     
       
-        <title>Lab 9: Containerize & K8s - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
+        <title>Lab 9: Containerization - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lab-9-containerize-deploy-to-kubernetes" class="md-skip">
+        <a href="#lab-9-containerization" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Lab 9: Containerize & K8s
+              Lab 9: Containerization
             
           </span>
         </div>
@@ -722,7 +722,7 @@
   <span class="md-ellipsis">
     
   
-    Lab 9: Containerize & K8s
+    Lab 9: Containerization
   
 
     
@@ -740,7 +740,7 @@
   <span class="md-ellipsis">
     
   
-    Lab 9: Containerize & K8s
+    Lab 9: Containerization
   
 
     
@@ -766,10 +766,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup-local-kubernetes-cluster" class="md-nav__link">
+  <a href="#step-1-build-a-production-jar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup — Local Kubernetes Cluster
+        Step 1 — Build a production JAR
       
     </span>
   </a>
@@ -777,10 +777,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-add-the-extensions" class="md-nav__link">
+  <a href="#step-2-look-at-the-generated-dockerfile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1 — Add the Extensions
+        Step 2 — Look at the generated Dockerfile
       
     </span>
   </a>
@@ -788,10 +788,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-configure-the-container-image" class="md-nav__link">
+  <a href="#step-3-build-the-container-image" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2 — Configure the Container Image
+        Step 3 — Build the container image
       
     </span>
   </a>
@@ -799,10 +799,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-configure-kubernetes-manifests" class="md-nav__link">
+  <a href="#step-4-run-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3 — Configure Kubernetes Manifests
+        Step 4 — Run the container
       
     </span>
   </a>
@@ -810,87 +810,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-configure-health-probes" class="md-nav__link">
+  <a href="#step-5-test-the-running-container" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4 — Configure Health Probes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-5-build-the-container-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5 — Build the Container Image
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-6-inspect-the-generated-kubernetes-manifests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 6 — Inspect the Generated Kubernetes Manifests
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-7-deploy-to-kubernetes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 7 — Deploy to Kubernetes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-8-test-the-deployed-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 8 — Test the Deployed Service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-9-explore-the-deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 9 — Explore the Deployment
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bonus-scale-up-and-watch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bonus — Scale Up and Watch
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cleanup
+        Step 5 — Test the running container
       
     </span>
   </a>
@@ -1005,10 +928,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#setup-local-kubernetes-cluster" class="md-nav__link">
+  <a href="#step-1-build-a-production-jar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup — Local Kubernetes Cluster
+        Step 1 — Build a production JAR
       
     </span>
   </a>
@@ -1016,10 +939,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-add-the-extensions" class="md-nav__link">
+  <a href="#step-2-look-at-the-generated-dockerfile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1 — Add the Extensions
+        Step 2 — Look at the generated Dockerfile
       
     </span>
   </a>
@@ -1027,10 +950,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-configure-the-container-image" class="md-nav__link">
+  <a href="#step-3-build-the-container-image" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2 — Configure the Container Image
+        Step 3 — Build the container image
       
     </span>
   </a>
@@ -1038,10 +961,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-configure-kubernetes-manifests" class="md-nav__link">
+  <a href="#step-4-run-the-container" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3 — Configure Kubernetes Manifests
+        Step 4 — Run the container
       
     </span>
   </a>
@@ -1049,87 +972,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-configure-health-probes" class="md-nav__link">
+  <a href="#step-5-test-the-running-container" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4 — Configure Health Probes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-5-build-the-container-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5 — Build the Container Image
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-6-inspect-the-generated-kubernetes-manifests" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 6 — Inspect the Generated Kubernetes Manifests
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-7-deploy-to-kubernetes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 7 — Deploy to Kubernetes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-8-test-the-deployed-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 8 — Test the Deployed Service
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-9-explore-the-deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 9 — Explore the Deployment
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bonus-scale-up-and-watch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bonus — Scale Up and Watch
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cleanup
+        Step 5 — Test the running container
       
     </span>
   </a>
@@ -1164,445 +1010,178 @@
 
 
 
-<h1 id="lab-9-containerize-deploy-to-kubernetes">Lab 9: Containerize &amp; Deploy to Kubernetes<a class="headerlink" href="#lab-9-containerize-deploy-to-kubernetes" title="Permanent link">&para;</a></h1>
-<p><strong>Duration:</strong> ~15 minutes &nbsp;|&nbsp; <strong>Project:</strong> <code>menu-service</code> (continued)</p>
+<h1 id="lab-9-containerization">Lab 9: Containerization<a class="headerlink" href="#lab-9-containerization" title="Permanent link">&para;</a></h1>
+<p><strong>Duration:</strong> ~10 minutes &nbsp;|&nbsp; <strong>Project:</strong> <code>menu-service</code> (from Lab 3)</p>
 <div class="admonition info">
 <p class="admonition-title">What you'll build</p>
-<p>Build a container image of <code>menu-service</code> using <strong>Jib</strong> (no Dockerfile needed), generate <strong>Kubernetes manifests</strong> automatically, and deploy to a local Kubernetes cluster — all driven by Quarkus extensions and a single <code>quarkus build</code> command.</p>
+<p>Package <code>menu-service</code> into a container image using Quarkus' built-in <code>Dockerfile</code>, build it with <strong>Podman</strong> (or Docker), run it locally, and test the REST endpoint — no Kubernetes, no registry, no extra extensions.</p>
 </div>
-<p><strong>New extensions added in this lab:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Extension</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>quarkus-container-image-jib</code></td>
-<td>Builds OCI container images using Jib — no Docker daemon or Dockerfile required</td>
-</tr>
-<tr>
-<td><code>quarkus-kubernetes</code></td>
-<td>Generates Kubernetes <code>Deployment</code> + <code>Service</code> YAML from your config</td>
-</tr>
-<tr>
-<td><code>quarkus-smallrye-health</code></td>
-<td>Already present from Lab 3 — Kubernetes uses the health endpoints for probes</td>
-</tr>
-</tbody>
-</table>
 <div class="admonition warning">
 <p class="admonition-title">Prerequisites for this lab</p>
 <ul>
-<li><strong>Podman Desktop</strong> or <strong>Docker Desktop</strong> must be running (for building and hosting container images)</li>
-<li><strong>A local Kubernetes cluster</strong> — Podman Desktop and Docker Desktop both include a built-in Kind/Kubernetes provider, or you can use Minikube. See the setup section below if you don't have one yet.</li>
+<li><strong>Lab 3</strong> completed — this lab uses the <code>menu-service</code> you built there (REST + Panache + health checks)</li>
+<li><strong>Podman</strong> or <strong>Docker</strong> must be running. Verify with:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>podman<span class="w"> </span>info<span class="w">   </span><span class="c1"># or: docker info</span>
+</span></code></pre></div></li>
 </ul>
 </div>
-<hr />
-<h2 id="setup-local-kubernetes-cluster">Setup — Local Kubernetes Cluster<a class="headerlink" href="#setup-local-kubernetes-cluster" title="Permanent link">&para;</a></h2>
-<p>If you already have <code>kubectl</code> working against a local cluster, skip to <a href="#step-1-add-the-extensions">Step 1</a>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Podman Desktop</label><label for="__tabbed_1_2">Docker Desktop</label><label for="__tabbed_1_3">Minikube</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>Podman Desktop can create a local Kubernetes cluster for you using its built-in Kind provider:</p>
-<ol>
-<li>Open <strong>Podman Desktop</strong> → <strong>Settings</strong> → <strong>Kubernetes</strong></li>
-<li>Click <strong>Create Kind cluster</strong> → name it <code>quarkus-workshop</code> → click <strong>Create</strong></li>
-<li>Wait ~1 minute for the cluster to start</li>
-<li>Podman Desktop automatically configures <code>kubectl</code> to point at the new cluster</li>
-</ol>
-<p>Alternatively, from the terminal:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>quarkus-workshop
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Kind and local images</p>
-<p>Kind runs inside Podman. After building your image, you'll need to load it into the cluster:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kind<span class="w"> </span>load<span class="w"> </span>docker-image<span class="w"> </span>quarkus-workshop/menu-service:1.0.0-SNAPSHOT<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--name<span class="w"> </span>quarkus-workshop
+<div class="admonition tip">
+<p class="admonition-title">Don't have your Lab 3 menu-service?</p>
+<p>Run the setup script from the repo root — it copies the Lab 3 solution into a fresh <code>menu-service</code> directory:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bash<span class="w"> </span>labs/lab9-containerize/setup.sh
 </span></code></pre></div></p>
 </div>
-</div>
-<div class="tabbed-block">
-<p>Docker Desktop ships with a built-in single-node Kubernetes cluster:</p>
-<ol>
-<li>Open <strong>Docker Desktop</strong> → <strong>Settings</strong> → <strong>Kubernetes</strong></li>
-<li>Check <strong>Enable Kubernetes</strong> → click <strong>Apply &amp; Restart</strong></li>
-<li>Wait ~2 minutes for the cluster to start</li>
-<li>Docker Desktop automatically configures <code>kubectl</code> to point at the new cluster</li>
-</ol>
-<p>To switch to the Docker Desktop context if you have other clusters:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>docker-desktop
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Docker Desktop and local images</p>
-<p>Images built by Jib are pushed directly into Docker Desktop's local registry — no manual load step needed.</p>
-</div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Install (macOS)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>brew<span class="w"> </span>install<span class="w"> </span>minikube
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Start a cluster using the Podman driver</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>minikube<span class="w"> </span>start<span class="w"> </span>--driver<span class="o">=</span>podman
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Point your shell to Minikube&#39;s daemon</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">eval</span><span class="w"> </span><span class="k">$(</span>minikube<span class="w"> </span>podman-env<span class="k">)</span>
-</span></code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Why <code>minikube podman-env</code>?</p>
-<p>This makes Jib push images directly into Minikube's container runtime — no need for a registry.</p>
-</div>
-</div>
-</div>
-</div>
-<p>Verify your cluster is ready:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>NAME                              STATUS   ROLES           AGE   VERSION
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>quarkus-workshop-control-plane    Ready    control-plane   1m    v1.31.0
-</span></code></pre></div>
 <hr />
-<h2 id="step-1-add-the-extensions">Step 1 — Add the Extensions<a class="headerlink" href="#step-1-add-the-extensions" title="Permanent link">&para;</a></h2>
-<p>Stop Dev Mode if it's still running (<code>q</code> in the terminal). Then add the extensions:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI</label><label for="__tabbed_2_2">Maven</label></div>
+<h2 id="step-1-build-a-production-jar">Step 1 — Build a production JAR<a class="headerlink" href="#step-1-build-a-production-jar" title="Permanent link">&para;</a></h2>
+<p>Navigate to your <code>menu-service</code> directory from Lab 3:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>menu-service
+</span></code></pre></div>
+<p>Stop Dev Mode if it's still running (<code>q</code> in the terminal). Then build the application:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>quarkus<span class="w"> </span>ext<span class="w"> </span>add<span class="w"> </span>container-image-jib,kubernetes
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>quarkus<span class="w"> </span>build
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mvn<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">&quot;container-image-jib,kubernetes&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mvn<span class="w"> </span>package
 </span></code></pre></div>
 </div>
 </div>
 </div>
-<p>Open <code>pom.xml</code> and confirm two new dependencies appeared:</p>
-<div class="language-xml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.quarkus<span class="nt">&lt;/groupId&gt;</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>quarkus-container-image-jib<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nt">&lt;/dependency&gt;</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">&lt;groupId&gt;</span>io.quarkus<span class="nt">&lt;/groupId&gt;</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>quarkus-kubernetes<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nt">&lt;/dependency&gt;</span>
+<p>This compiles the app and produces <code>target/quarkus-app/</code> — the fast-jar layout Quarkus uses by default.</p>
+<div class="admonition note">
+<p class="admonition-title">What's in <code>target/quarkus-app/</code>?</p>
+<p>Quarkus splits the JAR into layers so container rebuilds are fast:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>target/quarkus-app/
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── quarkus-run.jar        ← thin launcher
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├── lib/                   ← all dependencies (changes rarely)
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>└── app/                   ← your classes (changes on every build)
+</span></code></pre></div>
+<p>The <code>Dockerfile</code> copies these layers separately so Docker/Podman can cache the <code>lib/</code> layer between builds.</p>
+</div>
+<hr />
+<h2 id="step-2-look-at-the-generated-dockerfile">Step 2 — Look at the generated Dockerfile<a class="headerlink" href="#step-2-look-at-the-generated-dockerfile" title="Permanent link">&para;</a></h2>
+<p>Quarkus generated a <code>Dockerfile</code> for you at project creation time. Take a look:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span>src/main/docker/Dockerfile.jvm
+</span></code></pre></div>
+<p>You'll see a multi-stage-friendly JVM image based on Red Hat's UBI minimal:</p>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">registry.access.redhat.com/ubi9/openjdk-21:1.21</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">LANGUAGE</span><span class="o">=</span><span class="s1">&#39;en_US:en&#39;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/lib/<span class="w"> </span>/deployments/lib/
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/*.jar<span class="w"> </span>/deployments/
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/app/<span class="w"> </span>/deployments/app/
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/quarkus/<span class="w"> </span>/deployments/quarkus/
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">USER</span><span class="w"> </span><span class="s">185</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.http.host=0.0.0.0 \</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="s2">    -Djava.util.logging.manager=org.jboss.logmanager.LogManager&quot;</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_APP_JAR</span><span class="o">=</span><span class="s2">&quot;/deployments/quarkus-run.jar&quot;</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;/opt/jboss/container/java/run/run-java.sh&quot;</span><span class="w"> </span><span class="p">]</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
-<ul>
-<li><strong>Jib</strong> builds container images in pure Java — no container daemon needed for the build itself. It layers your app efficiently (dependencies, resources, classes) for fast rebuilds.</li>
-<li><strong><code>quarkus-kubernetes</code></strong> generates <code>Deployment</code> and <code>Service</code> YAML at build time by reading your Quarkus config. No hand-written manifests.</li>
-</ul>
+<p>Quarkus generates this Dockerfile automatically — you don't write or maintain it. The layered copy order (lib → jar → app → quarkus) means only your changed classes are re-uploaded on rebuild.</p>
 </div>
-<hr />
-<h2 id="step-2-configure-the-container-image">Step 2 — Configure the Container Image<a class="headerlink" href="#step-2-configure-the-container-image" title="Permanent link">&para;</a></h2>
-<p>Open <code>src/main/resources/application.properties</code> and add the container image configuration:</p>
-<div class="language-properties highlight"><span class="filename">application.properties</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Container image — built by Jib</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">quarkus.container-image.builder</span><span class="o">=</span><span class="s">jib</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="na">quarkus.container-image.group</span><span class="o">=</span><span class="s">quarkus-workshop</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="na">quarkus.container-image.name</span><span class="o">=</span><span class="s">menu-service</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="na">quarkus.container-image.tag</span><span class="o">=</span><span class="s">1.0.0-SNAPSHOT</span>
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">What these properties do</p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Value</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>builder</code></td>
-<td><code>jib</code></td>
-<td>Use Jib instead of a container daemon build</td>
-</tr>
-<tr>
-<td><code>group</code></td>
-<td><code>quarkus-workshop</code></td>
-<td>Image namespace (like a Docker Hub org)</td>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td><code>menu-service</code></td>
-<td>Image name</td>
-</tr>
-<tr>
-<td><code>tag</code></td>
-<td><code>1.0.0-SNAPSHOT</code></td>
-<td>Image tag</td>
-</tr>
-</tbody>
-</table>
-<p>The final image name will be: <code>quarkus-workshop/menu-service:1.0.0-SNAPSHOT</code></p>
-</div>
-<hr />
-<h2 id="step-3-configure-kubernetes-manifests">Step 3 — Configure Kubernetes Manifests<a class="headerlink" href="#step-3-configure-kubernetes-manifests" title="Permanent link">&para;</a></h2>
-<p>Add the Kubernetes configuration to the same <code>application.properties</code>:</p>
-<div class="language-properties highlight"><span class="filename">application.properties</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Kubernetes deployment configuration</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="na">quarkus.kubernetes.deployment-target</span><span class="o">=</span><span class="s">kubernetes</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="na">quarkus.kubernetes.replicas</span><span class="o">=</span><span class="s">1</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Use the local image — don&#39;t try to pull from a remote registry</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="na">quarkus.kubernetes.image-pull-policy</span><span class="o">=</span><span class="s">IfNotPresent</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># Expose the service outside the cluster</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="na">quarkus.kubernetes.service-type</span><span class="o">=</span><span class="s">NodePort</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="na">quarkus.kubernetes.ports.http.node-port</span><span class="o">=</span><span class="s">30080</span>
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">What these properties do</p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>deployment-target=kubernetes</code></td>
-<td>Generate plain Kubernetes YAML (alternatives: <code>openshift</code>, <code>knative</code>)</td>
-</tr>
-<tr>
-<td><code>replicas=1</code></td>
-<td>One pod — suitable for a workshop</td>
-</tr>
-<tr>
-<td><code>image-pull-policy=IfNotPresent</code></td>
-<td>Use the local image; don't pull from a remote registry</td>
-</tr>
-<tr>
-<td><code>service-type=NodePort</code></td>
-<td>Expose the service on a fixed port on every cluster node</td>
-</tr>
-<tr>
-<td><code>node-port=30080</code></td>
-<td>Access the service at <code>http://localhost:30080</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Kind doesn't expose NodePorts directly</p>
-<p>If you're using Kind (via Podman Desktop or the CLI), <code>NodePort</code> services are not reachable at <code>localhost:30080</code> because Kind nodes run inside a container network. Use <code>kubectl port-forward</code> instead — shown in Step 8.</p>
-</div>
-<hr />
-<h2 id="step-4-configure-health-probes">Step 4 — Configure Health Probes<a class="headerlink" href="#step-4-configure-health-probes" title="Permanent link">&para;</a></h2>
-<p>Kubernetes uses <strong>liveness</strong> and <strong>readiness</strong> probes to know when your pod is healthy. Quarkus auto-configures these from your health extension (Lab 3).</p>
-<p>Add to <code>application.properties</code>:</p>
-<div class="language-properties highlight"><span class="filename">application.properties</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Health probes — Kubernetes reads these automatically</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="na">quarkus.kubernetes.liveness-probe.http-action-path</span><span class="o">=</span><span class="s">/q/health/live</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="na">quarkus.kubernetes.readiness-probe.http-action-path</span><span class="o">=</span><span class="s">/q/health/ready</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="na">quarkus.kubernetes.liveness-probe.initial-delay</span><span class="o">=</span><span class="s">5s</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="na">quarkus.kubernetes.readiness-probe.initial-delay</span><span class="o">=</span><span class="s">5s</span>
-</span></code></pre></div>
 <div class="admonition tip">
-<p class="admonition-title">Free health probes</p>
-<p>Because you already added <code>quarkus-smallrye-health</code> in Lab 3, Kubernetes will check <code>/q/health/live</code> and <code>/q/health/ready</code> automatically. Your custom <code>CoffeeShopHealthCheck</code> from Lab 3 is included — if the menu is empty, Kubernetes will detect it.</p>
+<p class="admonition-title">Apple Silicon (arm64) users</p>
+<p>The <code>ubi9/openjdk-21</code> base image is <strong>multi-arch</strong> — it pulls the native <code>arm64</code> layer automatically on Apple Silicon. If you see a <code>SIGILL</code> crash on startup, your Dockerfile is using an <code>amd64</code>-only base image (e.g. <code>ubi8/openjdk-21</code>). Switch to <code>ubi9/openjdk-21</code> to fix it.</p>
 </div>
 <hr />
-<h2 id="step-5-build-the-container-image">Step 5 — Build the Container Image<a class="headerlink" href="#step-5-build-the-container-image" title="Permanent link">&para;</a></h2>
-<p>Build the application <strong>and</strong> the container image in one command:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>quarkus<span class="w"> </span>build<span class="w"> </span>-Dquarkus.container-image.build<span class="o">=</span><span class="nb">true</span>
-</span></code></pre></div>
-<p>Or with Maven:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>mvn<span class="w"> </span>package<span class="w"> </span>-Dquarkus.container-image.build<span class="o">=</span><span class="nb">true</span>
-</span></code></pre></div>
-<p>You'll see output like:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>[INFO] [io.quarkus.container.image.jib.deployment.JibProcessor]
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>       Created container image quarkus-workshop/menu-service:1.0.0-SNAPSHOT
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">What just happened?</p>
-<p>Jib built a container image with three optimised layers:</p>
-<ol>
-<li><strong>Dependencies</strong> — changes rarely, cached across builds</li>
-<li><strong>Resources</strong> — <code>application.properties</code>, <code>import.sql</code></li>
-<li><strong>Application classes</strong> — changes on every build, smallest layer</li>
-</ol>
-<p>This layering means rebuilds after code changes only transfer a few KB — not the entire JAR.</p>
-</div>
-<p>Verify the image exists:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>podman<span class="w"> </span>images<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>menu-service
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>quarkus-workshop/menu-service   1.0.0-SNAPSHOT   abc123def456   10 seconds ago   423MB
-</span></code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Docker CLI works too</p>
-<p>If you have the <code>podman-docker</code> compatibility package installed, <code>docker images</code> works identically — Podman is a drop-in replacement.</p>
-</div>
-<hr />
-<h2 id="step-6-inspect-the-generated-kubernetes-manifests">Step 6 — Inspect the Generated Kubernetes Manifests<a class="headerlink" href="#step-6-inspect-the-generated-kubernetes-manifests" title="Permanent link">&para;</a></h2>
-<p>Quarkus generated Kubernetes YAML at build time. Take a look:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>cat<span class="w"> </span>target/kubernetes/kubernetes.yml
-</span></code></pre></div>
-<p>You'll see a complete <code>Deployment</code> and <code>Service</code> — generated entirely from your <code>application.properties</code>:</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">menu-service</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nt">spec</span><span class="p">:</span>
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">      </span><span class="nt">app.kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">menu-service</span>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">        </span><span class="nt">app.kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">menu-service</span>
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">menu-service</span>
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quarkus-workshop/menu-service:1.0.0-SNAPSHOT</span>
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">          </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
-</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">          </span><span class="nt">livenessProbe</span><span class="p">:</span>
-</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
-</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/q/health/live</span>
-</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
-</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="w">            </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a><span class="w">          </span><span class="nt">readinessProbe</span><span class="p">:</span>
-</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="w">            </span><span class="nt">httpGet</span><span class="p">:</span>
-</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/q/health/ready</span>
-</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a><span class="w">              </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
-</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a><span class="w">            </span><span class="nt">initialDelaySeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a><span class="nn">---</span>
-</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
-</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">menu-service</span>
-</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a><span class="nt">spec</span><span class="p">:</span>
-</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NodePort</span>
-</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
-</span><span id="__span-18-40"><a id="__codelineno-18-40" name="__codelineno-18-40" href="#__codelineno-18-40"></a><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
-</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41" href="#__codelineno-18-41"></a><span class="w">      </span><span class="nt">nodePort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30080</span>
-</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42" href="#__codelineno-18-42"></a><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">What just happened?</p>
-<p>You didn't write any YAML. Quarkus read your <code>application.properties</code>, your health extension, and your container image config — and generated production-ready Kubernetes manifests with correct probes, ports, and image references.</p>
-</div>
-<hr />
-<h2 id="step-7-deploy-to-kubernetes">Step 7 — Deploy to Kubernetes<a class="headerlink" href="#step-7-deploy-to-kubernetes" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Podman Desktop / Kind (Recommended)</label><label for="__tabbed_3_2">Minikube (with podman-env)</label></div>
+<h2 id="step-3-build-the-container-image">Step 3 — Build the container image<a class="headerlink" href="#step-3-build-the-container-image" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Podman</label><label for="__tabbed_2_2">Docker</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Load the image into Kind first, then deploy:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>kind<span class="w"> </span>load<span class="w"> </span>docker-image<span class="w"> </span>quarkus-workshop/menu-service:1.0.0-SNAPSHOT<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span>--name<span class="w"> </span>quarkus-workshop
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>target/kubernetes/kubernetes.yml
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<p>The image is already in Minikube's runtime. Deploy directly:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>target/kubernetes/kubernetes.yml
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
 </span></code></pre></div>
 </div>
 </div>
 </div>
-<p>Watch the pod start:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
+<p>You'll see each layer pulled and cached. The final line will read something like:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Successfully tagged localhost/menu-service:1.0
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>NAME                            READY   STATUS    RESTARTS   AGE
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>menu-service-7b8f9d6c4f-x2j9k  0/1     Running   0          3s
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>menu-service-7b8f9d6c4f-x2j9k  1/1     Running   0          8s
+<p>Verify the image is there:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Podman</label><label for="__tabbed_3_2">Docker</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>podman<span class="w"> </span>images<span class="w"> </span>menu-service
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>images<span class="w"> </span>menu-service
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>REPOSITORY     TAG   IMAGE ID       CREATED          SIZE
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>menu-service   1.0   a3b2c1d4e5f6   10 seconds ago   ~420MB
+</span></code></pre></div>
+<hr />
+<h2 id="step-4-run-the-container">Step 4 — Run the container<a class="headerlink" href="#step-4-run-the-container" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Podman</label><label for="__tabbed_4_2">Docker</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.profile=prod&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>menu-service:1.0
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.profile=prod&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>menu-service:1.0
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>Watch the startup log — notice how fast Quarkus starts:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>INFO  [io.quarkus] menu-service 1.0.0-SNAPSHOT on JVM started in 0.8s.
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>INFO  [io.quarkus] Profile prod activated.
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>INFO  [io.quarkus] Installed features: [cdi, hibernate-orm, jdbc-h2, rest, ...]
 </span></code></pre></div>
 <div class="admonition tip">
-<p class="admonition-title">The pod went from 0/1 to 1/1</p>
-<p>That transition happened because the <strong>readiness probe</strong> (<code>/q/health/ready</code>) returned <code>UP</code>. Kubernetes won't route traffic to the pod until it's ready.</p>
+<p class="admonition-title">Why <code>--rm</code>?</p>
+<p><code>--rm</code> removes the container automatically when you stop it (<code>Ctrl+C</code>). Clean by default — no leftover stopped containers to tidy up.</p>
 </div>
 <hr />
-<h2 id="step-8-test-the-deployed-service">Step 8 — Test the Deployed Service<a class="headerlink" href="#step-8-test-the-deployed-service" title="Permanent link">&para;</a></h2>
+<h2 id="step-5-test-the-running-container">Step 5 — Test the running container<a class="headerlink" href="#step-5-test-the-running-container" title="Permanent link">&para;</a></h2>
+<p>Open a <strong>second terminal</strong> and hit the endpoints:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># List all menu items</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>curl<span class="w"> </span>http://localhost:8080/menu
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Check health</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>curl<span class="w"> </span>http://localhost:8080/q/health
+</span></code></pre></div>
+<p>Expected responses:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">[</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;A concentrated shot of coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cappuccino&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso with steamed milk foam&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cold Brew&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;12-hour cold-steeped coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">{</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;coffee-menu&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;itemCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Database connections health check&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">}</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Stop the container with <code>Ctrl+C</code> in the first terminal when you're done.</p>
 <div class="admonition warning">
 <p class="admonition-title">H2 is an in-memory database</p>
-<p><code>menu-service</code> uses H2 in-memory mode. The <code>import.sql</code> seed data is loaded when the pod starts, so the initial response looks correct. However, <strong>any items you add via the REST API are lost when the pod restarts</strong>. This is fine for a workshop demo — a production deployment would use a persistent database (PostgreSQL, MySQL, etc.).</p>
+<p><code>menu-service</code> uses H2 in-memory mode. Data is seeded from <code>import.sql</code> each time the container starts — any items you added via the API are gone when the container stops. A production deployment would use a persistent external database.</p>
 </div>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Podman Desktop / Kind</label><label for="__tabbed_4_2">Docker Desktop</label><label for="__tabbed_4_3">Minikube</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Port-forward since Kind doesn&#39;t expose NodePorts directly</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/menu-service<span class="w"> </span><span class="m">30080</span>:8080<span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>curl<span class="w"> </span>http://localhost:30080/menu
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>curl<span class="w"> </span>http://localhost:30080/menu
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>curl<span class="w"> </span><span class="k">$(</span>minikube<span class="w"> </span>ip<span class="k">)</span>:30080/menu
-</span></code></pre></div>
-</div>
-</div>
-</div>
-<p>You should see the familiar JSON response:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">[</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;A concentrated shot of coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cappuccino&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso with steamed milk foam&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cold Brew&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;12-hour cold-steeped coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="p">]</span>
-</span></code></pre></div>
-<p>Check the health endpoint too:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>curl<span class="w"> </span>http://localhost:30080/q/health
-</span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="p">{</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;coffee-menu&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;itemCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Database connections health check&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">}</span>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">  </span><span class="p">]</span>
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="p">}</span>
-</span></code></pre></div>
-<hr />
-<h2 id="step-9-explore-the-deployment">Step 9 — Explore the Deployment<a class="headerlink" href="#step-9-explore-the-deployment" title="Permanent link">&para;</a></h2>
-<p>Run a few <code>kubectl</code> commands to see what Quarkus deployed:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># See the deployment</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>menu-service
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># See the service and its NodePort</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>menu-service
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Check pod logs — notice the fast startup time</span>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>deployment/menu-service
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="c1"># Describe the pod — see the probe configuration</span>
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>menu-service
-</span></code></pre></div>
-<p>In the pod description, find the <code>Liveness</code> and <code>Readiness</code> sections:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>Liveness:   http-get http://:8080/q/health/live delay=5s timeout=1s period=10s
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>Readiness:  http-get http://:8080/q/health/ready delay=5s timeout=1s period=10s
-</span></code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">What just happened?</p>
-<p>Kubernetes is actively monitoring your application using the health checks you built in Lab 3. If the liveness probe fails, Kubernetes restarts the pod. If the readiness probe fails, Kubernetes stops sending traffic to it.</p>
-</div>
-<hr />
-<h2 id="bonus-scale-up-and-watch">Bonus — Scale Up and Watch<a class="headerlink" href="#bonus-scale-up-and-watch" title="Permanent link">&para;</a></h2>
-<p>Scale to 3 replicas and watch Kubernetes bring them up:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>menu-service<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
-</span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>NAME                            READY   STATUS    RESTARTS   AGE
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>menu-service-7b8f9d6c4f-x2j9k  1/1     Running   0          2m
-</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>menu-service-7b8f9d6c4f-a4m2n  1/1     Running   0          5s
-</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>menu-service-7b8f9d6c4f-p7q3r  1/1     Running   0          5s
-</span></code></pre></div>
-<p>Three pods, all healthy, all responding to the same <code>NodePort</code>. Kubernetes load-balances across them automatically.</p>
-<p>Scale back down when done:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>menu-service<span class="w"> </span>--replicas<span class="o">=</span><span class="m">1</span>
-</span></code></pre></div>
-<hr />
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
-<p>When you're done, remove the deployment from your cluster:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>-f<span class="w"> </span>target/kubernetes/kubernetes.yml
-</span></code></pre></div>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <table>
@@ -1614,42 +1193,39 @@
 </thead>
 <tbody>
 <tr>
-<td>✅ Built a container image</td>
-<td><code>quarkus-container-image-jib</code> — no Dockerfile needed</td>
+<td>✅ Production JAR</td>
+<td><code>quarkus build</code> / <code>mvn package</code></td>
 </tr>
 <tr>
-<td>✅ Generated Kubernetes YAML</td>
-<td><code>quarkus-kubernetes</code> — from <code>application.properties</code></td>
+<td>✅ Container image</td>
+<td><code>podman build -f src/main/docker/Dockerfile.jvm</code></td>
 </tr>
 <tr>
-<td>✅ Health probes wired automatically</td>
-<td>Lab 3's <code>@Liveness</code> + <code>@Readiness</code> checks used by K8s</td>
+<td>✅ Run locally</td>
+<td><code>podman run --rm -p 8080:8080</code></td>
 </tr>
 <tr>
-<td>✅ Deployed to a local cluster</td>
-<td><code>kubectl apply -f target/kubernetes/kubernetes.yml</code></td>
-</tr>
-<tr>
-<td>✅ Scaled replicas</td>
-<td><code>kubectl scale</code> — instant horizontal scaling</td>
+<td>✅ Health checks work in container</td>
+<td><code>/q/health</code> responds <code>UP</code></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Stuck or fell behind?</p>
-<p>The complete solution is in <code>labs/lab9-containerize/solution/</code>. Build and deploy it with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab9-containerize/solution
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>mvn<span class="w"> </span>package<span class="w"> </span>-Dquarkus.container-image.build<span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>target/kubernetes/kubernetes.yml
+<p>The complete solution is in <code>labs/lab9-containerize/solution/</code>. Build and run it with:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab9-containerize/solution
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>mvn<span class="w"> </span>package
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>menu-service:1.0
 </span></code></pre></div>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Going further</p>
 <ul>
-<li><strong>OpenShift:</strong> Change <code>deployment-target=openshift</code> to generate <code>DeploymentConfig</code> + <code>Route</code> manifests</li>
-<li><strong>Knative:</strong> Change <code>deployment-target=knative</code> for serverless scale-to-zero deployments</li>
-<li><strong>Native image:</strong> Add <code>-Dquarkus.native.enabled=true</code> to build a native container (~35 MB, ~20ms startup)</li>
-<li><strong>Remote registry:</strong> Set <code>quarkus.container-image.push=true</code> and <code>quarkus.container-image.registry=ghcr.io</code> to push to GitHub Container Registry</li>
+<li><strong>Native image:</strong> <code>mvn package -Dnative -Dquarkus.native.container-build=true</code> — builds a native binary inside a container, produces a ~50 MB image with ~10ms startup</li>
+<li><strong>Push to a registry:</strong> <code>podman push menu-service:1.0 quay.io/youruser/menu-service:1.0</code></li>
+<li><strong>Kubernetes deployment:</strong> If you want to go further with K8s, the <a href="https://quarkus.io/guides/deploying-to-kubernetes" target="_blank"><code>quarkus-kubernetes</code> extension</a> generates manifests automatically from <code>application.properties</code></li>
+<li><strong>OpenShift:</strong> <code>quarkus deploy</code> with the <a href="https://quarkus.io/guides/deploying-to-openshift" target="_blank"><code>quarkus-openshift</code> extension</a> deploys directly from your laptop</li>
 </ul>
 </div>
 <hr />
