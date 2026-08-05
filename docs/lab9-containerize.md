@@ -69,7 +69,7 @@ cat src/main/docker/Dockerfile.jvm
 You'll see a multi-stage-friendly JVM image based on Red Hat's UBI minimal:
 
 ```dockerfile
-FROM registry.access.redhat.com/ubi8/openjdk-21:1.20
+FROM registry.access.redhat.com/ubi9/openjdk-21:1.21
 
 ENV LANGUAGE='en_US:en'
 
@@ -89,6 +89,9 @@ ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
 
 !!! note "What just happened?"
     Quarkus generates this Dockerfile automatically — you don't write or maintain it. The layered copy order (lib → jar → app → quarkus) means only your changed classes are re-uploaded on rebuild.
+
+!!! tip "Apple Silicon (arm64) users"
+    The `ubi9/openjdk-21` base image is **multi-arch** — it pulls the native `arm64` layer automatically on Apple Silicon. If you see a `SIGILL` crash on startup, your Dockerfile is using an `amd64`-only base image (e.g. `ubi8/openjdk-21`). Switch to `ubi9/openjdk-21` to fix it.
 
 ---
 
