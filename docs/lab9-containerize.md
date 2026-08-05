@@ -1,32 +1,32 @@
 # Lab 9: Containerization
 
-**Duration:** ~10 minutes &nbsp;|&nbsp; **Project:** `menu-service` (from Lab 3)
+**Duration:** ~10 minutes &nbsp;|&nbsp; **Project:** `menu-service`
 
 !!! info "What you'll build"
     Package `menu-service` into a container image using Quarkus' built-in `Dockerfile`, build it with **Podman** (or Docker), run it locally, and test the REST endpoint — no Kubernetes, no registry, no extra extensions.
 
 !!! warning "Prerequisites for this lab"
-    - **Lab 3** completed — this lab uses the `menu-service` you built there (REST + Panache + health checks)
     - **Podman** or **Docker** must be running. Verify with:
     ```bash
     podman info   # or: docker info
     ```
 
-!!! tip "Don't have your Lab 3 menu-service?"
-    Run the setup script from the repo root — it copies the Lab 3 solution into a fresh `menu-service` directory:
-    ```bash
-    bash labs/lab9-containerize/setup.sh
-    ```
+---
+
+## Step 1 — Get the starting point
+
+Run the setup script from the repo root:
+
+```bash
+bash labs/lab9-containerize/setup.sh
+cd lab9-menu-service
+```
+
+This creates a `lab9-menu-service` directory with everything needed for this lab.
 
 ---
 
-## Step 1 — Build a production JAR
-
-Navigate to your `menu-service` directory from Lab 3:
-
-```bash
-cd menu-service
-```
+## Step 2 — Build a production JAR
 
 Stop Dev Mode if it's still running (`q` in the terminal). Then build the application:
 
@@ -58,7 +58,7 @@ This compiles the app and produces `target/quarkus-app/` — the fast-jar layout
 
 ---
 
-## Step 2 — Look at the generated Dockerfile
+## Step 3 — Look at the generated Dockerfile
 
 Quarkus generated a `Dockerfile` for you at project creation time. Take a look:
 
@@ -95,7 +95,7 @@ ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
 
 ---
 
-## Step 3 — Build the container image
+## Step 4 — Build the container image
 
 === "Podman"
 
@@ -138,7 +138,7 @@ menu-service   1.0   a3b2c1d4e5f6   10 seconds ago   ~420MB
 
 ---
 
-## Step 4 — Run the container
+## Step 5 — Run the container
 
 === "Podman"
 
@@ -169,7 +169,7 @@ INFO  [io.quarkus] Installed features: [cdi, hibernate-orm, jdbc-h2, rest, ...]
 
 ---
 
-## Step 5 — Test the running container
+## Step 6 — Test the running container
 
 Open a **second terminal** and hit the endpoints:
 
@@ -221,7 +221,8 @@ Stop the container with `Ctrl+C` in the first terminal when you're done.
     The complete solution is in `labs/lab9-containerize/solution/`. Build and run it with:
 
     ```bash
-    cd labs/lab9-containerize/solution
+    bash labs/lab9-containerize/setup.sh
+    cd lab9-menu-service
     mvn package
     podman build -f src/main/docker/Dockerfile.jvm -t menu-service:1.0 .
     podman run --rm -p 8080:8080 menu-service:1.0

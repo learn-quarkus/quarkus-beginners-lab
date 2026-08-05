@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Lab 9 setup script — copies the Lab 9 solution into a fresh menu-service/ directory.
-#
-# Use this if you don't have your own menu-service from Lab 3.
+# Lab 9 setup script — copies the Lab 9 solution into a fresh lab9-menu-service/ directory.
 #
 # Run from the repo root:
 #   bash labs/lab9-containerize/setup.sh
@@ -11,7 +9,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SOURCE="$SCRIPT_DIR/solution"
-DEST="$REPO_ROOT/menu-service"
+DEST="$REPO_ROOT/workshop/lab9-menu-service"
 
 # ── Copy Lab 9 solution ────────────────────────────────────────────────────────
 
@@ -27,29 +25,12 @@ if [ ! -d "$SOURCE" ]; then
 fi
 
 cp -r "$SOURCE" "$DEST"
-echo "✅ Copied Lab 9 solution → $DEST"
 
 # ── Done ───────────────────────────────────────────────────────────────────────
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
-echo "║  menu-service is ready for Lab 9                            ║"
+echo "║  lab9-menu-service is ready — continue with the lab steps   ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 echo ""
-echo "What was applied:"
-echo "  ✅ Lab 9 solution copied to:  $DEST"
-echo ""
-echo "Next steps:"
-echo ""
-echo "  1. Build the JAR:"
-echo "       cd $DEST"
-echo "       mvn package"
-echo ""
-echo "  2. Build the container image:"
-echo "       podman build -f src/main/docker/Dockerfile.jvm -t menu-service:1.0 ."
-echo ""
-echo "  3. Run it:"
-echo "       podman run --rm -p 8080:8080 menu-service:1.0"
-echo ""
-echo "  4. Test it:"
-echo "       curl http://localhost:8080/menu"
+echo "  cd $DEST"

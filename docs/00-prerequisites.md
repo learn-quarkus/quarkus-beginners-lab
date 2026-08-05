@@ -169,12 +169,24 @@ cd quarkus-beginners-lab
     quarkus-beginners-lab/
     ├── docs/           ← this website's source
     ├── labs/           ← complete solution code for every lab
+    ├── workshop/       ← your working directory for all labs
     └── prereq-check.sh ← environment validation script
     ```
 
+## 7. Create Your Working Directory
+
+All the projects you build during the workshop live in one place — the `workshop/` folder inside the repo. Navigate there now and keep this terminal open throughout the session:
+
+```bash
+cd workshop
+```
+
+!!! tip
+    Every `quarkus create app` and `cd project-name` command in the labs assumes you are already inside `workshop/`. If you open a new terminal, run `cd quarkus-beginners-lab/workshop` to get back.
+
 ---
 
-## 7. Verify Your Setup
+## 8. Verify Your Setup
 
 Run the prerequisite check script from inside the cloned repo:
 

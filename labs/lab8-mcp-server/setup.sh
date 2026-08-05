@@ -15,7 +15,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SOURCE="$REPO_ROOT/labs/lab7-langchain4j/solution"
-DEST="$REPO_ROOT/barista-bot"
+DEST="$REPO_ROOT/workshop/barista-bot"
 
 # ── Step 1: Copy Lab 7 solution ────────────────────────────────────────────────
 
