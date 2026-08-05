@@ -58,7 +58,7 @@ quarkus.datasource.db-kind=h2
 quarkus.datasource.jdbc.url=jdbc:h2:mem:coffeedb;DB_CLOSE_DELAY=-1
 
 # Auto-create schema on startup and drop it on shutdown
-quarkus.hibernate-orm.database.generation=drop-and-create
+quarkus.hibernate-orm.schema-management.strategy=drop-and-create
 
 # Log generated SQL so you can see what Hibernate is doing
 quarkus.hibernate-orm.log.sql=true
@@ -264,7 +264,7 @@ You'll see your rows — including any you just `POST`ed — live in the browser
 |------|-----|
 | ✅ Added JPA persistence | `@Entity`, `extends PanacheEntity` |
 | ✅ Zero-boilerplate DB access | `MenuItem.listAll()`, `item.persist()` |
-| ✅ Schema auto-created | `hibernate-orm.database.generation=drop-and-create` |
+| ✅ Schema auto-created | `hibernate-orm.schema-management.strategy=drop-and-create` |
 | ✅ Seeded with `import.sql` | Runs automatically on startup |
 | ✅ Viewed live DB in browser | Dev UI datasource panel |
 
