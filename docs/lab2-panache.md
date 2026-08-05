@@ -14,6 +14,9 @@
 
 ---
 
+!!! tip "Working directory"
+    All commands in this lab run from the `workshop/` folder inside the cloned repo. Make sure you are in that folder before you begin.
+
 ## Step 1 — Add the Extensions
 
 Make sure Dev Mode is **still running** from Lab 1 (`quarkus dev` or `./mvnw quarkus:dev`). Open a **second terminal** in the `menu-service` directory and run:

@@ -13,6 +13,9 @@
     ```
     You should see an empty table — not an error. If you see an error, start Docker Desktop or Podman Desktop first.
 
+!!! tip "Working directory"
+    All commands in this lab run from the `workshop/` folder inside the cloned repo. Make sure you are in that folder before you begin.
+
 ```
 ┌─────────────────────┐    Kafka topic      ┌──────────────────────┐
 │    order-service    │  "coffee-orders"    │    menu-service      │

@@ -18,6 +18,9 @@
 
 ---
 
+!!! tip "Working directory"
+    All commands in this lab run from the `workshop/` folder inside the cloned repo. Make sure you are in that folder before you begin.
+
 ## Setup — Get the starting point
 
 If you completed Lab 7 your `barista-bot` directory is already ready. Skip to [Step 1](#step-1-create-menu-mcp-server).

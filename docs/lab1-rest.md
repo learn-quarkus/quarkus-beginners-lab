@@ -15,6 +15,9 @@
 
 ---
 
+!!! tip "Working directory"
+    All commands in this lab run from the `workshop/` folder inside the cloned repo. Make sure you are in that folder before you begin.
+
 ## Step 1 — Bootstrap the Project
 
 Run the following command in your terminal:
