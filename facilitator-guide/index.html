@@ -692,6 +692,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9-containerize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9: Containerize & K8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -903,21 +931,32 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
+  <a href="#wrap-up-native-demo-6800-7000" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wrap-Up — Native Demo (58:00 – 60:00)
+        Wrap-Up — Native Demo (68:00 – 70:00)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (68:00 – 70:00)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1114,21 +1153,32 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
+  <a href="#wrap-up-native-demo-6800-7000" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wrap-Up — Native Demo (58:00 – 60:00)
+        Wrap-Up — Native Demo (68:00 – 70:00)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (68:00 – 70:00)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1259,7 +1309,12 @@
 <td>AI responses vary. If OpenAI is slow, narrate what's happening. RAG bonus is optional — skip if behind on time.</td>
 </tr>
 <tr>
-<td>58:00 – 60:00</td>
+<td>58:00 – 68:00</td>
+<td>Lab 9</td>
+<td><strong>Requires Docker/Podman + local Kubernetes.</strong> Confirm cluster is ready before starting. The <code>quarkus build</code> with Jib takes ~30s.</td>
+</tr>
+<tr>
+<td>68:00 – 70:00</td>
 <td>Wrap-Up</td>
 <td>Native demo only. Don't try to compile live. Show pre-built binary only.</td>
 </tr>
@@ -1367,7 +1422,28 @@
 - <em>"Can I use other models?"</em> — Yes. Swap <code>quarkus-langchain4j-openai</code> for <code>quarkus-langchain4j-ollama</code> (local) or <code>quarkus-langchain4j-azure-openai</code>. The <code>BaristaAiService</code> interface stays unchanged.
 - <em>"What is RAG?"</em> — Retrieval Augmented Generation. Instead of relying on the model's training data, you inject relevant documents into the context at query time. Easy RAG does the embedding and retrieval automatically.</p>
 <hr />
-<h2 id="wrap-up-native-demo-5800-6000">Wrap-Up — Native Demo (58:00 – 60:00)<a class="headerlink" href="#wrap-up-native-demo-5800-6000" title="Permanent link">&para;</a></h2>
+<h3 id="lab-9-containerize-deploy-to-kubernetes-5800-6800">Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)<a class="headerlink" href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Pre-flight check</p>
+<p>Podman Desktop must be running. Attendees need a local Kubernetes cluster — Podman Desktop's built-in Kind cluster is the recommended option. Confirm everyone can run <code>kubectl get nodes</code> successfully before starting.</p>
+</div>
+<p><strong>Key moments to call out:</strong>
+- After adding extensions: "Two extensions — <code>container-image-jib</code> and <code>kubernetes</code>. Jib builds container images in pure Java. No Dockerfile. No container daemon for the build itself."
+- After <code>quarkus build</code>: "One command built your JAR, built a container image with optimised layers, AND generated Kubernetes manifests. Open <code>target/kubernetes/kubernetes.yml</code> — Quarkus wrote that for you."
+- After <code>kubectl apply</code>: "Notice the pod goes 0/1 then 1/1. That transition is your readiness probe from Lab 3 — Kubernetes is using your health check to decide when to route traffic."
+- After scaling to 3 replicas: "Three pods, all healthy, all load-balanced. This is why fast startup matters — each new replica is ready in under a second."</p>
+<p><strong>Common questions:</strong>
+- <em>"Why Jib instead of a Dockerfile?"</em> — Jib builds optimised layered images without a container daemon. It separates dependencies from application classes, so rebuilds only transfer the changed layers. You can still use Dockerfiles with <code>quarkus-container-image-docker</code> if you prefer.
+- <em>"Why Podman instead of Docker?"</em> — Podman is daemonless, rootless by default, and fully OCI-compatible. It's a drop-in replacement for Docker CLI. Red Hat and IBM ship it as the default container engine.
+- <em>"What about OpenShift?"</em> — Change <code>deployment-target=openshift</code> and Quarkus generates <code>DeploymentConfig</code> + <code>Route</code> instead of <code>Deployment</code> + <code>Service</code>.
+- <em>"Is H2 suitable for Kubernetes?"</em> — No, H2 is in-memory and per-pod. In production you'd use PostgreSQL with a persistent volume. DevServices handles the dev/test story; this lab focuses on the deployment pipeline.</p>
+<p><strong>Pitfalls:</strong>
+- No local Kubernetes cluster — guide attendees to create one in Podman Desktop: Settings → Kubernetes → Create Kind cluster.
+- Minikube users must run <code>eval $(minikube podman-env)</code> first, otherwise the image won't be visible to the cluster.
+- Kind users must <code>kind load docker-image</code> after building — Kind can't see local Podman images directly.
+- NodePort 30080 conflict — unlikely but check with <code>lsof -i :30080</code>.</p>
+<hr />
+<h2 id="wrap-up-native-demo-6800-7000">Wrap-Up — Native Demo (68:00 – 70:00)<a class="headerlink" href="#wrap-up-native-demo-6800-7000" title="Permanent link">&para;</a></h2>
 <h3 id="pre-workshop-build-the-native-binary">Pre-workshop: build the native binary<a class="headerlink" href="#pre-workshop-build-the-native-binary" title="Permanent link">&para;</a></h3>
 <p>Run this the night before or the morning of the workshop (takes 3–5 minutes):</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
@@ -1430,6 +1506,18 @@
 <td>Check test class has <code>@QuarkusTest</code> annotation</td>
 </tr>
 <tr>
+<td>No local K8s cluster</td>
+<td>Podman Desktop: Settings → Kubernetes → Create Kind cluster</td>
+</tr>
+<tr>
+<td>Image not found by K8s</td>
+<td>Minikube: run <code>eval $(minikube podman-env)</code> first. Kind: run <code>kind load docker-image</code> after build</td>
+</tr>
+<tr>
+<td>NodePort 30080 in use</td>
+<td><code>lsof -i :30080</code> → kill the PID, or change <code>node-port</code> in <code>application.properties</code></td>
+</tr>
+<tr>
 <td>Native binary missing</td>
 <td>Pre-build using the steps in the Wrap-Up section above</td>
 </tr>
@@ -1453,7 +1541,7 @@
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>./mvnw<span class="w"> </span>quarkus:dev
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>mvn<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
 </div>
 </div>

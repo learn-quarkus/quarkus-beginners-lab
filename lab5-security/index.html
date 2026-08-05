@@ -834,6 +834,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9-containerize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9: Containerize & K8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1089,9 +1117,15 @@
 <ul>
 <li>A realm named <code>quarkus</code></li>
 <li>A client with the correct settings</li>
-<li>Two test users: <code>alice</code> (role: <code>user</code>) and <code>bob</code> (role: <code>admin</code>)</li>
+<li>Two test users: <code>alice</code> (roles: <code>admin</code> + <code>user</code>) and <code>bob</code> (role: <code>user</code> only)</li>
 </ul>
 <p>You get a fully working identity provider with zero manual setup.</p>
+<div class="admonition tip">
+<p class="admonition-title">Default user roles</p>
+<p>The default role assignments are documented in the <a href="https://quarkus.io/guides/security-openid-connect-dev-services">Quarkus Dev Services for OIDC guide</a>:
+<code>alice</code> always receives both <code>admin</code> and <code>user</code> roles; <code>bob</code> receives only <code>user</code>.
+You can override this with <code>quarkus.keycloak.devservices.roles.&lt;username&gt;=&lt;role&gt;</code> in <code>application.properties</code>.</p>
+</div>
 </div>
 <hr />
 <h2 id="step-2-protect-the-endpoints">Step 2 — Protect the Endpoints<a class="headerlink" href="#step-2-protect-the-endpoints" title="Permanent link">&para;</a></h2>
@@ -1164,53 +1198,65 @@
 <p>Open:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>http://localhost:8080/q/dev-ui
 </span></code></pre></div>
-<p>Find the <strong>OpenID Connect</strong> card and click <strong>"Login into Single Page Application"</strong>.</p>
+<p>Find the <strong>OpenID Connect</strong> card and click on <em>Keycloak provider</em>. In the new window, click <strong>"Login into Single Page Application"</strong>.</p>
 <p>You'll see a login page served by Keycloak. Log in as:</p>
 <ul>
-<li><strong>Username:</strong> <code>alice</code></li>
-<li><strong>Password:</strong> <code>alice</code></li>
+<li><strong>Username:</strong> <code>bob</code></li>
+<li><strong>Password:</strong> <code>bob</code></li>
 </ul>
-<p>After login, the Dev UI shows the <strong>Access Token</strong> for <code>alice</code>. Click the copy icon to copy it to your clipboard.</p>
+<p>After login, the Dev UI shows the <strong>Access Token</strong> for <code>bob</code>. Click the copy icon to copy it to your clipboard.</p>
+<div class="admonition warning">
+<p class="admonition-title">\"Code not valid\" error?</p>
+<p>If you see <code>invalid_grant: Code not valid</code> in the terminal, the authorization code was already consumed — this happens if you refreshed the Dev UI page or clicked the login button a second time after the initial redirect. Simply click <strong>"Login into Single Page Application"</strong> again to start a fresh login flow and get a new code.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
 <p>The Dev UI has a built-in OIDC test client. It performed the OAuth2 Authorization Code flow against the DevServices Keycloak, obtained a JWT access token, and displayed it for you — without writing any test code.</p>
 </div>
 <hr />
 <h2 id="step-5-test-the-security">Step 5 — Test the Security<a class="headerlink" href="#step-5-test-the-security" title="Permanent link">&para;</a></h2>
-<p>Open a terminal and test all three scenarios with <code>curl</code>. Replace <code>&lt;TOKEN&gt;</code> with the token you copied.</p>
+<p>Open a terminal and test all three scenarios with <code>curl</code>.</p>
+<p><strong>Set up an environment variable for Bob's token:</strong></p>
+<p>Create a local environment variable with the token you just copied:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BOB_TOKEN</span><span class="o">=</span>&lt;TOKEN&gt;
+</span></code></pre></div>
+<p>Replace <code>&lt;TOKEN&gt;</code> with the token you copied.</p>
 <p><strong>No token → 401 Unauthorized:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Test&quot;,&quot;description&quot;:&quot;test&quot;,&quot;price&quot;:1.0}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Test&quot;,&quot;description&quot;:&quot;test&quot;,&quot;price&quot;:1.0}&#39;</span>
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>HTTP/1.1 401 Unauthorized
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>HTTP/1.1 401 Unauthorized
 </span></code></pre></div>
-<p><strong>Valid token (alice) → 201 Created:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;TOKEN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Oat Latte&quot;,&quot;description&quot;:&quot;Creamy oat milk latte&quot;,&quot;price&quot;:4.50}&#39;</span>
+<p><strong>Valid token (bob, role: user) → 201 Created:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$BOB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Oat Latte&quot;,&quot;description&quot;:&quot;Creamy oat milk latte&quot;,&quot;price&quot;:4.50}&#39;</span>
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>HTTP/1.1 201 Created
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>{&quot;id&quot;:4,&quot;name&quot;:&quot;Oat Latte&quot;,&quot;description&quot;:&quot;Creamy oat milk latte&quot;,&quot;price&quot;:4.5}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>HTTP/1.1 201 Created
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>{&quot;id&quot;:4,&quot;name&quot;:&quot;Oat Latte&quot;,&quot;description&quot;:&quot;Creamy oat milk latte&quot;,&quot;price&quot;:4.5}
 </span></code></pre></div>
-<p><strong>Valid token with admin role (bob) → 201 Created:</strong></p>
-<p>First, log out of the Dev UI and log back in as <code>bob</code> / <code>bob</code> to get a token with the <code>admin</code> role. Then:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu/admin<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;BOB_TOKEN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Barista Special&quot;,&quot;description&quot;:&quot;Secret recipe&quot;,&quot;price&quot;:6.00}&#39;</span>
+<p><strong>Valid token with admin role (alice) → 201 Created:</strong></p>
+<p>Log out of the Dev UI and log back in as <code>alice</code> / <code>alice</code> to get a token with the <code>admin</code> role.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ALICE_TOKEN</span><span class="o">=</span>&lt;TOKEN&gt;
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>HTTP/1.1 201 Created
-</span></code></pre></div>
-<p><strong>Valid token but wrong role (alice) → 403 Forbidden:</strong></p>
-<p>Using alice's token (which has role <code>user</code>, not <code>admin</code>):</p>
+<p>Replace <code>&lt;TOKEN&gt;</code> with alice's token.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu/admin<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer &lt;ALICE_TOKEN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$ALICE_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Barista Special&quot;,&quot;description&quot;:&quot;Secret recipe&quot;,&quot;price&quot;:6.00}&#39;</span>
 </span></code></pre></div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>HTTP/1.1 403 Forbidden
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>HTTP/1.1 201 Created
+</span></code></pre></div>
+<p><strong>Valid token but wrong role (bob) → 403 Forbidden:</strong></p>
+<p>Using bob's token (which has only the <code>user</code> role, not <code>admin</code>):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8080/menu/admin<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$BOB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;Barista Special&quot;,&quot;description&quot;:&quot;Secret recipe&quot;,&quot;price&quot;:6.00}&#39;</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>HTTP/1.1 403 Forbidden
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">401 vs 403 — what's the difference?</p>
@@ -1241,21 +1287,21 @@
 </tr>
 <tr>
 <td>Test user 1</td>
-<td><code>alice</code> / <code>alice</code> — roles: <code>user</code></td>
+<td><code>alice</code> / <code>alice</code> — roles: <code>admin</code> + <code>user</code></td>
 </tr>
 <tr>
 <td>Test user 2</td>
-<td><code>bob</code> / <code>bob</code> — roles: <code>admin</code></td>
+<td><code>bob</code> / <code>bob</code> — role: <code>user</code> only</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition tip">
 <p class="admonition-title">What happens in production?</p>
 <p>You set <code>quarkus.oidc.auth-server-url</code> to your real Keycloak or any OIDC provider (Auth0, Okta, Azure AD). The security annotations (<code>@Authenticated</code>, <code>@RolesAllowed</code>) stay exactly the same — no code changes needed.</p>
-<div class="language-properties highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Production config (in application.properties or environment variable)</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="na">quarkus.oidc.auth-server-url</span><span class="o">=</span><span class="s">https://keycloak.mycompany.com/realms/production</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="na">quarkus.oidc.client-id</span><span class="o">=</span><span class="s">menu-service</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="na">quarkus.oidc.credentials.secret</span><span class="o">=</span><span class="s">${OIDC_CLIENT_SECRET}</span>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Production config (in application.properties or environment variable)</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="na">quarkus.oidc.auth-server-url</span><span class="o">=</span><span class="s">https://keycloak.mycompany.com/realms/production</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="na">quarkus.oidc.client-id</span><span class="o">=</span><span class="s">menu-service</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="na">quarkus.oidc.credentials.secret</span><span class="o">=</span><span class="s">${OIDC_CLIENT_SECRET}</span>
 </span></code></pre></div>
 </div>
 <hr />
@@ -1290,7 +1336,7 @@
 </tr>
 <tr>
 <td>✅ Verified 401 / 201 / 403</td>
-<td>With <code>curl</code> — alice (user) vs bob (admin)</td>
+<td>With <code>curl</code> — bob (<code>user</code> role, 201) vs alice (<code>admin</code> role, 201) vs bob on admin endpoint (403)</td>
 </tr>
 </tbody>
 </table>
@@ -1300,13 +1346,13 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI</label><label for="__tabbed_2_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab5-security/solution
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>quarkus<span class="w"> </span>dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab5-security/solution
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab5-security/solution
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>./mvnw<span class="w"> </span>quarkus:dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab5-security/solution
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>mvn<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
 </div>
 </div>

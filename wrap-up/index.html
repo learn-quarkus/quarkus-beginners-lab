@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../lab8-mcp-server/">
+        <link rel="prev" href="../lab9-containerize/">
       
       
         <link rel="next" href="../facilitator-guide/">
@@ -694,6 +694,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9-containerize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9: Containerize & K8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1125,11 +1153,14 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│  ┌────────────────────┐                         │     info    │  │
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│  │   barista-bot      │◀── MCP ──┐              │GET  /menu/  │  │
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│  │  GET /chat?msg 🤖  │          │              │   {id}/price│  │
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│  └────────────────────┘  ┌───────┴────────┐     └─────────────┘  │
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│                          │menu-mcp-server │                      │
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>│                          │  @Tool methods │                      │
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>│                          └────────────────┘                      │
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>└──────────────────────────────────────────────────────────────────┘
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│  └────────────────────┘  ┌───────┴────────┐     └──────┬──────┘  │
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│                          │menu-mcp-server │            │         │
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>│                          │  @Tool methods │     ┌──────▼──────┐  │
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>│                          └────────────────┘     │  Kubernetes │  │
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>│                                                 │  Jib image  │  │
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>│                                                 │  + K8s YAML │  │
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>│                                                 └─────────────┘  │
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>└──────────────────────────────────────────────────────────────────┘
 </span></code></pre></div>
 <table>
 <thead>
@@ -1170,6 +1201,10 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 <tr>
 <td>Lab 8</td>
 <td>MCP server with <code>@Tool</code>, AI tool calling via <code>@McpToolBox</code></td>
+</tr>
+<tr>
+<td>Lab 9</td>
+<td>Container image with Jib, Kubernetes manifests, deploy &amp; scale</td>
 </tr>
 </tbody>
 </table>
@@ -1234,7 +1269,7 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 <li><strong>Stack Overflow:</strong> tag <code>quarkus</code></li>
 </ul>
 <hr />
-<p><a class="md-button" href="../lab8-mcp-server/">← Lab 8: MCP Server</a>
+<p><a class="md-button" href="../lab9-containerize/">← Lab 9: Containerize &amp; K8s</a>
 <a class="md-button md-button--primary" href="../">↑ Back to Home</a></p>
 
 
@@ -1271,7 +1306,7 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../lab8-mcp-server/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 8: MCP Server">
+          <a href="../lab9-containerize/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 9: Containerize &amp; K8s">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1281,7 +1316,7 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
                 Previous
               </span>
               <div class="md-ellipsis">
-                Lab 8: MCP Server
+                Lab 9: Containerize & K8s
               </div>
             </div>
           </a>

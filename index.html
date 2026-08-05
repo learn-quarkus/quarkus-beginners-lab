@@ -805,6 +805,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lab9-containerize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9: Containerize & K8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1013,6 +1041,7 @@
 <th>Time</th>
 <th>Lab</th>
 <th>Topic</th>
+<th>Requires</th>
 </tr>
 </thead>
 <tbody>
@@ -1020,49 +1049,90 @@
 <td>00:00 – 05:00</td>
 <td>Intro</td>
 <td>Why Quarkus, what we're building</td>
+<td>—</td>
 </tr>
 <tr>
 <td>05:00 – 17:00</td>
 <td><a href="lab1-rest/">Lab 1</a></td>
 <td>First REST API, Dev Mode, Live Coding, Continuous Testing</td>
+<td>—</td>
 </tr>
 <tr>
 <td>17:00 – 25:00</td>
 <td><a href="lab2-panache/">Lab 2</a></td>
 <td>Panache ORM + H2 — persist menu items</td>
+<td>Lab 1</td>
 </tr>
 <tr>
 <td>25:00 – 31:00</td>
 <td><a href="lab3-config-health/">Lab 3</a></td>
 <td>Config profiles, Health checks, Dev UI tour</td>
+<td>Lab 2</td>
 </tr>
 <tr>
 <td>31:00 – 38:00</td>
 <td><a href="lab4-kafka/">Lab 4</a></td>
 <td>Kafka messaging with DevServices</td>
+<td>Lab 2 · 🐳 Docker or Podman</td>
 </tr>
 <tr>
 <td>38:00 – 45:00</td>
 <td><a href="lab5-security/">Lab 5</a></td>
 <td>OIDC Security + Keycloak DevServices</td>
+<td>Lab 2 · 🐳 Docker or Podman</td>
 </tr>
 <tr>
 <td>45:00 – 50:00</td>
 <td><a href="lab6-fault-tolerance/">Lab 6</a></td>
 <td>Fault Tolerance — <code>@Retry</code>, <code>@Fallback</code>, <code>@Timeout</code></td>
+<td>Lab 2</td>
 </tr>
 <tr>
 <td>50:00 – 58:00</td>
 <td><a href="lab7-langchain4j/">Lab 7</a></td>
-<td>LangChain4j AI chatbot + Easy RAG</td>
+<td>LangChain4j AI chatbot</td>
+<td>🔑 OpenAI key</td>
 </tr>
 <tr>
 <td>58:00 – 60:00</td>
 <td><a href="wrap-up/">Wrap-Up</a></td>
 <td>Native image demo + next steps</td>
+<td>—</td>
+</tr>
+<tr>
+<td><em>(optional)</em></td>
+<td><a href="lab7-langchain4j/#step-7-bonus-easy-rag">Lab 7 — Bonus: Easy RAG</a></td>
+<td>Ground the bot in your menu document</td>
+<td>Lab 7 · 🔑 OpenAI key</td>
+</tr>
+<tr>
+<td><em>(optional)</em></td>
+<td><a href="lab7-langchain4j/#step-8-bonus-conversation-memory-with-memoryid">Lab 7 — Bonus: Memory</a></td>
+<td>Multi-turn conversation with <code>@MemoryId</code></td>
+<td>Lab 7 · 🔑 OpenAI key</td>
+</tr>
+<tr>
+<td><em>(optional)</em></td>
+<td><a href="lab8-mcp-server/">Lab 8: MCP Server</a></td>
+<td>Expose menu as AI tools via MCP</td>
+<td>Lab 7 · 🔑 OpenAI key</td>
+</tr>
+<tr>
+<td><em>(optional)</em></td>
+<td><a href="lab9-containerize/">Lab 9: Containerize &amp; Deploy</a></td>
+<td>Jib image build + Kubernetes manifests + local cluster deploy</td>
+<td>Lab 3 · 🐳 Docker or Podman + kubectl</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition info">
+<p class="admonition-title">Labs 4 and 5 can be done in either order</p>
+<p>Both introduce a new DevServices container and both depend on the Panache entity from Lab 2. Neither depends on the other — you can skip one if you're short on time.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Fell behind? Use the solution folder</p>
+<p>Every lab has a complete, runnable solution in <code>labs/labN-*/solution/</code>. If you get stuck mid-lab, <code>cd</code> into the matching solution folder and run <code>quarkus dev</code> to catch up — then continue from the next lab.</p>
+</div>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Before the workshop, make sure you have everything installed and working.</p>
@@ -1087,8 +1157,8 @@
 <td>All labs</td>
 </tr>
 <tr>
-<td>Docker Desktop or Podman</td>
-<td>Labs 4 &amp; 5 (DevServices)</td>
+<td>Docker Desktop or Podman Desktop</td>
+<td>Labs 4, 5, and 9 (DevServices + container builds)</td>
 </tr>
 <tr>
 <td>OpenAI API key</td>
