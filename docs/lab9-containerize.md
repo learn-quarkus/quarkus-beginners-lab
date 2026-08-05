@@ -13,9 +13,9 @@
     ```
 
 !!! tip "Don't have your Lab 3 menu-service?"
-    Use the solution directly:
+    Run the setup script from the repo root — it copies the Lab 3 solution into a fresh `menu-service` directory:
     ```bash
-    cd labs/lab3-config-health/solution
+    bash labs/lab9-containerize/setup.sh
     ```
 
 ---
