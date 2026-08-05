@@ -56,7 +56,7 @@ GET /chat?message=...
 | *(optional)* | [Lab 7 — Bonus: Easy RAG](lab7-langchain4j.md#step-7-bonus-easy-rag) | Ground the bot in your menu document | Lab 7 · 🔑 OpenAI key |
 | *(optional)* | [Lab 7 — Bonus: Memory](lab7-langchain4j.md#step-8-bonus-conversation-memory-with-memoryid) | Multi-turn conversation with `@MemoryId` | Lab 7 · 🔑 OpenAI key |
 | *(optional)* | [Lab 8: MCP Server](lab8-mcp-server.md) | Expose menu as AI tools via MCP | Lab 7 · 🔑 OpenAI key |
-| *(optional)* | [Lab 9: Containerize & Deploy](lab9-containerize.md) | Jib image build + Kubernetes manifests + local cluster deploy | Lab 3 · 🐳 Docker or Podman + kubectl |
+| *(optional)* | [Lab 9: Containerization](lab9-containerize.md) | Build a container image with Podman and run it locally | Lab 3 · 🐳 Podman or Docker |
 
 !!! info "Labs 4 and 5 can be done in either order"
     Both introduce a new DevServices container and both depend on the Panache entity from Lab 2. Neither depends on the other — you can skip one if you're short on time.
