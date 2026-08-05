@@ -29,12 +29,23 @@ fi
 cp -r "$SOURCE" "$DEST"
 echo "✅ Copied Lab 3 solution → $DEST"
 
+# ── Add the Dockerfile (not present in Lab 3 solution) ────────────────────────
+
+mkdir -p "$DEST/src/main/docker"
+cp "$SCRIPT_DIR/solution/src/main/docker/Dockerfile.jvm" \
+   "$DEST/src/main/docker/Dockerfile.jvm"
+echo "✅ Added src/main/docker/Dockerfile.jvm"
+
 # ── Done ───────────────────────────────────────────────────────────────────────
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
 echo "║  menu-service is ready for Lab 9                            ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
+echo ""
+echo "What was applied:"
+echo "  ✅ Lab 3 solution copied to:  $DEST"
+echo "  ✅ Dockerfile.jvm added to:   $DEST/src/main/docker/"
 echo ""
 echo "Next steps:"
 echo ""
