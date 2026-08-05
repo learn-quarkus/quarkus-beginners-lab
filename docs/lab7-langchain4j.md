@@ -809,4 +809,4 @@ Click **Clear** to start a fresh conversation (a new session cookie is minted on
 ---
 
 [← Lab 6: Fault Tolerance](lab6-fault-tolerance.md){ .md-button }
-[→ Wrap-Up](wrap-up.md){ .md-button .md-button--primary }
+[→ Lab 8: MCP Server](lab8-mcp-server.md){ .md-button .md-button--primary }

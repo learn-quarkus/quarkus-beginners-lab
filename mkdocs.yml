@@ -71,6 +71,7 @@ nav:
     - "Lab 5: OIDC Security": lab5-security.md
     - "Lab 6: Fault Tolerance": lab6-fault-tolerance.md
     - "Lab 7: AI with LangChain4j": lab7-langchain4j.md
+    - "Lab 8: MCP Server": lab8-mcp-server.md
   - Wrap-Up: wrap-up.md
   - Facilitator Guide: facilitator-guide.md
 
