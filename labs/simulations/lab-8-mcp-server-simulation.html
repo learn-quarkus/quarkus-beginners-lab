@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 8 — MCP Simulation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    background: #f0f2f5;
+    min-height: 100vh;
+    padding: 1.5rem 1rem;
+    color: #1f2328;
+  }
+  h1 { font-size: 1.1rem; font-weight: 700; text-align: center; margin-bottom: 0.3rem; }
+  .subtitle { text-align: center; font-size: 0.8rem; color: #57606a; margin-bottom: 1.25rem; }
+
+  .layout { display: flex; gap: 1rem; max-width: 900px; margin: 0 auto; align-items: flex-start; }
+
+  .panel { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb;
+           display: flex; flex-direction: column; overflow: hidden; }
+  .panel-header { padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb;
+                  display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+  .badge { font-size: 0.68rem; font-weight: 700; padding: 2px 7px;
+           border-radius: 20px; letter-spacing: 0.03em; }
+  .badge-server { background: #dcfce7; color: #166534; }
+  .badge-client { background: #dbeafe; color: #1e40af; }
+  .panel-title { font-size: 0.88rem; font-weight: 600; }
+  .panel-port  { font-size: 0.72rem; color: #8b949e; margin-left: auto; font-family: monospace; }
+
+  .server-panel { width: 300px; flex-shrink: 0; }
+
+  .tools-list { padding: 0.75rem 1rem; border-bottom: 1px solid #e5e7eb; }
+  .tools-list h3 { font-size: 0.68rem; font-weight: 700; color: #8b949e;
+                   text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .tool-item { padding: 0.4rem 0.6rem; border-radius: 6px; margin-bottom: 0.3rem;
+               background: #f7f8fa; border: 1px solid #e5e7eb; }
+  .tool-name { font-family: monospace; font-weight: 600; color: #1d4ed8; font-size: 0.75rem; }
+  .tool-desc { color: #57606a; font-size: 0.7rem; margin-top: 1px; }
+
+  .call-log { padding: 0.75rem 1rem; }
+  .call-log h3 { font-size: 0.68rem; font-weight: 700; color: #8b949e;
+                 text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  #log { min-height: 160px; max-height: 220px; overflow-y: auto;
+         background: #0d1117; border-radius: 6px; padding: 0.6rem 0.75rem;
+         font-family: monospace; font-size: 0.7rem; line-height: 1.8; }
+  .log-empty { color: #484f58; font-style: italic; }
+  .log-in  { color: #79c0ff; }
+  .log-out { color: #56d364; }
+  .log-time{ color: #484f58; margin-right: 0.4rem; }
+
+  .connector { display: flex; flex-direction: column; align-items: center;
+               justify-content: center; padding-top: 100px; flex-shrink: 0; }
+  .conn-arrow { font-size: 1.4rem; color: #3b82d4; }
+  .conn-label { font-size: 0.63rem; color: #8b949e; text-align: center; margin-top: 3px; }
+
+  .chat-panel { flex: 1; height: 540px; }
+  #msgs { flex: 1; overflow-y: auto; padding: 0.9rem 1rem;
+          display: flex; flex-direction: column; gap: 0.75rem; }
+  .empty-hint { margin: auto; text-align: center; color: #8b949e; font-size: 0.82rem; line-height: 1.7; }
+  .empty-hint strong { display: block; font-size: 1rem; color: #57606a; margin-bottom: 0.25rem; }
+
+  .row { display: flex; flex-direction: column; max-width: 80%; }
+  .row.user { align-self: flex-end; align-items: flex-end; }
+  .row.bot  { align-self: flex-start; align-items: flex-start; }
+  .sender { font-size: 0.63rem; font-weight: 700; color: #8b949e; margin-bottom: 2px; text-transform: uppercase; }
+  .bubble { padding: 0.55rem 0.85rem; border-radius: 12px; font-size: 0.86rem;
+            line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+  .row.user .bubble { background: #1d4ed8; color: #fff; border-bottom-right-radius: 3px; }
+  .row.bot  .bubble { background: #f7f8fa; border: 1px solid #e5e7eb; border-bottom-left-radius: 3px; }
+
+  .tool-call-badge { align-self: center; background: #fefce8; border: 1px solid #fde047;
+                     border-radius: 8px; padding: 0.3rem 0.65rem; font-size: 0.7rem;
+                     color: #854d0e; font-family: monospace; }
+  .thinking { color: #8b949e; font-style: italic; font-size: 0.8rem; align-self: flex-start; padding: 0.3rem 0; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0 1rem 0.6rem; }
+  .chip { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; cursor: pointer;
+          background: #f0f2f5; border: 1px solid #d0d7de; color: #1f2328; }
+  .chip:hover { background: #e5e7eb; }
+
+  .input-bar { padding: 0.75rem 1rem; border-top: 1px solid #e5e7eb; flex-shrink: 0; }
+  .input-row { display: flex; gap: 0.5rem; }
+  input[type=text] { flex: 1; padding: 0.5rem 0.75rem; font-size: 0.88rem;
+                     border: 1px solid #d0d7de; border-radius: 8px; outline: none; }
+  input[type=text]:focus { border-color: #3b82d4; }
+  button { padding: 0.5rem 0.9rem; font-size: 0.85rem; border: none;
+           border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .btn-send  { background: #1d4ed8; color: #fff; }
+  .btn-send:hover  { background: #1e40af; }
+  .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
+  .btn-clear:hover { background: #e5e7eb; }
+
+  footer { text-align: center; font-size: 11px; color: #8b949e; margin-top: 1.5rem;
+           border-top: 1px solid #e5e7eb; padding-top: 0.75rem; max-width: 900px;
+           margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<h1>Lab 8 — MCP Simulation</h1>
+<p class="subtitle">menu-mcp-server (port 8081) &nbsp;⇄&nbsp; barista-bot MCP client (port 8080)</p>
+
+<div class="layout">
+
+  <!-- MCP Server -->
+  <div class="panel server-panel">
+    <div class="panel-header">
+      <span class="badge badge-server">MCP SERVER</span>
+      <span class="panel-title">menu-mcp-server</span>
+      <span class="panel-port">:8081</span>
+    </div>
+    <div class="tools-list">
+      <h3>Registered tools</h3>
+      <div class="tool-item">
+        <div class="tool-name">getMenuItems()</div>
+        <div class="tool-desc">All items with price &amp; milk options</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-name">getItemPrice(name)</div>
+        <div class="tool-desc">Price of a specific item</div>
+      </div>
+      <div class="tool-item">
+        <div class="tool-name">getItemsByMilkOption(milk)</div>
+        <div class="tool-desc">Items available with a milk type</div>
+      </div>
+    </div>
+    <div class="call-log">
+      <h3>MCP call log &nbsp;<span id="call-count" style="color:#3b82d4;font-weight:600;"></span></h3>
+      <div id="log"><span class="log-empty">Waiting for tool calls…</span></div>
+    </div>
+  </div>
+
+  <!-- Connector -->
+  <div class="connector">
+    <div class="conn-arrow">⇄</div>
+    <div class="conn-label">HTTP/SSE<br>/mcp/sse</div>
+  </div>
+
+  <!-- Barista Bot -->
+  <div class="panel chat-panel">
+    <div class="panel-header">
+      <span class="badge badge-client">MCP CLIENT</span>
+      <span class="panel-title">barista-bot</span>
+      <span class="panel-port">:8080</span>
+    </div>
+    <div id="msgs">
+      <div class="empty-hint" id="hint">
+        <strong>☕ Barista Bot</strong>
+        Try a suggested question or type your own.
+      </div>
+    </div>
+    <div class="chips" id="chips">
+      <span class="chip">What's on the menu?</span>
+      <span class="chip">How much is a Flat White?</span>
+      <span class="chip">What can I get with oat milk?</span>
+      <span class="chip">Almond milk options?</span>
+      <span class="chip">What's your cheapest drink?</span>
+    </div>
+    <div class="input-bar">
+      <div class="input-row">
+        <input type="text" id="msg-input" placeholder="Ask about the menu…">
+        <button class="btn-send" id="btn-send">Send</button>
+        <button class="btn-clear" id="btn-clear">Clear</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Made with IBM Bob &mdash; open this file directly in your browser</footer>
+
+<script>
+const MENU = [
+  { name:"Espresso",   price:2.50, milk:[] },
+  { name:"Cappuccino", price:3.75, milk:["whole","oat"] },
+  { name:"Flat White", price:4.00, milk:["whole"] },
+  { name:"Latte",      price:4.25, milk:["whole","oat","almond","soy"] },
+  { name:"Americano",  price:3.00, milk:[] },
+  { name:"Cold Brew",  price:4.00, milk:["whole","oat"] },
+  { name:"Iced Latte", price:4.50, milk:["whole","oat","almond"] },
+];
+
+function getMenuItems() {
+  return MENU.map(i =>
+    i.name.padEnd(12) + " $" + i.price.toFixed(2) +
+    "  milk: " + (i.milk.length ? i.milk.join(", ") : "none")
+  ).join("\n");
+}
+function getItemPrice(name) {
+  const item = MENU.find(i => i.name.toLowerCase() === name.toLowerCase());
+  return item ? item.name + " costs $" + item.price.toFixed(2)
+              : "'" + name + "' not found on the menu.";
+}
+function getItemsByMilkOption(milk) {
+  const matches = MENU.filter(i => i.milk.includes(milk.toLowerCase()));
+  return matches.length
+    ? "Items with " + milk + " milk: " + matches.map(i => i.name + " ($" + i.price.toFixed(2) + ")").join(", ")
+    : "No items available with " + milk + " milk.";
+}
+
+let callCount = 0;
+function addLog(dir, text) {
+  const log = document.getElementById("log");
+  const empty = log.querySelector(".log-empty");
+  if (empty) empty.remove();
+  const now = new Date();
+  const ts = [now.getHours(), now.getMinutes(), now.getSeconds()]
+    .map(n => String(n).padStart(2,"0")).join(":");
+  const line = document.createElement("div");
+  line.innerHTML = '<span class="log-time">' + ts + '</span>' +
+    '<span class="' + (dir==="in" ? "log-in" : "log-out") + '">' + text + '</span>';
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+  callCount++;
+  document.getElementById("call-count").textContent = "(" + callCount + " calls)";
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function addHint() {
+  const hint = document.getElementById("hint");
+  if (hint) hint.remove();
+}
+
+function appendBubble(role, text) {
+  addHint();
+  const msgs = document.getElementById("msgs");
+  const row = document.createElement("div");
+  row.className = "row " + role;
+  row.innerHTML = '<span class="sender">' + (role === "user" ? "You" : "Barista Bot") + '</span>' +
+    '<div class="bubble">' + text.replace(/\n/g, "<br>") + '</div>';
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+  return row;
+}
+
+function appendToolBadge(text) {
+  const msgs = document.getElementById("msgs");
+  const el = document.createElement("div");
+  el.className = "tool-call-badge";
+  el.textContent = "⚙ " + text;
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function appendThinking() {
+  const msgs = document.getElementById("msgs");
+  const el = document.createElement("div");
+  el.className = "thinking";
+  el.textContent = "thinking…";
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+async function resolveTools(q) {
+  const ql = q.toLowerCase();
+  if (/menu|drinks?|items?|what.*(have|offer|got|sell)|full list/i.test(ql)) {
+    addLog("in",  "TOOL_CALL  getMenuItems");
+    await sleep(420);
+    const r = getMenuItems();
+    addLog("out", "TOOL_RESULT ✓ (" + MENU.length + " items)");
+    return { label: "→ getMenuItems()", result: r };
+  }
+  if (/cheap|afford|low|budget/i.test(ql)) {
+    addLog("in",  "TOOL_CALL  getMenuItems");
+    await sleep(380);
+    const r = getMenuItems();
+    addLog("out", "TOOL_RESULT ✓ (" + MENU.length + " items)");
+    return { label: "→ getMenuItems()", result: r };
+  }
+  const milkMatch = ql.match(/oat|almond|soy|whole/);
+  if (milkMatch) {
+    const milk = milkMatch[0];
+    addLog("in",  'TOOL_CALL  getItemsByMilkOption {"milk":"' + milk + '"}');
+    await sleep(360);
+    const r = getItemsByMilkOption(milk);
+    addLog("out", "TOOL_RESULT ✓");
+    return { label: '→ getItemsByMilkOption("' + milk + '")', result: r };
+  }
+  if (/price|cost|how much|expensive/i.test(ql)) {
+    const found = MENU.find(i => ql.includes(i.name.toLowerCase()));
+    const name = found ? found.name : "Espresso";
+    addLog("in",  'TOOL_CALL  getItemPrice {"name":"' + name + '"}');
+    await sleep(350);
+    const r = getItemPrice(name);
+    addLog("out", "TOOL_RESULT ✓");
+    return { label: '→ getItemPrice("' + name + '")', result: r };
+  }
+  return { label: null, result: null };
+}
+
+function buildReply(q, toolResult) {
+  const ql = q.toLowerCase();
+  if (toolResult && /cheap|afford/i.test(ql)) {
+    const sorted = MENU.slice().sort((a,b) => a.price - b.price);
+    return "Our most affordable option is the " + sorted[0].name +
+      " at $" + sorted[0].price.toFixed(2) + ", followed by the " +
+      sorted[1].name + " at $" + sorted[1].price.toFixed(2) + ".";
+  }
+  if (toolResult && /menu|drinks?|items?|what.*(have|offer|got|sell)|full list/i.test(ql)) {
+    return "Here's our full menu:\n\n" + toolResult + "\n\nWhat catches your eye?";
+  }
+  if (toolResult && /milk/i.test(ql)) {
+    return toolResult + ". All alternative milks are +$0.50.";
+  }
+  if (toolResult && /price|cost|how much/i.test(ql)) {
+    return toolResult + ". Would you like to add it to your order?";
+  }
+  const found = MENU.find(i => ql.includes(i.name.toLowerCase()));
+  if (found) {
+    return "The " + found.name + " is $" + found.price.toFixed(2) + ". " +
+      (found.milk.length ? "Available with: " + found.milk.join(", ") + " milk." : "No milk additions for this one.");
+  }
+  return "I'm your barista at The Quarkus Cafe — ask me about our menu, prices, milk options, or how a drink is made!";
+}
+
+let busy = false;
+
+async function send(text) {
+  text = text.trim();
+  if (!text || busy) return;
+  busy = true;
+  document.getElementById("btn-send").disabled = true;
+
+  appendBubble("user", text);
+
+  const t1 = appendThinking();
+  await sleep(300);
+  const { label, result } = await resolveTools(text);
+  t1.remove();
+
+  if (label) {
+    appendToolBadge(label);
+    await sleep(150);
+  }
+
+  const t2 = appendThinking();
+  await sleep(500 + Math.random() * 300);
+  t2.remove();
+
+  appendBubble("bot", buildReply(text, result));
+
+  busy = false;
+  document.getElementById("btn-send").disabled = false;
+  document.getElementById("msg-input").focus();
+}
+
+document.getElementById("btn-send").addEventListener("click", function() {
+  const inp = document.getElementById("msg-input");
+  const val = inp.value;
+  inp.value = "";
+  send(val);
+});
+
+document.getElementById("msg-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    const val = this.value;
+    this.value = "";
+    send(val);
+  }
+});
+
+document.getElementById("btn-clear").addEventListener("click", function() {
+  callCount = 0;
+  document.getElementById("call-count").textContent = "";
+  document.getElementById("log").innerHTML = '<span class="log-empty">Waiting for tool calls…</span>';
+  document.getElementById("msgs").innerHTML =
+    '<div class="empty-hint" id="hint"><strong>☕ Barista Bot</strong>Try a suggested question or type your own.</div>';
+});
+
+document.querySelectorAll(".chip").forEach(function(chip) {
+  chip.addEventListener("click", function() { send(this.textContent); });
+});
+</script>
+</body>
+</html>
