@@ -73,10 +73,13 @@ In 60 minutes, starting from nothing, you built:
 │  ┌────────────────────┐                         │     info    │  │
 │  │   barista-bot      │◀── MCP ──┐              │GET  /menu/  │  │
 │  │  GET /chat?msg 🤖  │          │              │   {id}/price│  │
-│  └────────────────────┘  ┌───────┴────────┐     └─────────────┘  │
-│                          │menu-mcp-server │                      │
-│                          │  @Tool methods │                      │
-│                          └────────────────┘                      │
+│  └────────────────────┘  ┌───────┴────────┐     └──────┬──────┘  │
+│                          │menu-mcp-server │            │         │
+│                          │  @Tool methods │     ┌──────▼──────┐  │
+│                          └────────────────┘     │  Kubernetes │  │
+│                                                 │  Jib image  │  │
+│                                                 │  + K8s YAML │  │
+│                                                 └─────────────┘  │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -90,6 +93,7 @@ In 60 minutes, starting from nothing, you built:
 | Lab 6 | Fault tolerance: `@Retry`, `@Fallback`, `@Timeout` |
 | Lab 7 | AI chatbot with `@RegisterAiService`, Easy RAG |
 | Lab 8 | MCP server with `@Tool`, AI tool calling via `@McpToolBox` |
+| Lab 9 | Container image with Jib, Kubernetes manifests, deploy & scale |
 
 ---
 
@@ -139,5 +143,5 @@ Questions? Comments? The Quarkus community is active at:
 
 ---
 
-[← Lab 8: MCP Server](lab8-mcp-server.md){ .md-button }
+[← Lab 9: Containerize & K8s](lab9-containerize.md){ .md-button }
 [↑ Back to Home](index.md){ .md-button .md-button--primary }

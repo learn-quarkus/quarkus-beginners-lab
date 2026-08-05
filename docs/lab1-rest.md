@@ -376,7 +376,7 @@ In 12 minutes you have:
     === "Maven"
         ```bash
         cd labs/lab1-rest/solution
-        ./mvnw quarkus:dev
+        mvn quarkus:dev
         ```
 
 ---

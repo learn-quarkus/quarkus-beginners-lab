@@ -122,7 +122,6 @@ quarkus.langchain4j.openai.chat-model.model-name=gpt-4o-mini
 quarkus.langchain4j.log-requests=true
 quarkus.langchain4j.log-responses=true
 
-quarkus.swagger-ui.always-include=true
 ```
 
 The API key is read from the `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY` environment variable automatically — no property needed in the file.
@@ -171,54 +170,9 @@ public interface BaristaAiService {
 
 ---
 
-## Step 5 — Create the REST Endpoint
+## Step 5 — Add the Qute Chat UI
 
-This endpoint powers both the Swagger UI (for testing) and the chat UI (for humans).
-
-Create `src/main/java/org/coffee/ChatResource.java`:
-
-```bash
-touch src/main/java/org/coffee/ChatResource.java
-```
-
-Open `ChatResource.java` in your IDE and paste in the following:
-
-```java
-package org.coffee;
-
-import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-
-@Path("/chat")
-public class ChatResource {
-
-    @Inject
-    BaristaAiService baristaAiService; // (1)
-
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String chat(@QueryParam("message") String message) { // (2)
-        if (message == null || message.isBlank()) {
-            return "Ask me anything about coffee! Try: ?message=What's a good morning coffee?";
-        }
-        return baristaAiService.chat(message); // (3)
-    }
-}
-```
-
-1. Inject the AI service like any other CDI bean — Quarkus generated the implementation.
-2. `@QueryParam("message")` — the user's question arrives as a URL query parameter, e.g. `/chat?message=What+is+a+flat+white?`
-3. Calls the AI service with the user's message — Quarkus routes it to OpenAI and returns the response as a plain `String`.
-
----
-
-## Step 6 — Add the Qute Chat UI
-
-Instead of typing in Swagger UI, let's add a proper HTML form powered by **Qute** — Quarkus' server-side templating engine. Two files do the whole thing (`rest-qute` is already on the classpath from Step 2).
+Add a chat UI powered by **Qute** — Quarkus' server-side templating engine. Two files do the whole thing (`rest-qute` is already on the classpath from Step 2).
 
 ### Create the UI resource
 
@@ -427,13 +381,11 @@ Open **`http://localhost:8080`** in your browser. Type a question and press **Se
 | `What's a good coffee for a Monday morning?` | *"I'd recommend a double Espresso or a strong Flat White — both give you a bold caffeine kick to start the week."* |
 | `How is cold brew made?` | *"Cold brew is made by steeping coarsely ground coffee in cold water for 12–24 hours."* |
 
-The Swagger UI at `http://localhost:8080/q/swagger-ui` still works too — `GET /chat?message=...` is unchanged.
-
 Watch the Dev Mode terminal — with `log-requests=true` you'll see the exact JSON payload sent to OpenAI and the response received.
 
 ---
 
-## Step 7 — Bonus: Easy RAG
+## Step 6 — Bonus: Easy RAG
 
 !!! info "Optional — add this if time allows"
     Easy RAG grounds the AI's responses in your actual menu document, preventing hallucination about menu items, prices, and ingredients.
@@ -528,7 +480,7 @@ Save all files. Quarkus live-reloads. Now ask the chatbot:
 
 ---
 
-## Step 8 — Bonus: Conversation Memory with `@MemoryId`
+## Step 7 — Bonus: Conversation Memory with `@MemoryId`
 
 !!! info "Optional — add this if time allows"
     Right now every message is stateless — the bot has no memory of previous turns. Add `@MemoryId` to give each browser session its own conversation history, so the bot can say *"As I mentioned earlier…"* and follow-up questions work naturally.
@@ -808,10 +760,10 @@ Click **Clear** to start a fresh conversation (a new session cookie is minted on
     === "Maven"
         ```bash
         # Without RAG:
-        cd labs/lab7-langchain4j/solution && ./mvnw quarkus:dev
+        cd labs/lab7-langchain4j/solution && mvn quarkus:dev
 
         # With RAG:
-        cd labs/lab7-langchain4j/solution-with-rag && ./mvnw quarkus:dev
+        cd labs/lab7-langchain4j/solution-with-rag && mvn quarkus:dev
         ```
 
 ---

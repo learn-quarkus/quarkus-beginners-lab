@@ -33,13 +33,16 @@ That's it. Visit `http://localhost:8080/q/health` immediately — without writin
 
 ```json
 {
-  "status": "UP",
-  "checks": [
-    {
-      "name": "Database connections health check",
-      "status": "UP"
-    }
-  ]
+    "status": "UP",
+    "checks": [
+        {
+            "name": "Database connections health check",
+            "status": "UP",
+            "data": {
+                "<default>": "UP"
+            }
+        }
+    ]
 }
 ```
 
@@ -161,6 +164,7 @@ Open `CoffeeShopHealthCheck.java` in your IDE and paste in the following:
 package org.coffee;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;
@@ -170,10 +174,11 @@ import org.eclipse.microprofile.health.Liveness;
 public class CoffeeShopHealthCheck implements HealthCheck { // (2)
 
     @Override
+    @Transactional // (3)
     public HealthCheckResponse call() {
         long count = MenuItem.count();
         if (count > 0) {
-            return HealthCheckResponse.named("coffee-menu") // (3)
+            return HealthCheckResponse.named("coffee-menu") // (4)
                 .up()
                 .withData("itemCount", count)
                 .build();
@@ -189,7 +194,8 @@ public class CoffeeShopHealthCheck implements HealthCheck { // (2)
 
 1. `@Liveness` — registers this bean as a liveness check, available at `/q/health/live`. Use `@Readiness` for readiness checks.
 2. Implement `HealthCheck` and override `call()` — return UP or DOWN with optional data.
-3. `HealthCheckResponse.named("coffee-menu")` names the check in the JSON output.
+3. `@Transactional` — activates a transaction context so Panache can run the `count()` query. 
+4. `HealthCheckResponse.named("coffee-menu")` names the check in the JSON output.
 
 Save and visit `http://localhost:8080/q/health/live`:
 
@@ -266,7 +272,7 @@ Shows the status of your last test run. Click **"Run all tests"** or press `r` i
     === "Maven"
         ```bash
         cd labs/lab3-config-health/solution
-        ./mvnw quarkus:dev
+        mvn quarkus:dev
         ```
 
 ---

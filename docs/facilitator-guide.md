@@ -18,7 +18,8 @@
 | 38:00 – 45:00 | Lab 5 | **Requires Docker/Podman running.** Keycloak takes ~15s to start — warn attendees to expect a brief wait on first `quarkus dev`. The 401 → 200 curl demo is satisfying. |
 | 45:00 – 50:00 | Lab 6 | Fast lab. Key teaching point: annotations intercept CDI beans — only works on `@ApplicationScoped` etc. Run the endpoint 5+ times so retries are visible. |
 | 50:00 – 58:00 | Lab 7 | AI responses vary. If OpenAI is slow, narrate what's happening. RAG bonus is optional — skip if behind on time. |
-| 58:00 – 60:00 | Wrap-Up | Native demo only. Don't try to compile live. Show pre-built binary only. |
+| 58:00 – 68:00 | Lab 9 | **Requires Docker/Podman + local Kubernetes.** Confirm cluster is ready before starting. The `quarkus build` with Jib takes ~30s. |
+| 68:00 – 70:00 | Wrap-Up | Native demo only. Don't try to compile live. Show pre-built binary only. |
 
 ---
 
@@ -154,7 +155,32 @@
 
 ---
 
-## Wrap-Up — Native Demo (58:00 – 60:00)
+### Lab 9 — Containerize & Deploy to Kubernetes (58:00 – 68:00)
+
+!!! warning "Pre-flight check"
+    Podman Desktop must be running. Attendees need a local Kubernetes cluster — Podman Desktop's built-in Kind cluster is the recommended option. Confirm everyone can run `kubectl get nodes` successfully before starting.
+
+**Key moments to call out:**
+- After adding extensions: "Two extensions — `container-image-jib` and `kubernetes`. Jib builds container images in pure Java. No Dockerfile. No container daemon for the build itself."
+- After `quarkus build`: "One command built your JAR, built a container image with optimised layers, AND generated Kubernetes manifests. Open `target/kubernetes/kubernetes.yml` — Quarkus wrote that for you."
+- After `kubectl apply`: "Notice the pod goes 0/1 then 1/1. That transition is your readiness probe from Lab 3 — Kubernetes is using your health check to decide when to route traffic."
+- After scaling to 3 replicas: "Three pods, all healthy, all load-balanced. This is why fast startup matters — each new replica is ready in under a second."
+
+**Common questions:**
+- *"Why Jib instead of a Dockerfile?"* — Jib builds optimised layered images without a container daemon. It separates dependencies from application classes, so rebuilds only transfer the changed layers. You can still use Dockerfiles with `quarkus-container-image-docker` if you prefer.
+- *"Why Podman instead of Docker?"* — Podman is daemonless, rootless by default, and fully OCI-compatible. It's a drop-in replacement for Docker CLI. Red Hat and IBM ship it as the default container engine.
+- *"What about OpenShift?"* — Change `deployment-target=openshift` and Quarkus generates `DeploymentConfig` + `Route` instead of `Deployment` + `Service`.
+- *"Is H2 suitable for Kubernetes?"* — No, H2 is in-memory and per-pod. In production you'd use PostgreSQL with a persistent volume. DevServices handles the dev/test story; this lab focuses on the deployment pipeline.
+
+**Pitfalls:**
+- No local Kubernetes cluster — guide attendees to create one in Podman Desktop: Settings → Kubernetes → Create Kind cluster.
+- Minikube users must run `eval $(minikube podman-env)` first, otherwise the image won't be visible to the cluster.
+- Kind users must `kind load docker-image` after building — Kind can't see local Podman images directly.
+- NodePort 30080 conflict — unlikely but check with `lsof -i :30080`.
+
+---
+
+## Wrap-Up — Native Demo (68:00 – 70:00)
 
 ### Pre-workshop: build the native binary
 
@@ -202,6 +228,9 @@ Show the two startup log lines side by side. Let the numbers speak.
 | OpenAI timeout | Network issue at venue — use the recorded fallback demo |
 | `@Transactional` missing | Error: `TransactionRequiredException` — add `@Transactional` to the resource method |
 | Tests failing on `r` | Check test class has `@QuarkusTest` annotation |
+| No local K8s cluster | Podman Desktop: Settings → Kubernetes → Create Kind cluster |
+| Image not found by K8s | Minikube: run `eval $(minikube podman-env)` first. Kind: run `kind load docker-image` after build |
+| NodePort 30080 in use | `lsof -i :30080` → kill the PID, or change `node-port` in `application.properties` |
 | Native binary missing | Pre-build using the steps in the Wrap-Up section above |
 | Import resolution in IDE | Right-click `pom.xml` → "Reload Maven project" (IntelliJ) or reload window (VS Code) |
 
@@ -224,7 +253,7 @@ If an attendee falls behind, they can jump to any lab's solution directory and c
     ```bash
     # Example: jump to Lab 3 solution
     cd labs/lab3-config-health/solution
-    ./mvnw quarkus:dev
+    mvn quarkus:dev
     ```
 
 All solution projects are standalone Maven projects that run independently.

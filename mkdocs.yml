@@ -72,6 +72,7 @@ nav:
     - "Lab 6: Fault Tolerance": lab6-fault-tolerance.md
     - "Lab 7: AI with LangChain4j": lab7-langchain4j.md
     - "Lab 8: MCP Server": lab8-mcp-server.md
+    - "Lab 9: Containerize & K8s": lab9-containerize.md
   - Wrap-Up: wrap-up.md
   - Facilitator Guide: facilitator-guide.md
 

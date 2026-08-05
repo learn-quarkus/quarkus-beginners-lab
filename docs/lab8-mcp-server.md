@@ -28,7 +28,14 @@ If you didn't finish Lab 7, run the setup script from the repo root:
 bash labs/lab8-mcp-server/setup.sh
 ```
 
-This copies the Lab 7 solution into a fresh `barista-bot` directory so you have a clean starting point.
+The script does four things automatically:
+
+1. Copies the Lab 7 solution into a fresh `barista-bot` directory
+2. Adds the `quarkus-langchain4j-mcp` extension to `pom.xml`
+3. Appends the MCP client configuration to `application.properties`
+4. Replaces `BaristaAiService.java` with the `@McpToolBox`-enabled version
+
+It is **idempotent** — safe to run again if something goes wrong.
 
 ---
 
@@ -176,7 +183,7 @@ Back in your `barista-bot` directory, add the MCP client extension:
 === "Maven"
 
     ```bash
-    ./mvnw quarkus:add-extension -Dextensions="quarkus-langchain4j-mcp"
+    mvn quarkus:add-extension -Dextensions="quarkus-langchain4j-mcp"
     ```
 
 ---
@@ -187,8 +194,10 @@ Open `barista-bot/src/main/resources/application.properties` and add:
 
 ```properties
 # MCP client — connect to menu-mcp-server on port 8081
-quarkus.langchain4j.mcp.menu.transport-type=http                    # (1)
-quarkus.langchain4j.mcp.menu.url=http://localhost:8081/mcp/sse      # (2)
+# 1 (1)
+quarkus.langchain4j.mcp.menu.transport-type=http
+# 2 (2)
+quarkus.langchain4j.mcp.menu.url=http://localhost:8081/mcp/sse
 quarkus.langchain4j.mcp.menu.log-requests=true
 quarkus.langchain4j.mcp.menu.log-responses=true
 ```
@@ -200,7 +209,7 @@ quarkus.langchain4j.mcp.menu.log-responses=true
 
 ## Step 7 — Tell the AI service to use the tools
 
-Open `BaristaAiService.java` and add `@McpToolBox`:
+Open `BaristaAiService.java` and add `@McpToolBox`. The `chat` method now takes **two arguments** — `@MemoryId` and `@UserMessage` — to support per-session memory:
 
 ```java
 package org.coffee;
@@ -248,7 +257,7 @@ In a second terminal inside `barista-bot`:
 === "Maven"
 
     ```bash
-    ./mvnw quarkus:dev
+    mvn quarkus:dev
     ```
 
 Open **`http://localhost:8080`** and try these questions:
@@ -297,4 +306,4 @@ Watch the `barista-bot` terminal — with `log-requests=true` you'll see the MCP
 ---
 
 [← Lab 7: AI with LangChain4j](lab7-langchain4j.md){ .md-button }
-[→ Wrap-Up](wrap-up.md){ .md-button .md-button--primary }
+[→ Lab 9: Containerize & K8s](lab9-containerize.md){ .md-button .md-button--primary }

@@ -211,7 +211,7 @@ Notice: **the endpoint always returns a value** — never a 500 error — even w
     === "Maven"
         ```bash
         cd labs/lab6-fault-tolerance/solution
-        ./mvnw quarkus:dev
+        mvn quarkus:dev
         ```
 
 ---

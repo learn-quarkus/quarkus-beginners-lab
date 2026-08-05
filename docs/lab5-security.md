@@ -59,9 +59,14 @@ quarkus.oidc.application-type=service
 
     - A realm named `quarkus`
     - A client with the correct settings
-    - Two test users: `alice` (role: `user`) and `bob` (role: `admin`)
+    - Two test users: `alice` (roles: `admin` + `user`) and `bob` (role: `user` only)
 
     You get a fully working identity provider with zero manual setup.
+
+    !!! tip "Default user roles"
+        The default role assignments are documented in the [Quarkus Dev Services for OIDC guide](https://quarkus.io/guides/security-openid-connect-dev-services):
+        `alice` always receives both `admin` and `user` roles; `bob` receives only `user`.
+        You can override this with `quarkus.keycloak.devservices.roles.<username>=<role>` in `application.properties`.
 
 ---
 
@@ -145,14 +150,17 @@ Open:
 http://localhost:8080/q/dev-ui
 ```
 
-Find the **OpenID Connect** card and click **"Login into Single Page Application"**.
+Find the **OpenID Connect** card and click on *Keycloak provider*. In the new window, click **"Login into Single Page Application"**.
 
 You'll see a login page served by Keycloak. Log in as:
 
-- **Username:** `alice`
-- **Password:** `alice`
+- **Username:** `bob`
+- **Password:** `bob`
 
-After login, the Dev UI shows the **Access Token** for `alice`. Click the copy icon to copy it to your clipboard.
+After login, the Dev UI shows the **Access Token** for `bob`. Click the copy icon to copy it to your clipboard.
+
+!!! warning "\"Code not valid\" error?"
+    If you see `invalid_grant: Code not valid` in the terminal, the authorization code was already consumed — this happens if you refreshed the Dev UI page or clicked the login button a second time after the initial redirect. Simply click **"Login into Single Page Application"** again to start a fresh login flow and get a new code.
 
 !!! note "What just happened?"
     The Dev UI has a built-in OIDC test client. It performed the OAuth2 Authorization Code flow against the DevServices Keycloak, obtained a JWT access token, and displayed it for you — without writing any test code.
@@ -161,7 +169,17 @@ After login, the Dev UI shows the **Access Token** for `alice`. Click the copy i
 
 ## Step 5 — Test the Security
 
-Open a terminal and test all three scenarios with `curl`. Replace `<TOKEN>` with the token you copied.
+Open a terminal and test all three scenarios with `curl`.
+
+**Set up an environment variable for Bob's token:**
+
+Create a local environment variable with the token you just copied:
+
+```bash
+export BOB_TOKEN=<TOKEN>
+```
+
+Replace `<TOKEN>` with the token you copied.
 
 **No token → 401 Unauthorized:**
 
@@ -175,12 +193,12 @@ curl -i -X POST http://localhost:8080/menu \
 HTTP/1.1 401 Unauthorized
 ```
 
-**Valid token (alice) → 201 Created:**
+**Valid token (bob, role: user) → 201 Created:**
 
 ```bash
 curl -i -X POST http://localhost:8080/menu \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <TOKEN>" \
+  -H "Authorization: Bearer $BOB_TOKEN" \
   -d '{"name":"Oat Latte","description":"Creamy oat milk latte","price":4.50}'
 ```
 
@@ -189,14 +207,20 @@ HTTP/1.1 201 Created
 {"id":4,"name":"Oat Latte","description":"Creamy oat milk latte","price":4.5}
 ```
 
-**Valid token with admin role (bob) → 201 Created:**
+**Valid token with admin role (alice) → 201 Created:**
 
-First, log out of the Dev UI and log back in as `bob` / `bob` to get a token with the `admin` role. Then:
+Log out of the Dev UI and log back in as `alice` / `alice` to get a token with the `admin` role.
+
+```bash
+export ALICE_TOKEN=<TOKEN>
+```
+
+Replace `<TOKEN>` with alice's token.
 
 ```bash
 curl -i -X POST http://localhost:8080/menu/admin \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <BOB_TOKEN>" \
+  -H "Authorization: Bearer $ALICE_TOKEN" \
   -d '{"name":"Barista Special","description":"Secret recipe","price":6.00}'
 ```
 
@@ -204,14 +228,14 @@ curl -i -X POST http://localhost:8080/menu/admin \
 HTTP/1.1 201 Created
 ```
 
-**Valid token but wrong role (alice) → 403 Forbidden:**
+**Valid token but wrong role (bob) → 403 Forbidden:**
 
-Using alice's token (which has role `user`, not `admin`):
+Using bob's token (which has only the `user` role, not `admin`):
 
 ```bash
 curl -i -X POST http://localhost:8080/menu/admin \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <ALICE_TOKEN>" \
+  -H "Authorization: Bearer $BOB_TOKEN" \
   -d '{"name":"Barista Special","description":"Secret recipe","price":6.00}'
 ```
 
@@ -235,8 +259,8 @@ Back in the Dev UI OpenID Connect panel, you can inspect what Keycloak auto-conf
 |---------|-------|
 | Realm | `quarkus` |
 | Client ID | `quarkus-app` |
-| Test user 1 | `alice` / `alice` — roles: `user` |
-| Test user 2 | `bob` / `bob` — roles: `admin` |
+| Test user 1 | `alice` / `alice` — roles: `admin` + `user` |
+| Test user 2 | `bob` / `bob` — role: `user` only |
 
 !!! tip "What happens in production?"
     You set `quarkus.oidc.auth-server-url` to your real Keycloak or any OIDC provider (Auth0, Okta, Azure AD). The security annotations (`@Authenticated`, `@RolesAllowed`) stay exactly the same — no code changes needed.
@@ -259,7 +283,7 @@ Back in the Dev UI OpenID Connect panel, you can inspect what Keycloak auto-conf
 | ✅ Role-based access control | `@RolesAllowed("admin")` on admin endpoint |
 | ✅ Full Keycloak, zero setup | DevServices auto-started it |
 | ✅ Got a real JWT | From Dev UI login flow |
-| ✅ Verified 401 / 201 / 403 | With `curl` — alice (user) vs bob (admin) |
+| ✅ Verified 401 / 201 / 403 | With `curl` — bob (`user` role, 201) vs alice (`admin` role, 201) vs bob on admin endpoint (403) |
 
 !!! tip "Stuck or fell behind?"
     The complete solution is in `labs/lab5-security/solution/`. Run it with:
@@ -272,7 +296,7 @@ Back in the Dev UI OpenID Connect panel, you can inspect what Keycloak auto-conf
     === "Maven"
         ```bash
         cd labs/lab5-security/solution
-        ./mvnw quarkus:dev
+        mvn quarkus:dev
         ```
 
 ---
