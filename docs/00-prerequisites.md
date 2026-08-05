@@ -173,7 +173,7 @@ cd quarkus-beginners-lab
     └── prereq-check.sh ← environment validation script
     ```
 
-## 7. Create Your Working Directory
+## 7. Navigate To Your Working Directory
 
 All the projects you build during the workshop live in one place — the `workshop/` folder inside the repo. Navigate there now and keep this terminal open throughout the session:
 
