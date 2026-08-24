@@ -76,6 +76,12 @@ nav:
   - Wrap-Up: wrap-up.md
   - Facilitator Guide: facilitator-guide.md
 
+extra_css:
+  - css/workshop-runner.css
+
+extra_javascript:
+  - js/workshop-runner.js
+
 extra:
   social:
     - icon: fontawesome/brands/github

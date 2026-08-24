@@ -1,0 +1,65 @@
+.wr-bar {
+  position: absolute;
+  top: 0.4rem;
+  right: 3rem;
+  z-index: 2;
+}
+
+.wr-btn {
+  background: #448aff;
+  color: #fff;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.wr-btn:hover {
+  background: #2979ff;
+}
+
+.wr-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.wr-btn.wr-running {
+  background: #ff9100;
+}
+
+.wr-btn.wr-success {
+  background: #00c853;
+}
+
+.wr-btn.wr-error {
+  background: #ff1744;
+}
+
+.wr-output {
+  display: none;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 0 0 4px 4px;
+  padding: 0.75rem;
+  margin-top: -0.25rem;
+  margin-bottom: 1rem;
+  font-family: 'Roboto Mono', 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.wr-stdout {
+  color: #e0e0e0;
+}
+
+.wr-stderr {
+  color: #ff5252;
+}
