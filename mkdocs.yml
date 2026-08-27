@@ -73,6 +73,7 @@ nav:
     - "Lab 7: AI with LangChain4j": lab7-langchain4j.md
     - "Lab 8: MCP Server": lab8-mcp-server.md
     - "Lab 9: Containerization": lab9-containerize.md
+    - "Lab 10: Quarkus Flow": lab10-quarkus-flow.md
   - Wrap-Up: wrap-up.md
   - Facilitator Guide: facilitator-guide.md
 

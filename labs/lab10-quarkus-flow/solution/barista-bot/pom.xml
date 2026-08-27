@@ -28,7 +28,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- LangChain4j BOM — part of the Quarkus Platform since 3.20 -->
+      <!-- LangChain4j BOM — includes quarkus-langchain4j-mcp -->
       <dependency>
         <groupId>io.quarkus.platform</groupId>
         <artifactId>quarkus-langchain4j-bom</artifactId>
@@ -56,10 +56,19 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
-    <!-- LangChain4j Ollama integration (LlamaCloud) — runtime artifacts still use io.quarkiverse.langchain4j groupId -->
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
-      <artifactId>quarkus-langchain4j-ollama</artifactId>
+      <artifactId>quarkus-langchain4j-openai</artifactId>
+    </dependency>
+    <!-- REST client to call order-flow-service -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client-jackson</artifactId>
+    </dependency>
+    <!-- MCP client — connects to menu-mcp-server -->
+    <dependency>
+      <groupId>io.quarkiverse.langchain4j</groupId>
+      <artifactId>quarkus-langchain4j-mcp</artifactId>
     </dependency>
     <!-- Test -->
     <dependency>

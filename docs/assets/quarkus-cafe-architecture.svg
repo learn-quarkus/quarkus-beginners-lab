@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="860" height="560" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="860" height="560" rx="16" fill="#f7f8fa" stroke="#e5e7eb" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="430" y="38" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2328">The Quarkus Cafe System</text>
+  <text x="430" y="56" text-anchor="middle" font-size="11" fill="#57606a">5 services · Kafka · MCP · Quarkus Flow · Kubernetes</text>
+
+  <!-- ─────────────────────────────────────────────
+       SERVICE BOXES
+  ───────────────────────────────────────────── -->
+
+  <!-- order-service (top-left) -->
+  <rect x="40" y="88" width="190" height="82" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="40" y="88" width="190" height="26" rx="10" fill="#dbeafe"/>
+  <rect x="40" y="102" width="190" height="12" fill="#dbeafe"/>
+  <text x="135" y="106" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">order-service</text>
+  <text x="135" y="126" text-anchor="middle" font-size="10" fill="#57606a">POST /orders</text>
+  <text x="135" y="140" text-anchor="middle" font-size="10" fill="#57606a">port 8081</text>
+  <text x="135" y="156" text-anchor="middle" font-size="9.5" fill="#8b949e">Lab 4</text>
+
+  <!-- menu-service (top-right) -->
+  <rect x="630" y="88" width="190" height="100" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="630" y="88" width="190" height="26" rx="10" fill="#dbeafe"/>
+  <rect x="630" y="102" width="190" height="12" fill="#dbeafe"/>
+  <text x="725" y="106" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">menu-service</text>
+  <text x="725" y="126" text-anchor="middle" font-size="10" fill="#57606a">GET /menu</text>
+  <text x="725" y="140" text-anchor="middle" font-size="10" fill="#57606a">POST /menu 🔒  port 8080</text>
+  <text x="725" y="155" text-anchor="middle" font-size="10" fill="#57606a">Panache · OIDC · Fault Tolerance</text>
+  <text x="725" y="172" text-anchor="middle" font-size="9.5" fill="#8b949e">Labs 1–6</text>
+
+  <!-- order-flow-service (middle-left) -->
+  <rect x="40" y="250" width="190" height="100" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="40" y="250" width="190" height="26" rx="10" fill="#ede9fe"/>
+  <rect x="40" y="264" width="190" height="12" fill="#ede9fe"/>
+  <text x="135" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#6d28d9">order-flow-service</text>
+  <text x="135" y="288" text-anchor="middle" font-size="10" fill="#57606a">POST /flow/order</text>
+  <text x="135" y="302" text-anchor="middle" font-size="10" fill="#57606a">POST /flow/approve/{id}</text>
+  <text x="135" y="316" text-anchor="middle" font-size="10" fill="#57606a">port 8082  🔀 Quarkus Flow</text>
+  <text x="135" y="333" text-anchor="middle" font-size="9.5" fill="#8b949e">Lab 10 (optional)</text>
+
+  <!-- barista-bot (bottom-left) -->
+  <rect x="40" y="424" width="190" height="96" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="40" y="424" width="190" height="26" rx="10" fill="#dcfce7"/>
+  <rect x="40" y="438" width="190" height="12" fill="#dcfce7"/>
+  <text x="135" y="442" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">barista-bot</text>
+  <text x="135" y="462" text-anchor="middle" font-size="10" fill="#57606a">Chat window 🤖  port 8080</text>
+  <text x="135" y="476" text-anchor="middle" font-size="10" fill="#57606a">@RegisterAiService</text>
+  <text x="135" y="490" text-anchor="middle" font-size="10" fill="#57606a">@McpToolBox · @ToolBox</text>
+  <text x="135" y="505" text-anchor="middle" font-size="9.5" fill="#8b949e">Labs 7–8, 10</text>
+
+  <!-- menu-mcp-server (bottom-right) -->
+  <rect x="400" y="424" width="190" height="96" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="400" y="424" width="190" height="26" rx="10" fill="#dcfce7"/>
+  <rect x="400" y="438" width="190" height="12" fill="#dcfce7"/>
+  <text x="495" y="442" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">menu-mcp-server</text>
+  <text x="495" y="462" text-anchor="middle" font-size="10" fill="#57606a">getMenuItems()</text>
+  <text x="495" y="476" text-anchor="middle" font-size="10" fill="#57606a">getItemPrice()</text>
+  <text x="495" y="490" text-anchor="middle" font-size="10" fill="#57606a">port 8081  @Tool methods</text>
+  <text x="495" y="505" text-anchor="middle" font-size="9.5" fill="#8b949e">Lab 8</text>
+
+  <!-- Kubernetes badge (top-right corner) -->
+  <rect x="630" y="222" width="190" height="72" rx="10" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+  <rect x="630" y="222" width="190" height="26" rx="10" fill="#fef9c3"/>
+  <rect x="630" y="236" width="190" height="12" fill="#fef9c3"/>
+  <text x="725" y="240" text-anchor="middle" font-size="11" font-weight="600" fill="#a16207">Kubernetes</text>
+  <text x="725" y="260" text-anchor="middle" font-size="10" fill="#57606a">Jib container image</text>
+  <text x="725" y="274" text-anchor="middle" font-size="10" fill="#57606a">auto-generated K8s YAML</text>
+  <text x="725" y="284" text-anchor="middle" font-size="9.5" fill="#8b949e">Lab 9 (optional)</text>
+
+  <!-- ─────────────────────────────────────────────
+       ARROWS
+  ───────────────────────────────────────────── -->
+
+  <!-- Kafka: order-service → menu-service (top horizontal) -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#57606a"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#6d28d9"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#15803d"/>
+    </marker>
+  </defs>
+
+  <!-- Kafka arrow: order-service → menu-service -->
+  <line x1="230" y1="129" x2="626" y2="129" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="6 3" marker-end="url(#arrow-blue)"/>
+  <rect x="340" y="116" width="178" height="18" rx="4" fill="#eff6ff"/>
+  <text x="429" y="129" text-anchor="middle" font-size="10" fill="#1d4ed8">Kafka  "coffee-orders"</text>
+
+  <!-- menu-service → Kubernetes (down) -->
+  <line x1="725" y1="188" x2="725" y2="219" stroke="#a16207" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="738" y="209" font-size="9.5" fill="#a16207">Jib</text>
+
+  <!-- order-flow-service → order-service (up, REST) -->
+  <line x1="135" y1="250" x2="135" y2="174" stroke="#6d28d9" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <rect x="60" y="206" width="50" height="16" rx="3" fill="#f5f3ff"/>
+  <text x="85" y="218" text-anchor="middle" font-size="9.5" fill="#6d28d9">REST</text>
+
+  <!-- barista-bot → order-flow-service (@Tool, up) -->
+  <line x1="135" y1="424" x2="135" y2="354" stroke="#15803d" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <rect x="52" y="381" width="48" height="16" rx="3" fill="#f0fdf4"/>
+  <text x="76" y="393" text-anchor="middle" font-size="9.5" fill="#15803d">@Tool</text>
+
+  <!-- barista-bot ↔ menu-mcp-server (horizontal, MCP) -->
+  <line x1="230" y1="472" x2="396" y2="472" stroke="#15803d" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <line x1="400" y1="484" x2="234" y2="484" stroke="#15803d" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <rect x="283" y="462" width="92" height="16" rx="3" fill="#f0fdf4"/>
+  <text x="329" y="474" text-anchor="middle" font-size="9.5" fill="#15803d">MCP / SSE</text>
+
+  <!-- ─────────────────────────────────────────────
+       LEGEND
+  ───────────────────────────────────────────── -->
+  <rect x="390" y="250" width="430" height="148" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="605" y="270" text-anchor="middle" font-size="11" font-weight="600" fill="#1f2328">Legend</text>
+
+  <!-- legend items -->
+  <line x1="410" y1="290" x2="448" y2="290" stroke="#1d4ed8" stroke-width="1.8" stroke-dasharray="6 3" marker-end="url(#arrow-blue)"/>
+  <text x="456" y="294" font-size="10" fill="#1f2328">Kafka event stream</text>
+
+  <line x1="410" y1="313" x2="448" y2="313" stroke="#6d28d9" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="456" y="317" font-size="10" fill="#1f2328">REST call (HTTP)</text>
+
+  <line x1="410" y1="336" x2="448" y2="336" stroke="#15803d" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="456" y="340" font-size="10" fill="#1f2328">MCP / @Tool call</text>
+
+  <rect x="410" y="351" width="16" height="12" rx="3" fill="#ede9fe"/>
+  <text x="435" y="362" font-size="10" fill="#1f2328">Quarkus Flow  (optional lab)</text>
+
+  <rect x="410" y="370" width="16" height="12" rx="3" fill="#fef9c3"/>
+  <text x="435" y="381" font-size="10" fill="#1f2328">Kubernetes deployment  (optional lab)</text>
+
+</svg>

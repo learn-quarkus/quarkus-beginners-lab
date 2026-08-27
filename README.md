@@ -10,7 +10,7 @@ A 60-minute hands-on workshop for Java developers — no prior Quarkus experienc
 
 ## What You'll Build
 
-A progressive **Coffee Shop** application across 7 labs:
+A progressive **Coffee Shop** application across 10 labs:
 
 | Lab | Topic | What you build |
 |-----|-------|----------------|
@@ -21,13 +21,16 @@ A progressive **Coffee Shop** application across 7 labs:
 | 5 | OIDC Security | Protect endpoints with Keycloak — zero manual setup |
 | 6 | Fault Tolerance | `@Retry`, `@Fallback`, `@Timeout` in 3 annotations |
 | 7 | AI with LangChain4j | `barista-bot` — an AI assistant powered by OpenAI + RAG |
+| 8 | MCP Server | Expose menu data as MCP tools; wire them into the barista bot |
+| 9 | Containerization | Build a container image with Jib; generate Kubernetes manifests |
+| 10 *(optional)* | Quarkus Flow | Agentic order workflow with configurable HITL approval |
 
 ## Prerequisites
 
 - Java 21+
 - Maven 3.9+ or Quarkus CLI
-- Docker Desktop or Podman (Labs 4 & 5 only)
-- OpenAI API key (Lab 7 only)
+- Docker Desktop or Podman (Labs 4, 5 & 9)
+- OpenAI API key (Labs 7, 8 & 10)
 
 See the [Prerequisites page](https://learn-quarkus.github.io/quarkus-beginners-lab/00-prerequisites/) for full setup instructions.
 
