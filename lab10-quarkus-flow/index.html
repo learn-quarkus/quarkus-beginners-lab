@@ -1,0 +1,2032 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 60-minute hands-on Quarkus workshop for Java developers — REST APIs, Panache ORM, Kafka, OIDC Security, Fault Tolerance, and LangChain4j AI.">
+      
+      
+        <meta name="author" content="IBM">
+      
+      
+      
+        <link rel="prev" href="../lab9-containerize/">
+      
+      
+        <link rel="next" href="../wrap-up/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Lab 10: Quarkus Flow - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-10-quarkus-flow-agentic-order-workflow" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quarkus Workshop: From Zero to AI-Powered Microservices" class="md-header__button md-logo" aria-label="Quarkus Workshop: From Zero to AI-Powered Microservices" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quarkus Workshop: From Zero to AI-Powered Microservices
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 10: Quarkus Flow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    quarkus-beginners-lab
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../00-prerequisites/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Prerequisites
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../lab1-rest/" class="md-tabs__link">
+          
+  
+  
+  Labs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../wrap-up/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Wrap-Up
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../facilitator-guide/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Facilitator Guide
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quarkus Workshop: From Zero to AI-Powered Microservices" class="md-nav__button md-logo" aria-label="Quarkus Workshop: From Zero to AI-Powered Microservices" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Quarkus Workshop: From Zero to AI-Powered Microservices
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    quarkus-beginners-lab
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1-rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1: First REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2-panache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2: Panache ORM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3-config-health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3: Config & Health
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4: Kafka Messaging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5: OIDC Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6-fault-tolerance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6: Fault Tolerance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab7-langchain4j/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7: AI with LangChain4j
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab8-mcp-server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8: MCP Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9-containerize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9: Containerization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 10: Quarkus Flow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 10: Quarkus Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-get-the-starting-point-for-barista-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup — Get the starting point for barista-bot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-order-flow-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Create order-flow-service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-add-the-quarkus-flow-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Add the Quarkus Flow extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-configure-applicationproperties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Configure application.properties
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-add-the-order-model-and-orderserviceclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Add the Order model and OrderServiceClient
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-define-the-orderflowworkflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Define the OrderFlowWorkflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-expose-the-rest-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Expose the REST endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-update-barista-bot-to-place-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Update barista-bot to place orders
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7 — Update barista-bot to place orders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7a-add-the-rest-client-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7a — Add the REST client extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7b-add-three-new-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7b — Add three new files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7c-update-baristaaiservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7c — Update BaristaAiService
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7d-update-applicationproperties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7d — Update application.properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-run-and-test-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Run and test everything
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8 — Run and test everything">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demo-1-low-value-order-below-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo 1 — Low-value order (below threshold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo-2-high-value-order-above-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo 2 — High-value order (above threshold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wrap-up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrap-Up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../facilitator-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facilitator Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup-get-the-starting-point-for-barista-bot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup — Get the starting point for barista-bot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-order-flow-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Create order-flow-service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-add-the-quarkus-flow-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Add the Quarkus Flow extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-configure-applicationproperties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Configure application.properties
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-add-the-order-model-and-orderserviceclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Add the Order model and OrderServiceClient
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-define-the-orderflowworkflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Define the OrderFlowWorkflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-expose-the-rest-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Expose the REST endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-update-barista-bot-to-place-orders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Update barista-bot to place orders
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7 — Update barista-bot to place orders">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7a-add-the-rest-client-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7a — Add the REST client extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7b-add-three-new-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7b — Add three new files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7c-update-baristaaiservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7c — Update BaristaAiService
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7d-update-applicationproperties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7d — Update application.properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-run-and-test-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8 — Run and test everything
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8 — Run and test everything">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#demo-1-low-value-order-below-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo 1 — Low-value order (below threshold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo-2-high-value-order-above-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demo 2 — High-value order (above threshold)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lab-10-quarkus-flow-agentic-order-workflow">Lab 10: Quarkus Flow — Agentic Order Workflow<a class="headerlink" href="#lab-10-quarkus-flow-agentic-order-workflow" title="Permanent link">&para;</a></h1>
+<p><strong>Duration:</strong> 12 minutes &nbsp;|&nbsp; <strong>Projects:</strong> <code>order-flow-service</code> (new) + <code>barista-bot</code> (from Lab 8)</p>
+<div class="admonition warning">
+<p class="admonition-title">Labs 4 and 8 required</p>
+<p>This lab builds on <code>order-service</code> from Lab 4 and <code>barista-bot</code> from Lab 8.
+If you didn't complete Lab 8, run the setup script below to get the starting point.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">What you'll build</p>
+<ul>
+<li><strong><code>order-flow-service</code></strong> — a new Quarkus app on port <code>8082</code> that runs a <strong>Quarkus Flow</strong> workflow: it calls <code>order-service</code> to record an order, then checks whether the total exceeds a configurable threshold.</li>
+<li><strong><code>barista-bot</code></strong> — updated with a <code>@Tool</code>-annotated <code>placeOrder</code> method so the LLM can place real orders through the chat window.</li>
+</ul>
+<p><strong>Result:</strong> Type <em>"I'd like 4 lattes please"</em> in the barista chat. The LLM looks up the price via MCP, calls the <code>placeOrder</code> tool, and the workflow either confirms the order immediately or pauses it for barista approval — all from a single chat message.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Quarkus Flow in one sentence</p>
+<p><strong>Quarkus Flow</strong> is a lightweight workflow engine built into Quarkus, based on the CNCF Open Workflow spec. You model workflows as Java code, and Quarkus handles execution, observability, and the Dev UI visualisation for free.</p>
+</div>
+<p><strong>Reference:</strong> <a href="https://docs.quarkiverse.io/quarkus-flow/dev/index.html" target="_blank">Quarkus Flow docs</a></p>
+<hr />
+<div class="admonition tip">
+<p class="admonition-title">Working directory</p>
+<p>Unless otherwise noted, commands for <code>order-flow-service</code> run from the <code>order-flow-service/</code> directory you create in Step 1.
+Commands for <code>barista-bot</code> run from your existing <code>barista-bot/</code> directory.</p>
+</div>
+<hr />
+<h2 id="setup-get-the-starting-point-for-barista-bot">Setup — Get the starting point for <code>barista-bot</code><a class="headerlink" href="#setup-get-the-starting-point-for-barista-bot" title="Permanent link">&para;</a></h2>
+<p>If you completed Lab 8 your <code>barista-bot</code> directory is already ready. Skip to <a href="#step-1-create-order-flow-service">Step 1</a>.</p>
+<p>If you didn't finish Lab 8, run the setup script from the repo root:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>bash<span class="w"> </span>labs/lab10-quarkus-flow/setup.sh
+</span></code></pre></div>
+<p>The script does five things automatically:</p>
+<ol>
+<li>Copies the Lab 8 <code>barista-bot</code> solution into <code>workshop/barista-bot/</code></li>
+<li>Adds the <code>quarkus-rest-client-jackson</code> extension to <code>pom.xml</code></li>
+<li>Writes <code>OrderRequest.java</code>, <code>OrderResult.java</code>, <code>OrderFlowClient.java</code>, and <code>OrderTools.java</code></li>
+<li>Replaces <code>BaristaAiService.java</code> with the <code>@ToolBox</code>-enabled version</li>
+<li>Appends the <code>order-flow-service</code> REST client URL and updated MCP port to <code>application.properties</code></li>
+</ol>
+<p>It is <strong>idempotent</strong> — safe to run again if something goes wrong.</p>
+<hr />
+<h2 id="step-1-create-order-flow-service">Step 1 — Create <code>order-flow-service</code><a class="headerlink" href="#step-1-create-order-flow-service" title="Permanent link">&para;</a></h2>
+<p>In a <strong>new terminal</strong>, create the project:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>quarkus<span class="w"> </span>create<span class="w"> </span>app<span class="w"> </span>org.coffee:order-flow-service<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--extensions<span class="o">=</span>rest-jackson,rest-client-jackson
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>order-flow-service
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.33.3:create<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-DprojectGroupId<span class="o">=</span>org.coffee<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-DprojectArtifactId<span class="o">=</span>order-flow-service<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-Dextensions<span class="o">=</span>rest-jackson,rest-client-jackson
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">cd</span><span class="w"> </span>order-flow-service
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Delete the generated sample files</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>rm<span class="w"> </span>src/main/java/org/coffee/GreetingResource.java
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>rm<span class="w"> </span>src/test/java/org/coffee/GreetingResourceTest.java
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>rm<span class="w"> </span>src/test/java/org/coffee/GreetingResourceIT.java
+</span></code></pre></div>
+</div>
+<hr />
+<h2 id="step-2-add-the-quarkus-flow-extension">Step 2 — Add the Quarkus Flow extension<a class="headerlink" href="#step-2-add-the-quarkus-flow-extension" title="Permanent link">&para;</a></h2>
+<p>Quarkus Flow is a Quarkiverse extension — add it explicitly:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI</label><label for="__tabbed_2_2">Maven</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>quarkus<span class="w"> </span>extension<span class="w"> </span>add<span class="w"> </span>io.quarkiverse.flow:quarkus-flow
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Add to <code>pom.xml</code> inside <code>&lt;dependencyManagement&gt;</code> (alongside the Quarkus BOM):</p>
+<div class="language-xml highlight"><span class="filename">pom.xml — dependencyManagement</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&lt;dependency&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.flow<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>quarkus-flow-bom<span class="nt">&lt;/artifactId&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></div>
+<p>Then add to <code>&lt;dependencies&gt;</code>:</p>
+<div class="language-xml highlight"><span class="filename">pom.xml — dependencies</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">&lt;dependency&gt;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.flow<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>quarkus-flow<span class="nt">&lt;/artifactId&gt;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nt">&lt;/dependency&gt;</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<ul>
+<li><strong><code>quarkus-flow</code></strong> — the workflow engine: Java DSL, Dev UI, execution tracing.</li>
+</ul>
+<p>This workflow is pure Java — it calls <code>order-service</code> and branches on a config
+value, with no LLM inside the flow. So you only need <code>quarkus-flow</code> itself; the
+<code>quarkus-flow-langchain4j</code> bridge and an LLM provider are <strong>not</strong> required here.
+(The AI lives in <code>barista-bot</code>, which calls this service over REST.)</p>
+</div>
+<hr />
+<h2 id="step-3-configure-applicationproperties">Step 3 — Configure <code>application.properties</code><a class="headerlink" href="#step-3-configure-applicationproperties" title="Permanent link">&para;</a></h2>
+<p>Open <code>src/main/resources/application.properties</code> and replace its contents with:</p>
+<div class="language-properties highlight"><span class="filename">application.properties</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Port — barista-bot runs on 8080, order-flow-service on 8082</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="na">quarkus.http.port</span><span class="o">=</span><span class="s">8082</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># REST client pointing at order-service (Lab 4)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="na">quarkus.rest-client.order-service.url</span><span class="o">=</span><span class="s">http://localhost:8081</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># High-value order threshold — orders at or above this amount require barista approval.</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Change this value and save; Quarkus live-reload picks it up instantly.</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="na">coffee.approval.threshold</span><span class="o">=</span><span class="s">15.0</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<p><code>coffee.approval.threshold</code> is a plain MicroProfile Config property injected with <code>@ConfigProperty</code>. Try setting it to <code>0.0</code> to force every order through the approval path, or <code>999.0</code> to confirm all orders immediately — with Quarkus dev mode running, just save the file and the change takes effect without a restart.</p>
+</div>
+<hr />
+<h2 id="step-4-add-the-order-model-and-orderserviceclient">Step 4 — Add the <code>Order</code> model and <code>OrderServiceClient</code><a class="headerlink" href="#step-4-add-the-order-model-and-orderserviceclient" title="Permanent link">&para;</a></h2>
+<p>Create <code>src/main/java/org/coffee/Order.java</code>:</p>
+<div class="language-java highlight"><span class="filename">Order.java</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Order</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">itemName</span><span class="p">;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w">    </span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Order</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Order</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">itemName</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">itemName</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">itemName</span><span class="p">;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">quantity</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">customerId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">customerId</span><span class="p">;</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">totalPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><code>totalPrice</code> extends the Lab 4 <code>Order</code> POJO with the price needed for the threshold check. <code>order-service</code> ignores unknown fields, so nothing breaks on that end.</li>
+</ol>
+<p>Create <code>src/main/java/org/coffee/OrderServiceClient.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderServiceClient.java</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.POST</span><span class="p">;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.Path</span><span class="p">;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.Response</span><span class="p">;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.rest.client.inject.RegisterRestClient</span><span class="p">;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="nd">@RegisterRestClient</span><span class="p">(</span><span class="n">configKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"order-service"</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">"/orders"</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">OrderServiceClient</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nd">@POST</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="n">Response</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">);</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><code>configKey = "order-service"</code> links this interface to the <code>quarkus.rest-client.order-service.url</code> property you set in Step 3. No URL hard-coding needed.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<p><code>@RegisterRestClient</code> is the same type-safe HTTP client pattern introduced in Lab 8 for the MCP client. Declare the interface; Quarkus generates the implementation at build time.</p>
+</div>
+<p>Finally, create <code>src/main/java/org/coffee/OrderState.java</code> — the object that flows
+between the workflow's tasks:</p>
+<div class="language-java highlight"><span class="filename">OrderState.java</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderState</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">itemName</span><span class="p">;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w">    </span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">;</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1) "CONFIRMED" or "PENDING_APPROVAL"</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderState</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Each workflow task takes an input type and returns an output type. Using a typed
+   POJO (rather than a raw <code>Map</code>) lets Quarkus Flow deserialise the workflow data for
+   you: <code>placeOrder</code> produces an <code>OrderState</code>, the switch inspects its <code>totalPrice</code>,
+   and a branch task stamps the final <code>status</code>.</li>
+</ol>
+<hr />
+<h2 id="step-5-define-the-orderflowworkflow">Step 5 — Define the <code>OrderFlowWorkflow</code><a class="headerlink" href="#step-5-define-the-orderflowworkflow" title="Permanent link">&para;</a></h2>
+<p>This is the heart of the lab. Create <code>src/main/java/org/coffee/OrderFlowWorkflow.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderFlowWorkflow.java</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkiverse.flow.Flow</span><span class="p">;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.serverlessworkflow.api.types.FlowDirectiveEnum</span><span class="p">;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.serverlessworkflow.api.types.Workflow</span><span class="p">;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="p">;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.Response</span><span class="p">;</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.config.inject.ConfigProperty</span><span class="p">;</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.rest.client.inject.RestClient</span><span class="p">;</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.UUID</span><span class="p">;</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="kn">import static</span><span class="w"> </span><span class="nn">io.quarkiverse.flow.dsl.FlowDSL.function</span><span class="p">;</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="kn">import static</span><span class="w"> </span><span class="nn">io.quarkiverse.flow.dsl.FlowDSL.switchWhenOrElse</span><span class="p">;</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="kn">import static</span><span class="w"> </span><span class="nn">io.quarkiverse.flow.dsl.FlowWorkflowBuilder.workflow</span><span class="p">;</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderFlowWorkflow</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Flow</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="nd">@RestClient</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">    </span><span class="n">OrderServiceClient</span><span class="w"> </span><span class="n">orderServiceClient</span><span class="p">;</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="w">    </span><span class="nd">@ConfigProperty</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"coffee.approval.threshold"</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"15.0"</span><span class="p">)</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">threshold</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="w">    </span><span class="nd">@Override</span>
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Workflow</span><span class="w"> </span><span class="nf">descriptor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="w">        </span><span class="c1">// Capture the config value so the switch predicate closes over the</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="w">        </span><span class="c1">// primitive, not the CDI bean.</span>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="w">        </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">approvalThreshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">threshold</span><span class="p">;</span>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">workflow</span><span class="p">(</span><span class="s">"order-flow"</span><span class="p">)</span>
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a><span class="w">            </span><span class="p">.</span><span class="na">tasks</span><span class="p">(</span>
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="w">                </span><span class="c1">// Step 1: generate an orderId and call order-service</span>
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a><span class="w">                </span><span class="n">function</span><span class="p">(</span><span class="s">"placeOrder"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (3)</span>
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a><span class="w">                    </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">().</span><span class="na">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="w">                    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Response</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderServiceClient</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">(</span><span class="n">order</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="w">                        </span><span class="c1">// order-service returns 202; orderId is generated here</span>
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a><span class="w">                    </span><span class="p">}</span>
+</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>
+</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a><span class="w">                    </span><span class="n">OrderState</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderState</span><span class="p">();</span>
+</span><span id="__span-11-43"><a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">orderId</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">orderId</span><span class="p">;</span>
+</span><span id="__span-11-44"><a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">itemName</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">itemName</span><span class="p">;</span>
+</span><span id="__span-11-45"><a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">quantity</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">quantity</span><span class="p">;</span>
+</span><span id="__span-11-46"><a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">customerId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">customerId</span><span class="p">;</span>
+</span><span id="__span-11-47"><a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">totalPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">totalPrice</span><span class="p">;</span>
+</span><span id="__span-11-48"><a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+</span><span id="__span-11-49"><a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a><span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="n">Order</span><span class="p">.</span><span class="na">class</span><span class="p">),</span>
+</span><span id="__span-11-50"><a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a>
+</span><span id="__span-11-51"><a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a><span class="w">                </span><span class="c1">// Step 2: branch on the threshold</span>
+</span><span id="__span-11-52"><a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a><span class="w">                </span><span class="n">switchWhenOrElse</span><span class="p">(</span><span class="w"> </span><span class="c1">// (4)</span>
+</span><span id="__span-11-53"><a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a><span class="w">                    </span><span class="p">(</span><span class="n">OrderState</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">totalPrice</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">approvalThreshold</span><span class="p">,</span>
+</span><span id="__span-11-54"><a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a><span class="w">                    </span><span class="s">"requireApproval"</span><span class="p">,</span><span class="w">   </span><span class="c1">// high-value path</span>
+</span><span id="__span-11-55"><a id="__codelineno-11-55" name="__codelineno-11-55" href="#__codelineno-11-55"></a><span class="w">                    </span><span class="s">"confirmOrder"</span><span class="p">,</span><span class="w">      </span><span class="c1">// low-value path</span>
+</span><span id="__span-11-56"><a id="__codelineno-11-56" name="__codelineno-11-56" href="#__codelineno-11-56"></a><span class="w">                    </span><span class="n">OrderState</span><span class="p">.</span><span class="na">class</span><span class="p">),</span>
+</span><span id="__span-11-57"><a id="__codelineno-11-57" name="__codelineno-11-57" href="#__codelineno-11-57"></a>
+</span><span id="__span-11-58"><a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a><span class="w">                </span><span class="c1">// High-value — barista must approve. End here so we don't fall</span>
+</span><span id="__span-11-59"><a id="__codelineno-11-59" name="__codelineno-11-59" href="#__codelineno-11-59"></a><span class="w">                </span><span class="c1">// through into confirmOrder.</span>
+</span><span id="__span-11-60"><a id="__codelineno-11-60" name="__codelineno-11-60" href="#__codelineno-11-60"></a><span class="w">                </span><span class="n">function</span><span class="p">(</span><span class="s">"requireApproval"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">OrderState</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-61"><a id="__codelineno-11-61" name="__codelineno-11-61" href="#__codelineno-11-61"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"PENDING_APPROVAL"</span><span class="p">;</span>
+</span><span id="__span-11-62"><a id="__codelineno-11-62" name="__codelineno-11-62" href="#__codelineno-11-62"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+</span><span id="__span-11-63"><a id="__codelineno-11-63" name="__codelineno-11-63" href="#__codelineno-11-63"></a><span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="n">OrderState</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">then</span><span class="p">(</span><span class="n">FlowDirectiveEnum</span><span class="p">.</span><span class="na">END</span><span class="p">),</span><span class="w"> </span><span class="c1">// (5)</span>
+</span><span id="__span-11-64"><a id="__codelineno-11-64" name="__codelineno-11-64" href="#__codelineno-11-64"></a>
+</span><span id="__span-11-65"><a id="__codelineno-11-65" name="__codelineno-11-65" href="#__codelineno-11-65"></a><span class="w">                </span><span class="c1">// Low-value — confirm straight away</span>
+</span><span id="__span-11-66"><a id="__codelineno-11-66" name="__codelineno-11-66" href="#__codelineno-11-66"></a><span class="w">                </span><span class="n">function</span><span class="p">(</span><span class="s">"confirmOrder"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">OrderState</span><span class="w"> </span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-67"><a id="__codelineno-11-67" name="__codelineno-11-67" href="#__codelineno-11-67"></a><span class="w">                    </span><span class="n">state</span><span class="p">.</span><span class="na">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"CONFIRMED"</span><span class="p">;</span>
+</span><span id="__span-11-68"><a id="__codelineno-11-68" name="__codelineno-11-68" href="#__codelineno-11-68"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+</span><span id="__span-11-69"><a id="__codelineno-11-69" name="__codelineno-11-69" href="#__codelineno-11-69"></a><span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="n">OrderState</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-11-70"><a id="__codelineno-11-70" name="__codelineno-11-70" href="#__codelineno-11-70"></a><span class="w">            </span><span class="p">)</span>
+</span><span id="__span-11-71"><a id="__codelineno-11-71" name="__codelineno-11-71" href="#__codelineno-11-71"></a><span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-11-72"><a id="__codelineno-11-72" name="__codelineno-11-72" href="#__codelineno-11-72"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-73"><a id="__codelineno-11-73" name="__codelineno-11-73" href="#__codelineno-11-73"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Extend <code>Flow</code> — Quarkus discovers every <code>Flow</code> subclass at build time and registers it in the workflow registry. You never call <code>new OrderFlowWorkflow()</code>.</li>
+<li><code>@ConfigProperty</code> reads <code>coffee.approval.threshold</code> from <code>application.properties</code>. In dev mode, changing the value and saving hot-reloads the workflow automatically.</li>
+<li><code>function(name, fn, InputType.class)</code> runs plain Java as a workflow task. The input is deserialised to <code>Order</code>; whatever the lambda returns (here an <code>OrderState</code>) becomes the workflow data passed to the next task.</li>
+<li><code>switchWhenOrElse(predicate, thenTask, elseTask, Type.class)</code> routes to a <strong>named</strong> task: high-value orders jump to <code>requireApproval</code>, everything else to <code>confirmOrder</code>.</li>
+<li><code>.then(FlowDirectiveEnum.END)</code> stops the workflow after <code>requireApproval</code>. Without it, execution would fall through into the next task in the list (<code>confirmOrder</code>) and overwrite the status.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<p>You just wrote a two-step, conditionally branching workflow using the Quarkus Flow Java DSL. No XML, no YAML, no external orchestration engine. Open the Dev UI after starting the service to see an auto-generated Mermaid diagram of this exact topology.</p>
+</div>
+<hr />
+<h2 id="step-6-expose-the-rest-endpoints">Step 6 — Expose the REST endpoints<a class="headerlink" href="#step-6-expose-the-rest-endpoints" title="Permanent link">&para;</a></h2>
+<p>Create <code>src/main/java/org/coffee/OrderFlowResource.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderFlowResource.java</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.smallrye.mutiny.Uni</span><span class="p">;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="p">;</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span><span class="p">;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.*</span><span class="p">;</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.MediaType</span><span class="p">;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.core.Response</span><span class="p">;</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ConcurrentHashMap</span><span class="p">;</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">"/flow"</span><span class="p">)</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="nd">@Produces</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">)</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="nd">@Consumes</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">)</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderFlowResource</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">    </span><span class="n">OrderFlowWorkflow</span><span class="w"> </span><span class="n">orderFlow</span><span class="p">;</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">OrderState</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pendingOrders</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="w">    </span><span class="nd">@POST</span>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="w">    </span><span class="nd">@Path</span><span class="p">(</span><span class="s">"/order"</span><span class="p">)</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Uni</span><span class="o">&lt;</span><span class="n">Response</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">orderFlow</span>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="w">            </span><span class="p">.</span><span class="na">startInstance</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="w">  </span><span class="c1">// (2)</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="w">            </span><span class="p">.</span><span class="na">onItem</span><span class="p">().</span><span class="na">transform</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a><span class="w">                </span><span class="n">OrderState</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">as</span><span class="p">(</span><span class="n">OrderState</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">orElseThrow</span><span class="p">();</span><span class="w"> </span><span class="c1">// (3)</span>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">"PENDING_APPROVAL"</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">status</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a><span class="w">                    </span><span class="n">pendingOrders</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">accepted</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w"> </span><span class="c1">// 202</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a><span class="w">                </span><span class="p">}</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">result</span><span class="p">).</span><span class="na">build</span><span class="p">();</span><span class="w">           </span><span class="c1">// 200</span>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a><span class="w">            </span><span class="p">});</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-12-40"><a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>
+</span><span id="__span-12-41"><a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a><span class="w">    </span><span class="nd">@POST</span>
+</span><span id="__span-12-42"><a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a><span class="w">    </span><span class="nd">@Path</span><span class="p">(</span><span class="s">"/approve/{orderId}"</span><span class="p">)</span>
+</span><span id="__span-12-43"><a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Response</span><span class="w"> </span><span class="nf">approveOrder</span><span class="p">(</span><span class="nd">@PathParam</span><span class="p">(</span><span class="s">"orderId"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (4)</span>
+</span><span id="__span-12-44"><a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a><span class="w">        </span><span class="n">OrderState</span><span class="w"> </span><span class="n">pending</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pendingOrders</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">orderId</span><span class="p">);</span>
+</span><span id="__span-12-45"><a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pending</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-46"><a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">Response</span><span class="p">.</span><span class="na">Status</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">)</span>
+</span><span id="__span-12-47"><a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a><span class="w">                </span><span class="p">.</span><span class="na">entity</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"error"</span><span class="p">,</span><span class="w"> </span><span class="s">"Order "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">orderId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" not found or already processed"</span><span class="p">))</span>
+</span><span id="__span-12-48"><a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a><span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-12-49"><a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-12-50"><a id="__codelineno-12-50" name="__codelineno-12-50" href="#__codelineno-12-50"></a><span class="w">        </span><span class="n">pending</span><span class="p">.</span><span class="na">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"CONFIRMED"</span><span class="p">;</span>
+</span><span id="__span-12-51"><a id="__codelineno-12-51" name="__codelineno-12-51" href="#__codelineno-12-51"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Response</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">pending</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+</span><span id="__span-12-52"><a id="__codelineno-12-52" name="__codelineno-12-52" href="#__codelineno-12-52"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-12-53"><a id="__codelineno-12-53" name="__codelineno-12-53" href="#__codelineno-12-53"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><code>ConcurrentHashMap</code> tracks orders waiting for barista approval — the same in-memory session pattern used in <code>barista-bot</code>'s <code>ChatUiResource</code>.</li>
+<li><code>startInstance(order)</code> triggers the workflow reactively. Quarkus Flow integrates with Mutiny — the REST response is non-blocking.</li>
+<li><code>startInstance</code> resolves to a <code>WorkflowModel</code> — the final workflow data. <code>model.as(OrderState.class)</code> deserialises it back into our POJO.</li>
+<li><code>POST /flow/approve/{orderId}</code> is the barista's action: it promotes the order from <code>PENDING_APPROVAL</code> to <code>CONFIRMED</code>.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<p><code>startInstance</code> is the one method every <code>Flow</code> subclass inherits. It serialises the input to JSON, hands it to the workflow engine, and returns a <code>Uni&lt;WorkflowModel&gt;</code> that resolves when all tasks complete.</p>
+</div>
+<hr />
+<h2 id="step-7-update-barista-bot-to-place-orders">Step 7 — Update <code>barista-bot</code> to place orders<a class="headerlink" href="#step-7-update-barista-bot-to-place-orders" title="Permanent link">&para;</a></h2>
+<p>Switch to your <code>barista-bot</code> directory.</p>
+<h3 id="7a-add-the-rest-client-extension">7a — Add the REST client extension<a class="headerlink" href="#7a-add-the-rest-client-extension" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Quarkus CLI</label><label for="__tabbed_3_2">Maven</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>quarkus<span class="w"> </span>ext<span class="w"> </span>add<span class="w"> </span>rest-client-jackson
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mvn<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">"rest-client-jackson"</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="7b-add-three-new-files">7b — Add three new files<a class="headerlink" href="#7b-add-three-new-files" title="Permanent link">&para;</a></h3>
+<p>Create <code>src/main/java/org/coffee/OrderRequest.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderRequest.java</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderRequest</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">itemName</span><span class="p">;</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w">    </span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">;</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">;</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderRequest</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderRequest</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">itemName</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">customerId</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">itemName</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">itemName</span><span class="p">;</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">quantity</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">quantity</span><span class="p">;</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">customerId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">customerId</span><span class="p">;</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">totalPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalPrice</span><span class="p">;</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Create <code>src/main/java/org/coffee/OrderResult.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderResult.java</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderResult</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderId</span><span class="p">;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w"> </span><span class="c1">// "CONFIRMED" or "PENDING_APPROVAL"</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderResult</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Create <code>src/main/java/org/coffee/OrderFlowClient.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderFlowClient.java</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.POST</span><span class="p">;</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.ws.rs.Path</span><span class="p">;</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.rest.client.inject.RegisterRestClient</span><span class="p">;</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nd">@RegisterRestClient</span><span class="p">(</span><span class="n">configKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"order-flow-service"</span><span class="p">)</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">"/flow"</span><span class="p">)</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">OrderFlowClient</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">    </span><span class="nd">@POST</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="nd">@Path</span><span class="p">(</span><span class="s">"/order"</span><span class="p">)</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="n">OrderResult</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">OrderRequest</span><span class="w"> </span><span class="n">request</span><span class="p">);</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Create <code>src/main/java/org/coffee/OrderTools.java</code>:</p>
+<div class="language-java highlight"><span class="filename">OrderTools.java</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.agent.tool.Tool</span><span class="p">;</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="p">;</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span><span class="p">;</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.rest.client.inject.RestClient</span><span class="p">;</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderTools</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="nd">@RestClient</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">    </span><span class="nd">@Inject</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="n">OrderFlowClient</span><span class="w"> </span><span class="n">orderFlowClient</span><span class="p">;</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">    </span><span class="nd">@Tool</span><span class="p">(</span><span class="s">"Place a coffee order. Returns the order ID and status. "</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="s">"Use getItemPrice first to calculate totalPrice = price × quantity."</span><span class="p">)</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">item_name</span><span class="p">,</span><span class="w">     </span><span class="c1">// (2)</span>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">            </span><span class="kt">int</span><span class="w">    </span><span class="n">quantity</span><span class="p">,</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">            </span><span class="kt">double</span><span class="w"> </span><span class="n">total_price</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>
+</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="w">        </span><span class="n">OrderResult</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderFlowClient</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">(</span>
+</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">OrderRequest</span><span class="p">(</span><span class="n">item_name</span><span class="p">,</span><span class="w"> </span><span class="n">quantity</span><span class="p">,</span><span class="w"> </span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">total_price</span><span class="p">));</span>
+</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a>
+</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">"PENDING_APPROVAL"</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">status</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">"Your order has been received but requires barista approval "</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="w">                   </span><span class="s">"before it can be prepared (total $"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"%.2f"</span><span class="p">,</span><span class="w"> </span><span class="n">total_price</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a><span class="w">                   </span><span class="s">" exceeds our express limit). Order ID: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">orderId</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a><span class="w">                   </span><span class="s">". A barista will confirm it shortly."</span><span class="p">;</span>
+</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Your order is confirmed! ☕ "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">quantity</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"× "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">item_name</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a><span class="w">               </span><span class="s">" — Order #"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">orderId</span><span class="w"> </span><span class="o">+</span>
+</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a><span class="w">               </span><span class="s">". Total: $"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"%.2f"</span><span class="p">,</span><span class="w"> </span><span class="n">total_price</span><span class="p">);</span>
+</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>The <code>@Tool</code> description is sent to the LLM as part of the tool schema. Write it like a docstring — the model reads it to decide when to call this method.</li>
+<li>Tool method parameters must use <code>snake_case</code> for compatibility with LLM tool-call schemas.</li>
+</ol>
+<h3 id="7c-update-baristaaiservice">7c — Update <code>BaristaAiService</code><a class="headerlink" href="#7c-update-baristaaiservice" title="Permanent link">&para;</a></h3>
+<p>Open <code>BaristaAiService.java</code> and update it to include the new <code>@ToolBox</code>:</p>
+<div class="language-java highlight"><span class="filename">BaristaAiService.java</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.MemoryId</span><span class="p">;</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.SystemMessage</span><span class="p">;</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">dev.langchain4j.service.UserMessage</span><span class="p">;</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkiverse.langchain4j.RegisterAiService</span><span class="p">;</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkiverse.langchain4j.ToolBox</span><span class="p">;</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">io.quarkiverse.langchain4j.mcp.runtime.McpToolBox</span><span class="p">;</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="p">;</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="nd">@RegisterAiService</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="nd">@SystemMessage</span><span class="p">(</span><span class="s">"""</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="s">    You are a friendly and knowledgeable barista at The Quarkus Cafe.</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="s">    Answer questions about coffee, our menu, and brewing methods.</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="s">    Keep responses concise — 2-3 sentences maximum.</span>
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="s">    If asked about something unrelated to coffee, politely redirect the conversation.</span>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="s">    When answering menu questions, use the available tools to get accurate, up-to-date information.</span>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="s">    When a customer asks to order, place, or buy an item:</span>
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="s">      1. Use getItemPrice to look up the price per item.</span>
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="s">      2. Calculate totalPrice = price × quantity.</span>
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="s">      3. Use the placeOrder tool to submit the order.</span>
+</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a><span class="s">    """</span><span class="p">)</span>
+</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">BaristaAiService</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>
+</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a><span class="w">    </span><span class="nd">@McpToolBox</span><span class="p">(</span><span class="s">"menu"</span><span class="p">)</span>
+</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a><span class="w">    </span><span class="nd">@ToolBox</span><span class="p">(</span><span class="n">OrderTools</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">chat</span><span class="p">(</span><span class="nd">@MemoryId</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">memoryId</span><span class="p">,</span><span class="w"> </span><span class="nd">@UserMessage</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><code>@ToolBox(OrderTools.class)</code> wires the CDI bean's <code>@Tool</code> methods into this AI service. The LLM now has both the MCP tools (for menu lookups) and <code>placeOrder</code> available on every request.</li>
+</ol>
+<h3 id="7d-update-applicationproperties">7d — Update <code>application.properties</code><a class="headerlink" href="#7d-update-applicationproperties" title="Permanent link">&para;</a></h3>
+<p>Add the REST client config for <code>order-flow-service</code>:</p>
+<div class="language-properties highlight"><span class="filename">application.properties (append)</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># REST client — connect to order-flow-service on port 8082</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="na">quarkus.rest-client.order-flow-service.url</span><span class="o">=</span><span class="s">http://localhost:8082</span>
+</span></code></pre></div>
+<p>In this lab <code>menu-mcp-server</code> runs on <strong>8084</strong> (Step 8), so update the MCP menu URL from Lab 8:</p>
+<div class="language-properties highlight"><span class="filename">application.properties (update the Lab 8 value)</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="na">quarkus.langchain4j.mcp.menu.url</span><span class="o">=</span><span class="s">http://localhost:8084/mcp/sse</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">What just happened?</p>
+<p>The LLM now has a two-step tool chain available: <code>getItemPrice</code> (MCP) gives it the per-unit price; <code>placeOrder</code> (CDI <code>@Tool</code>) uses that price to send a structured request to the workflow. The bot doesn't need to change — you only added tools.</p>
+</div>
+<hr />
+<h2 id="step-8-run-and-test-everything">Step 8 — Run and test everything<a class="headerlink" href="#step-8-run-and-test-everything" title="Permanent link">&para;</a></h2>
+<p>You need <strong>four terminals</strong>. Start them in this order:</p>
+<p><strong>Terminal 1 — <code>order-service</code> (Lab 4)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab4-kafka/solution/order-service
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>quarkus<span class="w"> </span>dev
+</span></code></pre></div>
+<p><strong>Terminal 2 — <code>menu-mcp-server</code> (Lab 8)</strong></p>
+<p>Start it on <strong>8084</strong> — <code>order-service</code> is already using its default 8081:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab8-mcp-server/menu-mcp-server
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>quarkus<span class="w"> </span>dev<span class="w"> </span>-Dquarkus.http.port<span class="o">=</span><span class="m">8084</span>
+</span></code></pre></div>
+<p><strong>Terminal 3 — <code>order-flow-service</code></strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">cd</span><span class="w"> </span>order-flow-service
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>quarkus<span class="w"> </span>dev
+</span></code></pre></div>
+<p><strong>Terminal 4 — <code>barista-bot</code></strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">cd</span><span class="w"> </span>barista-bot
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>quarkus<span class="w"> </span>dev
+</span></code></pre></div>
+<p>Open <strong><code>http://localhost:8080</code></strong> in your browser.</p>
+<hr />
+<h3 id="demo-1-low-value-order-below-threshold">Demo 1 — Low-value order (below threshold)<a class="headerlink" href="#demo-1-low-value-order-below-threshold" title="Permanent link">&para;</a></h3>
+<p>Type in the chat:</p>
+<blockquote>
+<p><em>"Can I get 2 espressos please? My name is Alex."</em></p>
+</blockquote>
+<p>Watch the <code>order-flow-service</code> terminal. You'll see the workflow execute both tasks and return <code>CONFIRMED</code>. The bot replies something like:</p>
+<blockquote>
+<p><em>"Your order is confirmed! ☕ 2× Espresso — Order #a3f1b2c4. Total: $5.00"</em></p>
+</blockquote>
+<hr />
+<h3 id="demo-2-high-value-order-above-threshold">Demo 2 — High-value order (above threshold)<a class="headerlink" href="#demo-2-high-value-order-above-threshold" title="Permanent link">&para;</a></h3>
+<p>Type in the chat:</p>
+<blockquote>
+<p><em>"I'd like 5 lattes for the team — customer name is Dev Team."</em></p>
+</blockquote>
+<p>5 × $4.25 = <strong>$21.25</strong> — above the $15.00 threshold. The bot replies:</p>
+<blockquote>
+<p><em>"Your order has been received but requires barista approval (total $21.25 exceeds the express limit). Order ID: d9e2f3a1. A barista will confirm it shortly."</em></p>
+</blockquote>
+<p>Now <strong>approve it</strong> from a fifth terminal:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8082/flow/approve/d9e2f3a1
+</span></code></pre></div>
+<p>You'll get back:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">{</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">  </span><span class="nt">"orderId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d9e2f3a1"</span><span class="p">,</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">  </span><span class="nt">"itemName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Latte"</span><span class="p">,</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">  </span><span class="nt">"customerId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dev Team"</span><span class="p">,</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">  </span><span class="nt">"totalPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.25</span><span class="p">,</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CONFIRMED"</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<div class="admonition tip">
+<p class="admonition-title">Try it: change the threshold</p>
+<p>While <code>order-flow-service</code> is running, open <code>order-flow-service/src/main/resources/application.properties</code> and change:</p>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="na">coffee.approval.threshold</span><span class="o">=</span><span class="s">5.0</span>
+</span></code></pre></div>
+<p>Save the file. Quarkus detects the change and live-reloads the workflow — no restart needed. Now order a single espresso ($2.50) and watch it go through the approval path. Change it back to <code>15.0</code> to restore normal behaviour.</p>
+</div>
+<hr />
+<div class="admonition tip">
+<p class="admonition-title">Open the Flow Dev UI</p>
+<p>Navigate to <strong><code>http://localhost:8082/q/dev-ui</code></strong> and look for the <strong>Quarkus Flow</strong> panel.</p>
+<p>You'll see:</p>
+<ul>
+<li>An auto-generated <strong>Mermaid diagram</strong> of the <code>order-flow</code> workflow topology — two tasks, one conditional branch</li>
+<li><strong>Execution history</strong> for every <code>startInstance</code> call, with timestamps and the final output JSON</li>
+<li>A <strong>trigger form</strong> so you can fire test workflows directly from the browser</li>
+</ul>
+<p>This is the same observability you get for free with any <code>Flow</code> subclass — no configuration required.</p>
+</div>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ Workflow with conditional branch</td>
+<td><code>switchWhenOrElse(predicate, thenTask, elseTask, Type)</code> in the Flow Java DSL</td>
+</tr>
+<tr>
+<td>✅ Configurable approval threshold</td>
+<td><code>@ConfigProperty</code> + <code>coffee.approval.threshold</code> in <code>application.properties</code></td>
+</tr>
+<tr>
+<td>✅ Type-safe call to <code>order-service</code></td>
+<td><code>@RegisterRestClient</code> interface — same pattern as Lab 8's MCP client</td>
+</tr>
+<tr>
+<td>✅ LLM places orders via chat</td>
+<td><code>@Tool</code> on a CDI bean + <code>@ToolBox</code> on the AI service method</td>
+</tr>
+<tr>
+<td>✅ Live-reload config changes</td>
+<td>Quarkus dev mode hot-reloads <code>@ConfigProperty</code> values on file save</td>
+</tr>
+<tr>
+<td>✅ Free observability</td>
+<td>Flow Dev UI: Mermaid diagram, execution traces, trigger form</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Stuck or fell behind?</p>
+<p>Complete solutions are in <code>labs/lab10-quarkus-flow/solution/</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Terminal 1 — order-service (Lab 4):</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab4-kafka/solution/order-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Terminal 2 — menu-mcp-server on port 8084 (avoids clash with order-service):</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab8-mcp-server/menu-mcp-server<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev<span class="w"> </span>-Dquarkus.http.port<span class="o">=</span><span class="m">8084</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Terminal 3 — order-flow-service:</span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/order-flow-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="c1"># Terminal 4 — barista-bot with placeOrder tool:</span>
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/barista-bot<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span></code></pre></div>
+</div>
+<hr />
+<p><a class="md-button" href="../lab9-containerize/">← Lab 9: Containerize &amp; K8s</a>
+<a class="md-button md-button--primary" href="../wrap-up/">→ Wrap-Up</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../lab9-containerize/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 9: Containerization">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Lab 9: Containerization
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../wrap-up/" class="md-footer__link md-footer__link--next" aria-label="Next: Wrap-Up">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Wrap-Up
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/learn-quarkus/quarkus-beginners-lab" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

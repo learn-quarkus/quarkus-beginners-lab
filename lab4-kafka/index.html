@@ -873,6 +873,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab10-quarkus-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 10: Quarkus Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1095,7 +1123,7 @@ You should see an empty table — not an error. If you see an error, start Docke
 <p>All commands in this lab run from the <code>workshop/</code> folder inside the cloned repo. Make sure you are in that folder before you begin.</p>
 </div>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────────────────┐    Kafka topic      ┌──────────────────────┐
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│    order-service    │  &quot;coffee-orders&quot;    │    menu-service      │
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│    order-service    │  "coffee-orders"    │    menu-service      │
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│  POST /orders       │ ──────────────────▶ │  @Incoming consumer  │
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│  Emitter.send(json) │                     │  logs each order     │
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>└─────────────────────┘                     └──────────────────────┘
@@ -1191,13 +1219,13 @@ You should see an empty table — not an error. If you see an error, start Docke
 </span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.reactive.messaging.Channel</span><span class="p">;</span>
 </span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.eclipse.microprofile.reactive.messaging.Emitter</span><span class="p">;</span>
 </span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">&quot;/orders&quot;</span><span class="p">)</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="nd">@Path</span><span class="p">(</span><span class="s">"/orders"</span><span class="p">)</span>
 </span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="nd">@Produces</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">)</span>
 </span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="nd">@Consumes</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">)</span>
 </span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderResource</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
 </span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="nd">@Inject</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="nd">@Channel</span><span class="p">(</span><span class="s">&quot;coffee-orders&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="nd">@Channel</span><span class="p">(</span><span class="s">"coffee-orders"</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
 </span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="n">Emitter</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">emitter</span><span class="p">;</span><span class="w">  </span><span class="c1">// (2)</span>
 </span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
 </span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="nd">@Inject</span>
@@ -1220,7 +1248,7 @@ You should see an empty table — not an error. If you see an error, start Docke
 <hr />
 <h2 id="step-4-configure-the-outgoing-channel">Step 4 — Configure the Outgoing Channel<a class="headerlink" href="#step-4-configure-the-outgoing-channel" title="Permanent link">&para;</a></h2>
 <p>Open <code>src/main/resources/application.properties</code> in <code>order-service</code> and add:</p>
-<div class="language-properties highlight"><span class="filename">order-service/application.properties</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Run on port 8081 so it doesn&#39;t clash with menu-service on 8080</span>
+<div class="language-properties highlight"><span class="filename">order-service/application.properties</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Run on port 8081 so it doesn't clash with menu-service on 8080</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="na">quarkus.http.port</span><span class="o">=</span><span class="s">8081</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Kafka outgoing channel — DevServices starts the broker automatically</span>
@@ -1269,7 +1297,7 @@ You should see an empty table — not an error. If you see an error, start Docke
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>./mvnw<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">&quot;messaging-kafka&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>./mvnw<span class="w"> </span>quarkus:add-extension<span class="w"> </span>-Dextensions<span class="o">=</span><span class="s2">"messaging-kafka"</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -1289,9 +1317,9 @@ You should see an empty table — not an error. If you see an error, start Docke
 </span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
 </span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="n">LOG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">OrderConsumer</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 </span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="nd">@Incoming</span><span class="p">(</span><span class="s">&quot;coffee-orders&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="nd">@Incoming</span><span class="p">(</span><span class="s">"coffee-orders"</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
 </span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onOrder</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">orderJson</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (2)</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="n">LOG</span><span class="p">.</span><span class="na">infof</span><span class="p">(</span><span class="s">&quot;☕ New order received: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">orderJson</span><span class="p">);</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="n">LOG</span><span class="p">.</span><span class="na">infof</span><span class="p">(</span><span class="s">"☕ New order received: %s"</span><span class="p">,</span><span class="w"> </span><span class="n">orderJson</span><span class="p">);</span>
 </span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -1314,14 +1342,14 @@ You should see an empty table — not an error. If you see an error, start Docke
 <p>Open Swagger UI for <code>order-service</code> at <code>http://localhost:8081/q/swagger-ui</code>.</p>
 <p><strong>POST an order:</strong></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">&quot;itemName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Espresso&quot;</span><span class="p">,</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">&quot;customerId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice&quot;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">"itemName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Espresso"</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">"customerId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span>
 </span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Click <strong>Execute</strong> — you get HTTP 202 Accepted.</p>
 <p>Now check the <strong><code>menu-service</code> terminal</strong>:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>INFO  [org.coffee.OrderConsumer] ☕ New order received: {&quot;itemName&quot;:&quot;Espresso&quot;,&quot;quantity&quot;:2,&quot;customerId&quot;:&quot;alice&quot;}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>INFO  [org.coffee.OrderConsumer] ☕ New order received: {"itemName":"Espresso","quantity":2,"customerId":"alice"}
 </span></code></pre></div>
 <p>The message traveled from <code>order-service</code> → Kafka → <code>menu-service</code> — <strong>with no Kafka infrastructure setup at all</strong>.</p>
 <div class="admonition note">

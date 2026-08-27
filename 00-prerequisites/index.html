@@ -868,6 +868,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab10-quarkus-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 10: Quarkus Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1079,9 +1107,9 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">macOS / Linux (SDKMAN)</label><label for="__tabbed_1_2">macOS (Homebrew)</label><label for="__tabbed_1_3">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install SDKMAN if you don&#39;t have it</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;https://get.sdkman.io&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.sdkman/bin/sdkman-init.sh&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install SDKMAN if you don't have it</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"https://get.sdkman.io"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.sdkman/bin/sdkman-init.sh"</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Install Java 21</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>sdk<span class="w"> </span>install<span class="w"> </span>java<span class="w"> </span><span class="m">21</span>.0.3-tem
@@ -1105,7 +1133,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Expected output</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>openjdk version &quot;21.0.x&quot; ...
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>openjdk version "21.0.x" ...
 </span></code></pre></div>
 </div>
 <hr />
@@ -1187,7 +1215,7 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">&quot;sk-...&quot;</span>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">"sk-..."</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -1225,7 +1253,7 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 <div class="admonition note">
 <p class="admonition-title">What's in the repo?</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>quarkus-beginners-lab/
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── docs/           ← this website&#39;s source
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── docs/           ← this website's source
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├── labs/           ← complete solution code for every lab
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├── workshop/       ← your working directory for all labs
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>└── prereq-check.sh ← environment validation script

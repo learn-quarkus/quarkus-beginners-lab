@@ -16,7 +16,7 @@
         <link rel="prev" href="../lab8-mcp-server/">
       
       
-        <link rel="next" href="../wrap-up/">
+        <link rel="next" href="../lab10-quarkus-flow/">
       
       
         
@@ -851,6 +851,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab10-quarkus-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 10: Quarkus Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1091,7 +1119,7 @@
 <p>You'll see a multi-stage-friendly JVM image based on Red Hat's UBI minimal:</p>
 <div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">registry.access.redhat.com/ubi9/openjdk-21:1.21</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">LANGUAGE</span><span class="o">=</span><span class="s1">&#39;en_US:en&#39;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">LANGUAGE</span><span class="o">=</span><span class="s1">'en_US:en'</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/lib/<span class="w"> </span>/deployments/lib/
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/*.jar<span class="w"> </span>/deployments/
@@ -1100,11 +1128,11 @@
 </span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">USER</span><span class="w"> </span><span class="s">185</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.http.host=0.0.0.0 \</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="s2">    -Djava.util.logging.manager=org.jboss.logmanager.LogManager&quot;</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_APP_JAR</span><span class="o">=</span><span class="s2">&quot;/deployments/quarkus-run.jar&quot;</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.http.host=0.0.0.0 \</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="s2">    -Djava.util.logging.manager=org.jboss.logmanager.LogManager"</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_APP_JAR</span><span class="o">=</span><span class="s2">"/deployments/quarkus-run.jar"</span>
 </span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;/opt/jboss/container/java/run/run-java.sh&quot;</span><span class="w"> </span><span class="p">]</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/opt/jboss/container/java/run/run-java.sh"</span><span class="w"> </span><span class="p">]</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
@@ -1155,13 +1183,13 @@
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.profile=prod&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>menu-service:1.0
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">&quot;-Dquarkus.profile=prod&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>menu-service:1.0
 </span></code></pre></div>
 </div>
@@ -1187,16 +1215,16 @@
 </span></code></pre></div>
 <p>Expected responses:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">[</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;A concentrated shot of coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cappuccino&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Espresso with steamed milk foam&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Cold Brew&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;12-hour cold-steeped coffee&quot;</span><span class="p">,</span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Espresso"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"A concentrated shot of coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cappuccino"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"Espresso with steamed milk foam"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cold Brew"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"12-hour cold-steeped coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
 </span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="p">]</span>
 </span></code></pre></div>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">&quot;checks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;coffee-menu&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;itemCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Database connections health check&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UP&quot;</span><span class="p">}</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coffee-menu"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"itemCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Database connections health check"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">}</span>
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="p">]</span>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="p">}</span>
 </span></code></pre></div>
@@ -1307,13 +1335,13 @@
         
         
           
-          <a href="../wrap-up/" class="md-footer__link md-footer__link--next" aria-label="Next: Wrap-Up">
+          <a href="../lab10-quarkus-flow/" class="md-footer__link md-footer__link--next" aria-label="Next: Lab 10: Quarkus Flow">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Wrap-Up
+                Lab 10: Quarkus Flow
               </div>
             </div>
             <div class="md-footer__button md-icon">
