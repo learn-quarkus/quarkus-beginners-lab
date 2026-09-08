@@ -1168,11 +1168,13 @@
 <hr />
 <h2 id="3-docker-desktop-or-podman">3. Docker Desktop or Podman<a class="headerlink" href="#3-docker-desktop-or-podman" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
-<p class="admonition-title">Required for Labs 4 &amp; 5 only</p>
-<p>Labs 1, 2, 3, 6, and 7 do <strong>not</strong> need Docker. You only need a container runtime for:</p>
+<p class="admonition-title">Required for Labs 4, 5, 9 &amp; 10</p>
+<p>Labs 1, 2, 3, 6, 7, and 8 do <strong>not</strong> need Docker. You only need a container runtime for:</p>
 <ul>
 <li><strong>Lab 4</strong> — DevServices auto-starts a Kafka (Redpanda) container</li>
 <li><strong>Lab 5</strong> — DevServices auto-starts a Keycloak container</li>
+<li><strong>Lab 9</strong> <em>(optional)</em> — you build and run a container image with Podman</li>
+<li><strong>Lab 10</strong> <em>(optional)</em> — runs <code>order-service</code> from Lab 4, so Kafka DevServices starts again</li>
 </ul>
 </div>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Docker Desktop</label><label for="__tabbed_3_2">Podman Desktop</label></div>
@@ -1193,14 +1195,14 @@
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Make sure Docker/Podman is running</p>
-<p>The container daemon must be <strong>running</strong> (not just installed) before you start Labs 4 and 5.
+<p>The container daemon must be <strong>running</strong> (not just installed) before you start Labs 4, 5, 9, or 10.
 You should see an empty table, not an error, when you run <code>docker ps</code> or <code>podman ps</code>.</p>
 </div>
 <hr />
 <h2 id="4-openai-api-key">4. OpenAI API Key<a class="headerlink" href="#4-openai-api-key" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
-<p class="admonition-title">Required for Lab 7 only</p>
-<p>Labs 1–6 do not require an API key.</p>
+<p class="admonition-title">Required for Labs 7, 8 &amp; 10</p>
+<p>Labs 1–6 and Lab 9 do not require an API key. Labs 8 and 10 build on the Lab 7 chatbot, so they need the same key.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Workshop instructor key</p>
@@ -1279,8 +1281,8 @@ You should see an empty table, not an error, when you run <code>docker ps</code>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
 </span></code></pre></div>
 <div class="admonition info">
-<p class="admonition-title">OpenAI key — Lab 7 only</p>
-<p>You do not need the API key until Lab 7. Your instructor will provide one at that point, or you can use your own.</p>
+<p class="admonition-title">OpenAI key — not needed until Lab 7</p>
+<p>You do not need the API key until Lab 7 (and Labs 8 and 10, which reuse it). Your instructor will provide one at that point, or you can use your own.</p>
 </div>
 <div class="admonition success">
 <p class="admonition-title">All green? You're ready!</p>

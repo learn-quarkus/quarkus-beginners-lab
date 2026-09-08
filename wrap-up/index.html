@@ -1170,32 +1170,7 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 <hr />
 <h2 id="what-you-built-today">What You Built Today<a class="headerlink" href="#what-you-built-today" title="Permanent link">&para;</a></h2>
 <p>In 60 minutes, starting from nothing, you built:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌────────────────────────────────────────────────────────────────────────┐
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│                       The Quarkus Cafe System                          │
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│                                                                        │
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│  ┌────────────────────┐  Kafka "coffee-orders"  ┌───────────────────┐  │
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│  │   order-service    │ ──────────────────────▶ │   menu-service    │  │
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│  │  POST /orders      │                         │  GET  /menu       │  │
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│  └────────────────────┘                         │  POST /menu 🔒    │  │
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│           ▲                                     └────────┬──────────┘  │
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│           │ REST                                         │             │
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│  ┌────────┴───────────┐                          ┌───────▼──────────┐  │
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│  │ order-flow-service │                          │   Kubernetes     │  │
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│  │  POST /flow/order  │                          │   Jib image      │  │
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>│  │  POST /flow/approve│                          │   + K8s YAML     │  │
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>│  │  Quarkus Flow 🔀   │                          └──────────────────┘  │
-</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>│  └────────▲───────────┘                                               │
-</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>│           │ @Tool                                                      │
-</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>│  ┌────────┴───────────┐                                               │
-</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>│  │    barista-bot     │◀── MCP ──┐                                    │
-</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>│  │   chat window 🤖   │          │                                    │
-</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>│  └────────────────────┘  ┌───────┴────────┐                          │
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>│                          │menu-mcp-server │                           │
-</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>│                          │  @Tool methods │                           │
-</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>│                          └────────────────┘                           │
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>└────────────────────────────────────────────────────────────────────────┘
-</span></code></pre></div>
-<p><img alt="The Quarkus Cafe System — architecture diagram" src="../assets/quarkus-cafe-architecture.svg" /></p>
+<p><img alt="The Quarkus Cafe — final architecture" src="../assets/workshop-architecture.svg" /></p>
 <table>
 <thead>
 <tr>
@@ -1233,12 +1208,12 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 <td>AI chatbot with <code>@RegisterAiService</code>, Easy RAG</td>
 </tr>
 <tr>
-<td>Lab 8</td>
+<td>Lab 8 <em>(optional)</em></td>
 <td>MCP server with <code>@Tool</code>, AI tool calling via <code>@McpToolBox</code></td>
 </tr>
 <tr>
-<td>Lab 9</td>
-<td>Container image with Jib, Kubernetes manifests, deploy &amp; scale</td>
+<td>Lab 9 <em>(optional)</em></td>
+<td>Container image with the generated <code>Dockerfile.jvm</code>, built and run locally with Podman</td>
 </tr>
 <tr>
 <td>Lab 10 <em>(optional)</em></td>
@@ -1307,7 +1282,7 @@ The <code>-Dquarkus.native.container-build=true</code> flag uses a GraalVM build
 <li><strong>Stack Overflow:</strong> tag <code>quarkus</code></li>
 </ul>
 <hr />
-<p><a class="md-button" href="../lab9-containerize/">← Lab 9: Containerize &amp; K8s</a>
+<p><a class="md-button" href="../lab9-containerize/">← Lab 9: Containerize</a>
 <a class="md-button" href="../lab10-quarkus-flow/">← Lab 10: Quarkus Flow</a>
 <a class="md-button md-button--primary" href="../">↑ Back to Home</a></p>
 

@@ -960,10 +960,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" class="md-nav__link">
+  <a href="#lab-8-mcp-server-optional-10-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)
+        Lab 8 — MCP Server (optional, ~10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-9-containerization-optional-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 9 — Containerization (optional, ~10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-10-quarkus-flow-optional-12-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 10 — Quarkus Flow (optional, ~12 min)
       
     </span>
   </a>
@@ -976,15 +998,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wrap-up-native-demo-6800-7000" class="md-nav__link">
+  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wrap-Up — Native Demo (68:00 – 70:00)
+        Wrap-Up — Native Demo (58:00 – 60:00)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (68:00 – 70:00)">
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1182,10 +1204,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" class="md-nav__link">
+  <a href="#lab-8-mcp-server-optional-10-min" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)
+        Lab 8 — MCP Server (optional, ~10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-9-containerization-optional-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 9 — Containerization (optional, ~10 min)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-10-quarkus-flow-optional-12-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab 10 — Quarkus Flow (optional, ~12 min)
       
     </span>
   </a>
@@ -1198,15 +1242,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wrap-up-native-demo-6800-7000" class="md-nav__link">
+  <a href="#wrap-up-native-demo-5800-6000" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wrap-Up — Native Demo (68:00 – 70:00)
+        Wrap-Up — Native Demo (58:00 – 60:00)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (68:00 – 70:00)">
+    <nav class="md-nav" aria-label="Wrap-Up — Native Demo (58:00 – 60:00)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1337,14 +1381,36 @@
 <td>AI responses vary. If OpenAI is slow, narrate what's happening. RAG bonus is optional — skip if behind on time.</td>
 </tr>
 <tr>
-<td>58:00 – 68:00</td>
-<td>Lab 9</td>
-<td><strong>Requires Docker/Podman + local Kubernetes.</strong> Confirm cluster is ready before starting. The <code>quarkus build</code> with Jib takes ~30s.</td>
-</tr>
-<tr>
-<td>68:00 – 70:00</td>
+<td>58:00 – 60:00</td>
 <td>Wrap-Up</td>
 <td>Native demo only. Don't try to compile live. Show pre-built binary only.</td>
+</tr>
+</tbody>
+</table>
+<p>The core workshop is 60 minutes. Labs 8, 9, and 10 are <strong>optional extensions</strong> for a longer session or self-paced follow-up — budget roughly:</p>
+<table>
+<thead>
+<tr>
+<th>Lab</th>
+<th>Budget</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab 8 <em>(optional)</em></td>
+<td>~10 min</td>
+<td><strong>Requires the OpenAI key from Lab 7.</strong> Two terminals, two ports. The "LLM picked the right tool by itself" moment is the payoff — make sure <code>log-requests=true</code> output is visible.</td>
+</tr>
+<tr>
+<td>Lab 9 <em>(optional)</em></td>
+<td>~10 min</td>
+<td><strong>Requires Docker/Podman. No Kubernetes cluster needed.</strong> Have attendees pre-pull the UBI9 base image during the previous break — the first <code>podman build</code> is otherwise a long download.</td>
+</tr>
+<tr>
+<td>Lab 10 <em>(optional)</em></td>
+<td>~12 min</td>
+<td><strong>Requires Labs 4 and 8, Docker/Podman, and the OpenAI key.</strong> Four services on four ports — use <code>start-services.sh</code> rather than four hand-managed terminals.</td>
 </tr>
 </tbody>
 </table>
@@ -1450,45 +1516,175 @@
 - <em>"Can I use other models?"</em> — Yes. Swap <code>quarkus-langchain4j-openai</code> for <code>quarkus-langchain4j-ollama</code> (local) or <code>quarkus-langchain4j-azure-openai</code>. The <code>BaristaAiService</code> interface stays unchanged.
 - <em>"What is RAG?"</em> — Retrieval Augmented Generation. Instead of relying on the model's training data, you inject relevant documents into the context at query time. Easy RAG does the embedding and retrieval automatically.</p>
 <hr />
-<h3 id="lab-9-containerize-deploy-to-kubernetes-5800-6800">Lab 9 — Containerize &amp; Deploy to Kubernetes (58:00 – 68:00)<a class="headerlink" href="#lab-9-containerize-deploy-to-kubernetes-5800-6800" title="Permanent link">&para;</a></h3>
+<h3 id="lab-8-mcp-server-optional-10-min">Lab 8 — MCP Server <em>(optional, ~10 min)</em><a class="headerlink" href="#lab-8-mcp-server-optional-10-min" title="Permanent link">&para;</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Pre-flight check</p>
-<p>Podman Desktop must be running. Attendees need a local Kubernetes cluster — Podman Desktop's built-in Kind cluster is the recommended option. Confirm everyone can run <code>kubectl get nodes</code> successfully before starting.</p>
+<p>Two projects, two terminals, two ports: <code>menu-mcp-server</code> on <strong>8081</strong> and <code>barista-bot</code> on <strong>8080</strong>. Attendees need the same OpenAI key as Lab 7. No Docker required for this lab.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Start the MCP server first</p>
+<p><code>barista-bot</code> resolves its MCP tools at startup. If the server on 8081 isn't up yet, the bot starts but has no tools and silently answers from the model's own knowledge — which looks like the lab "working" when it isn't. Get a green <code>Listening on: http://localhost:8081</code> before starting the bot.</p>
+</div>
+<p><strong>Key moments to call out:</strong></p>
+<ul>
+<li>After writing <code>MenuTools.java</code>: "Three methods, three <code>@Tool</code> annotations. That's a complete MCP server. No protocol code, no JSON-RPC handling, no transport wiring — the extension does all of it."</li>
+<li>Point at <code>@ToolArg</code>: "This description isn't a comment for humans. It's the text the LLM reads to decide what to put in the argument. Vague descriptions produce wrong tool calls — prompt engineering has moved into your method signatures."</li>
+<li>After adding <code>@McpToolBox("menu")</code> to <code>BaristaAiService</code>: "One annotation on the interface. The bot now has three new capabilities and we didn't write a single line of client code."</li>
+<li><strong>The payoff moment.</strong> Ask the bot "How much is a flat white?" and switch to the <code>barista-bot</code> terminal. <code>log-requests=true</code> and <code>log-responses=true</code> are on, so the tool call and result are in the log. "Nobody told it to call <code>getItemPrice</code>. It read the tool descriptions, picked the right one, extracted the argument from plain English, and called it. That decision was the model's."</li>
+<li>Follow up with "Which drinks work with oat milk?" so a <em>different</em> tool fires. Two questions, two different tools, same code.</li>
+</ul>
+<p><strong>Common questions:</strong></p>
+<ul>
+<li><em>"How is this different from Lab 7's RAG?"</em> — RAG stuffs documents into the prompt before the model runs. Tools let the model <em>decide</em> to fetch something, at the moment it needs it, with arguments it chose. RAG is read-only context; tools can do anything a method can — including writes, which is exactly what Lab 10 builds on.</li>
+<li><em>"Why a separate server instead of <code>@ToolBox</code> on a local bean?"</em> — You can absolutely use local tools (Lab 10 does). MCP earns its keep when the tools live in a different service, a different team's codebase, or a different language. The menu belongs to <code>menu-service</code>, not to the bot.</li>
+<li><em>"Is MCP an OpenAI thing?"</em> — No, it's an open protocol from Anthropic, and it's model-agnostic. The same server works with Claude Desktop, an IDE, or any MCP client.</li>
+<li><em>"What's SSE doing here?"</em> — <code>quarkus-mcp-server-sse</code> exposes the server over HTTP with Server-Sent Events at <code>/mcp/sse</code>. There's also a stdio transport for locally-spawned servers.</li>
+<li><em>"Can the model call two tools in one turn?"</em> — Yes. Ask "What's the cheapest drink and does it come with oat milk?" if you have a spare minute.</li>
+</ul>
+<p><strong>Pitfalls:</strong></p>
+<ul>
+<li>Port 8080 held by a <code>menu-service</code> from an earlier lab, so <code>barista-bot</code> can't bind. Press <code>q</code> in the old terminal first.</li>
+<li>Starting <code>barista-bot</code> before the MCP server — see the tip above. The symptom is a plausible-but-wrong answer, not an error.</li>
+<li><code>@ToolArg</code> descriptions left vague or copied between tools → the model picks the wrong tool. Good demo of <em>why</em> the description matters if it happens: fix it live and re-ask.</li>
+<li>Attendees expecting deterministic answers. The model may paraphrase, round prices, or answer from memory if the question doesn't clearly need a tool. Ask a question only the tool can answer.</li>
+<li>Forgetting to re-export the OpenAI key in the <em>second</em> terminal.</li>
+</ul>
+<hr />
+<h3 id="lab-9-containerization-optional-10-min">Lab 9 — Containerization <em>(optional, ~10 min)</em><a class="headerlink" href="#lab-9-containerization-optional-10-min" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Pre-flight check</p>
+<p>Podman (or Docker) must be running — confirm with <code>podman info</code>. <strong>No Kubernetes cluster is needed for this lab</strong>: attendees build an image and run it locally. Make sure Dev Mode from earlier labs is stopped (<code>q</code>) so port 8080 is free for the container.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Warm the base image beforehand</p>
+<p>The first <code>podman build</code> pulls <code>registry.access.redhat.com/ubi9/openjdk-21</code> (~400 MB). On venue Wi-Fi that can take several minutes for a room full of people. Ask attendees to run <code>podman pull registry.access.redhat.com/ubi9/openjdk-21:1.21</code> during the break before this lab.</p>
 </div>
 <p><strong>Key moments to call out:</strong>
-- After adding extensions: "Two extensions — <code>container-image-jib</code> and <code>kubernetes</code>. Jib builds container images in pure Java. No Dockerfile. No container daemon for the build itself."
-- After <code>quarkus build</code>: "One command built your JAR, built a container image with optimised layers, AND generated Kubernetes manifests. Open <code>target/kubernetes/kubernetes.yml</code> — Quarkus wrote that for you."
-- After <code>kubectl apply</code>: "Notice the pod goes 0/1 then 1/1. That transition is your readiness probe from Lab 3 — Kubernetes is using your health check to decide when to route traffic."
-- After scaling to 3 replicas: "Three pods, all healthy, all load-balanced. This is why fast startup matters — each new replica is ready in under a second."</p>
+- Before starting: "No new extensions in this lab. Quarkus already wrote the Dockerfile for you back when you created the project — we're just going to use it."
+- After <code>quarkus build</code>: "Open <code>target/quarkus-app/</code>. Quarkus doesn't produce one fat JAR — it splits into <code>lib/</code> for dependencies and <code>app/</code> for your classes. Dependencies change rarely, your code changes constantly."
+- Reading <code>src/main/docker/Dockerfile.jvm</code>: "Look at the COPY order — <code>lib/</code> first, your <code>app/</code> classes last. That ordering is deliberate. Rebuild after a code change and only the tiny top layer is rewritten; the 300 MB dependency layer is cached."
+- After <code>podman build</code>: "You never wrote that Dockerfile. It's been sitting in your project since Lab 1, regenerated and kept current by Quarkus."
+- After <code>podman run</code>: point at the startup line. "0.8 seconds, inside a container, in prod profile. Same app, no dev mode, no DevServices."
+- After <code>curl /q/health</code>: "That's the health check you wrote in Lab 3, still working in the container. This is exactly the endpoint a Kubernetes readiness probe would call — the app is deploy-ready even though we're not deploying it today."</p>
 <p><strong>Common questions:</strong>
-- <em>"Why Jib instead of a Dockerfile?"</em> — Jib builds optimised layered images without a container daemon. It separates dependencies from application classes, so rebuilds only transfer the changed layers. You can still use Dockerfiles with <code>quarkus-container-image-docker</code> if you prefer.
-- <em>"Why Podman instead of Docker?"</em> — Podman is daemonless, rootless by default, and fully OCI-compatible. It's a drop-in replacement for Docker CLI. Red Hat and IBM ship it as the default container engine.
-- <em>"What about OpenShift?"</em> — Change <code>deployment-target=openshift</code> and Quarkus generates <code>DeploymentConfig</code> + <code>Route</code> instead of <code>Deployment</code> + <code>Service</code>.
-- <em>"Is H2 suitable for Kubernetes?"</em> — No, H2 is in-memory and per-pod. In production you'd use PostgreSQL with a persistent volume. DevServices handles the dev/test story; this lab focuses on the deployment pipeline.</p>
+- <em>"Why Podman instead of Docker?"</em> — Podman is daemonless, rootless by default, and fully OCI-compatible. It's a drop-in replacement for the Docker CLI. Red Hat and IBM ship it as the default container engine. Every command in the lab works unchanged with <code>docker</code>.
+- <em>"Why not use a container-image extension?"</em> — You can: <code>quarkus-container-image-jib</code> or <code>-docker</code> builds the image as part of <code>quarkus build</code>. This lab uses the plain Dockerfile so attendees see exactly what's in the image. Mention Jib exists and move on.
+- <em>"Why is the image ~420 MB?"</em> — That's the UBI9 OpenJDK base, not the app. A native build (<code>-Dnative</code>) with a micro base image gets you to ~50 MB — that's the Wrap-Up demo.
+- <em>"Where did the H2 data go when I restarted the container?"</em> — H2 is in-memory and re-seeded from <code>import.sql</code> on every start. A real deployment points at an external database.
+- <em>"How would this get to Kubernetes / OpenShift?"</em> — The <code>quarkus-kubernetes</code> extension generates manifests from <code>application.properties</code>; <code>quarkus-openshift</code> plus <code>quarkus deploy</code> goes straight from laptop to cluster. Both are linked in the lab's "Going further" box. Out of scope today.</p>
 <p><strong>Pitfalls:</strong>
-- No local Kubernetes cluster — guide attendees to create one in Podman Desktop: Settings → Kubernetes → Create Kind cluster.
-- Minikube users must run <code>eval $(minikube podman-env)</code> first, otherwise the image won't be visible to the cluster.
-- Kind users must <code>kind load docker-image</code> after building — Kind can't see local Podman images directly.
-- NodePort 30080 conflict — unlikely but check with <code>lsof -i :30080</code>.</p>
+- Port 8080 still held by a <code>quarkus dev</code> process from an earlier lab → the <code>podman run</code> fails to bind. Have them press <code>q</code> in the old terminal or <code>lsof -i :8080</code>.
+- Forgetting <code>mvn package</code> / <code>quarkus build</code> before <code>podman build</code> → the COPY steps fail because <code>target/quarkus-app/</code> doesn't exist. The error is a confusing "no such file or directory" — call it out preemptively.
+- Running <code>podman build</code> from the wrong directory. The <code>-f src/main/docker/Dockerfile.jvm</code> path <em>and</em> the trailing <code>.</code> build context both assume the project root.
+- Apple Silicon: a <code>SIGILL</code> on startup means an amd64-only base image. <code>ubi9/openjdk-21</code> is multi-arch and correct; <code>ubi8</code> is not.
+- Podman machine not started on macOS → <code>Cannot connect to Podman</code>. Fix with <code>podman machine start</code>.</p>
 <hr />
-<h2 id="wrap-up-native-demo-6800-7000">Wrap-Up — Native Demo (68:00 – 70:00)<a class="headerlink" href="#wrap-up-native-demo-6800-7000" title="Permanent link">&para;</a></h2>
+<h3 id="lab-10-quarkus-flow-optional-12-min">Lab 10 — Quarkus Flow <em>(optional, ~12 min)</em><a class="headerlink" href="#lab-10-quarkus-flow-optional-12-min" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">The most fragile lab in the workshop — read this first</p>
+<p>Four services, four ports, an OpenAI key, and a multi-step LLM tool chain. Everything that can go wrong in the other labs can go wrong here at once. <strong>Do not have attendees manage four terminals by hand.</strong> Use the provided script:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>bash<span class="w"> </span>labs/lab10-quarkus-flow/start-services.sh
+</span></code></pre></div>
+<p>It starts everything in dependency order, waits for each port, tails all four logs, and tears everything down on a single Ctrl-C. <code>stop-services.sh</code> is there if a run is orphaned.</p>
+</div>
+<p><strong>Pre-flight check:</strong></p>
+<ul>
+<li>Docker/Podman running — <code>order-service</code> starts Kafka DevServices.</li>
+<li>The OpenAI key exported <strong>in the terminal that runs the script</strong>. The script warns if it's missing but starts anyway; <code>barista-bot</code> comes up and then refuses every request.</li>
+<li>Ports 8080, 8081, 8082 and 8084 all free. Have everyone press <code>q</code> in leftover Dev Mode terminals from Labs 8 and 9 <em>before</em> this lab.</li>
+<li>The script needs the <strong>Quarkus CLI</strong> on <code>PATH</code> (it runs <code>quarkus dev</code>) and uses <code>lsof</code> — macOS/Linux only. Windows attendees should follow the manual four-terminal steps in the lab, or pair up.</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">The silent-skip trap</p>
+<p>If a port is already in use, <code>start_service</code> prints <code>⚠️ Port 8082 is already in use — assuming order-flow-service is already running, skipping</code> and carries on. If that "already running" process is actually a stale service from a previous attempt with old code, the lab will misbehave in ways that look like a Quarkus Flow bug. When anything is odd, Ctrl-C, run <code>stop-services.sh</code>, and start clean.</p>
+</div>
+<p><strong>The port map — put this on screen:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Comes from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8080</td>
+<td><code>barista-bot</code></td>
+<td><code>workshop/barista-bot</code></td>
+</tr>
+<tr>
+<td>8081</td>
+<td><code>order-service</code></td>
+<td>Lab 4 solution</td>
+</tr>
+<tr>
+<td>8082</td>
+<td><code>order-flow-service</code></td>
+<td>Lab 10 — the workflow</td>
+</tr>
+<tr>
+<td>8084</td>
+<td><code>menu-mcp-server</code></td>
+<td>Lab 8 — <strong>moved off its usual 8081</strong> to avoid clashing with <code>order-service</code></td>
+</tr>
+</tbody>
+</table>
+<p>The 8081 → 8084 move is the single most confusing thing in this lab. Call it out explicitly: it's the same MCP server from Lab 8, just started with <code>-Dquarkus.http.port=8084</code>, and <code>barista-bot</code>'s config points at <code>http://localhost:8084/mcp/sse</code> to match.</p>
+<p><strong>Key moments to call out:</strong></p>
+<ul>
+<li>Reading the <code>descriptor()</code> method: "This is the whole workflow — read it top to bottom like a flowchart. <code>switchWhenOrElse</code> is the human-in-the-loop decision point. No state machine class, no BPMN editor, just Java."</li>
+<li>
+<p><strong>The two-demo contrast.</strong> This is the lab. Run both back to back in the chat UI:</p>
+<ul>
+<li><em>"I'd like two espressos"</em> → $5.00 → below the threshold → <strong>CONFIRMED</strong> immediately.</li>
+<li><em>"Actually make it five lattes"</em> → $21.25 → over the threshold → <strong>PENDING_APPROVAL</strong>, and the bot says it's waiting on the barista.</li>
+</ul>
+<p>Same code path, same prompt, different branch. "The model didn't decide that. The workflow did."
+- Open the Admin UI at <code>http://localhost:8082/admin</code> on a second screen before you start ordering. It auto-refreshes every 5 seconds, so the pending order appears on its own. Click <strong>Approve</strong> and switch back to the chat — ask "What's the status of my order?" and the bot fetches CONFIRMED. That round trip is the whole point of the lab.
+- <strong>Change the threshold live.</strong> Edit <code>coffee.approval.threshold</code> in <code>application.properties</code> from <code>15.0</code> to <code>3.0</code>, save, and re-order two espressos. Now $5.00 needs approval. No restart. It's the Lab 3 config lesson landing in a real workflow eight labs later.
+- The <code>barista-bot</code> log with <code>log-requests</code>/<code>log-responses</code> on shows the full chain: MCP call for the price, then the <code>placeOrder</code> tool, then the workflow response. Scroll through it once — it makes the whole architecture concrete.
+- Open <code>http://localhost:8082/q/dev-ui</code> and show the Flow panel if time allows.</p>
+</li>
+</ul>
+<p><strong>Common questions:</strong></p>
+<ul>
+<li><em>"How is this different from just calling the REST endpoint from a tool?"</em> — For the happy path it isn't. The workflow earns its keep when an order <strong>pauses</strong>: the instance is suspended waiting on an external event, and it resumes when the barista approves — possibly minutes later, from a different process. That's what you'd otherwise hand-roll with a status column and a polling loop.</li>
+<li><em>"Where is the pending order stored?"</em> — In <code>PendingOrdersStore</code>, an <code>@ApplicationScoped</code> bean holding an in-memory map. Deliberately simple so the lab stays readable. In production this is a database, and Quarkus Flow can persist workflow state properly.</li>
+<li><em>"Why does <code>OrderTools</code> use snake_case parameter names?"</em> — The model produces the argument names from the tool schema. The lab uses <code>item_name</code> / <code>quantity</code> style names because that's what matches reliably; camelCase arguments get mismatched more often.</li>
+<li><em>"What is <code>@Blocking</code> doing on that endpoint?"</em> — The Flow API returns a Mutiny <code>Uni</code>, so the endpoint runs on an I/O thread. Starting the workflow blocks. Without <code>@Blocking</code> you get a <code>BlockingNotAllowedException</code>. Good moment to explain Quarkus's reactive/imperative split.</li>
+<li><em>"Is Quarkus Flow production-ready?"</em> — It's a Quarkiverse extension implementing the CNCF Serverless Workflow spec. Treat it as emerging. The concept — declarative, resumable, human-in-the-loop orchestration — is the takeaway, not the specific API.</li>
+<li><em>"Why does the chat forget my order after 'End Chat'?"</em> — That button clears the <code>ChatMemoryStore</code> for the session. The order itself is unaffected; it lives in <code>order-flow-service</code>.</li>
+</ul>
+<p><strong>Pitfalls:</strong></p>
+<ul>
+<li><strong>Key not exported before running the script.</strong> Everything comes up green, then every chat message fails. Check the top of the script output for the warning banner.</li>
+<li>A service fails to start and the script gives up after 120 seconds. The real error is in <code>labs/lab10-quarkus-flow/logs/&lt;service&gt;.log</code> — the tailed output scrolls too fast to read live. Open the log file.</li>
+<li>Stale services from a previous run → the silent-skip trap above.</li>
+<li>Attendees who skipped Lab 8 don't have <code>labs/lab8-mcp-server/menu-mcp-server</code>, and the script exits with <code>❌ menu-mcp-server (Lab 8) not found</code>. It's in the repo, so a <code>git pull</code> fixes it — but flag Lab 8 as a hard dependency before anyone starts.</li>
+<li>Order amounts that land near the threshold. $15.00 exactly <em>does</em> require approval (the check is "at or above"). Use the two scripted demos rather than improvising prices.</li>
+<li>The LLM occasionally answers "I've placed your order" without actually calling the tool. Confirm against the Admin UI, not the chat text. If it happens, re-ask more explicitly — and use it to make the point that tool calling is probabilistic, which is exactly why the approval gate exists.</li>
+</ul>
+<hr />
+<h2 id="wrap-up-native-demo-5800-6000">Wrap-Up — Native Demo (58:00 – 60:00)<a class="headerlink" href="#wrap-up-native-demo-5800-6000" title="Permanent link">&para;</a></h2>
 <h3 id="pre-workshop-build-the-native-binary">Pre-workshop: build the native binary<a class="headerlink" href="#pre-workshop-build-the-native-binary" title="Permanent link">&para;</a></h3>
 <p>Run this the night before or the morning of the workshop (takes 3–5 minutes):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>quarkus<span class="w"> </span>build<span class="w"> </span>--native<span class="w"> </span>-Dquarkus.native.container-build<span class="o">=</span><span class="nb">true</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Binary output: target/menu-service-1.0.0-SNAPSHOT-runner</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>quarkus<span class="w"> </span>build<span class="w"> </span>--native<span class="w"> </span>-Dquarkus.native.container-build<span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Binary output: target/menu-service-1.0.0-SNAPSHOT-runner</span>
 </span></code></pre></div>
 <h3 id="demo-script">Demo script<a class="headerlink" href="#demo-script" title="Permanent link">&para;</a></h3>
 <p>Open two terminal tabs side by side.</p>
 <p><strong>Tab 1 — JVM mode:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">time</span><span class="w"> </span>java<span class="w"> </span>-jar<span class="w"> </span>target/quarkus-app/quarkus-run.jar
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Expected: started in ~0.8s</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">time</span><span class="w"> </span>java<span class="w"> </span>-jar<span class="w"> </span>target/quarkus-app/quarkus-run.jar
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Expected: started in ~0.8s</span>
 </span></code></pre></div></p>
 <p><strong>Tab 2 — Native mode:</strong>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">time</span><span class="w"> </span>./target/menu-service-1.0.0-SNAPSHOT-runner
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Expected: started in ~0.02s</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab1-rest/solution
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">time</span><span class="w"> </span>./target/menu-service-1.0.0-SNAPSHOT-runner
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Expected: started in ~0.02s</span>
 </span></code></pre></div></p>
 <p>Show the two startup log lines side by side. Let the numbers speak.</p>
 <p><strong>What to say:</strong></p>
@@ -1534,16 +1730,36 @@
 <td>Check test class has <code>@QuarkusTest</code> annotation</td>
 </tr>
 <tr>
-<td>No local K8s cluster</td>
-<td>Podman Desktop: Settings → Kubernetes → Create Kind cluster</td>
+<td><code>podman build</code> COPY fails</td>
+<td><code>target/quarkus-app/</code> is missing — run <code>quarkus build</code> / <code>mvn package</code> first</td>
 </tr>
 <tr>
-<td>Image not found by K8s</td>
-<td>Minikube: run <code>eval $(minikube podman-env)</code> first. Kind: run <code>kind load docker-image</code> after build</td>
+<td>Podman can't connect (macOS)</td>
+<td><code>podman machine start</code></td>
 </tr>
 <tr>
-<td>NodePort 30080 in use</td>
-<td><code>lsof -i :30080</code> → kill the PID, or change <code>node-port</code> in <code>application.properties</code></td>
+<td>Container exits with <code>SIGILL</code> (Apple Silicon)</td>
+<td>Base image is amd64-only — use <code>ubi9/openjdk-21</code>, not <code>ubi8</code></td>
+</tr>
+<tr>
+<td><code>podman run</code> can't bind 8080</td>
+<td>A <code>quarkus dev</code> process is still running — press <code>q</code> in that terminal</td>
+</tr>
+<tr>
+<td>Bot answers without calling an MCP tool (Lab 8)</td>
+<td><code>menu-mcp-server</code> wasn't up when the bot started — restart the bot after the server is listening on 8081</td>
+</tr>
+<tr>
+<td>Lab 10 service "already running, skipping"</td>
+<td>Stale process on that port — Ctrl-C, run <code>bash labs/lab10-quarkus-flow/stop-services.sh</code>, start again</td>
+</tr>
+<tr>
+<td>Lab 10 service times out after 120s</td>
+<td>Read <code>labs/lab10-quarkus-flow/logs/&lt;service&gt;.log</code> — the tailed output scrolls past too fast</td>
+</tr>
+<tr>
+<td>Lab 10 chat fails on every message</td>
+<td>OpenAI key wasn't exported in the terminal running <code>start-services.sh</code></td>
 </tr>
 <tr>
 <td>Native binary missing</td>
@@ -1561,15 +1777,15 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>quarkus<span class="w"> </span>dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>mvn<span class="w"> </span>quarkus:dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example: jump to Lab 3 solution</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>mvn<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
 </div>
 </div>
@@ -1582,6 +1798,17 @@
 <div class="admonition note">
 <p class="admonition-title">Lab 5 — import.sql</p>
 <p>If starting directly from <code>labs/lab5-security/solution</code>, confirm <code>src/main/resources/import.sql</code> is present — it seeds the initial menu items.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Lab 8 has no <code>solution/</code> folder</p>
+<p>Its two projects sit at the top level: <code>labs/lab8-mcp-server/menu-mcp-server</code> and <code>labs/lab8-mcp-server/barista-bot</code>. Start the MCP server first.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Lab 10 — use the script, not four terminals</p>
+<p>From the repo root, with the OpenAI key exported:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>bash<span class="w"> </span>labs/lab10-quarkus-flow/start-services.sh
+</span></code></pre></div>
+It runs <code>setup.sh</code> automatically if <code>workshop/barista-bot</code> doesn't exist yet, starts all four services in order, and stops them all on Ctrl-C.</p>
 </div>
 
 
