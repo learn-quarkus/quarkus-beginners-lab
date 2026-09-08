@@ -1,11 +1,9 @@
 # Quarkus Workshop: From Zero to AI-Powered Microservices
 
-<div style="text-align: center; padding: 2rem 0;">
-  <strong style="font-size: 1.2rem;">A 60-minute hands-on workshop for Java developers</strong><br/>
+<div style="text-align: center; margin: -0.8rem 0 1.2rem;">
+  <strong style="font-size: 1.15rem;">A 60-minute hands-on workshop for Java developers</strong><br/>
   No prior Quarkus experience needed. Everything runs on your laptop.
 </div>
-
----
 
 ## What You'll Build
 
@@ -19,7 +17,7 @@ Imagine you're running **The Quarkus Cafe** — a small coffee shop that needs a
 
 The three services talk to each other and to real infrastructure (a database, a Kafka broker, a Keycloak identity provider), all started automatically by Quarkus DevServices — no `docker-compose.yml`, no manual setup.
 
-![The Quarkus Cafe — final architecture](assets/workshop-architecture.svg)
+[![The Quarkus Cafe — final architecture](assets/workshop-architecture.svg "Click to open the full-size diagram in a new tab")](assets/workshop-architecture.svg){ target="_blank" rel="noopener" }
 
 The optional labs extend this further: **`menu-mcp-server`** exposes the menu as MCP tools the LLM can call directly (Lab 8), and **`order-flow-service`** runs a Quarkus Flow workflow that holds high-value orders for barista approval (Lab 10).
 

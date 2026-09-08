@@ -61,7 +61,7 @@ INFO  [io.quarkus] menu-service started in 0.019s.
 
 In 60 minutes, starting from nothing, you built:
 
-![The Quarkus Cafe — final architecture](assets/workshop-architecture.svg)
+[![The Quarkus Cafe — final architecture](assets/workshop-architecture.svg "Click to open the full-size diagram in a new tab")](assets/workshop-architecture.svg){ target="_blank" rel="noopener" }
 
 | Lab | What you learned |
 |-----|-----------------|
