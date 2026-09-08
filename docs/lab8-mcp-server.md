@@ -309,4 +309,4 @@ Watch the `barista-bot` terminal — with `log-requests=true` you'll see the MCP
 ---
 
 [← Lab 7: AI with LangChain4j](lab7-langchain4j.md){ .md-button }
-[→ Lab 9: Containerize & K8s](lab9-containerize.md){ .md-button .md-button--primary }
+[→ Lab 9: Containerize](lab9-containerize.md){ .md-button .md-button--primary }

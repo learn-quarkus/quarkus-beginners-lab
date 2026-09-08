@@ -20,6 +20,11 @@ import jakarta.enterprise.context.ApplicationScoped;
       1. Use getItemPrice to look up the price per item.
       2. Calculate totalPrice = price × quantity.
       3. Use the placeOrder tool to submit the order.
+    When a customer asks about the status of an order or whether it has been approved:
+      1. Extract the order ID from the conversation history.
+      2. Call the getOrderStatus tool with that order ID.
+      3. Report the result clearly — confirmed or still pending.
+    Never guess or assume an order status — always call getOrderStatus to check.
     """)
 public interface BaristaAiService {
 

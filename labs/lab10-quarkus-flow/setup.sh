@@ -35,6 +35,14 @@ fi
 
 mkdir -p "$JAVA"
 
+# Apply the Lab 10 order-focused chat UI, including suggested order prompts.
+TEMPLATE_DEST="$DEST/src/main/resources/templates/chat.html"
+TEMPLATE_SOURCE="$SCRIPT_DIR/solution/barista-bot/src/main/resources/templates/chat.html"
+if [ -f "$TEMPLATE_SOURCE" ]; then
+  cp "$TEMPLATE_SOURCE" "$TEMPLATE_DEST"
+  echo "✅ Applied Lab 10 chat UI with suggested order prompts"
+fi
+
 # ── Step 2: Add quarkus-rest-client-jackson to pom.xml ────────────────────────
 
 POM="$DEST/pom.xml"
@@ -84,8 +92,10 @@ echo "✅ Wrote OrderResult.java"
 cat > "$JAVA/OrderFlowClient.java" << 'EOF'
 package org.coffee;
 
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "order-flow-service")
@@ -95,6 +105,10 @@ public interface OrderFlowClient {
     @POST
     @Path("/order")
     OrderResult placeOrder(OrderRequest request);
+
+    @GET
+    @Path("/status/{orderId}")
+    OrderResult getOrderStatus(@PathParam("orderId") String orderId);
 }
 EOF
 echo "✅ Wrote OrderFlowClient.java"
@@ -134,6 +148,16 @@ public class OrderTools {
         return "Your order is confirmed! ☕ " + quantity + "× " + item_name +
                " — Order #" + result.orderId + ". Total: $" + String.format("%.2f", total_price);
     }
+
+    @Tool("Check the current status of an order by its order ID. "
+        + "Call this when the customer asks about their order status or whether it has been approved.")
+    public String getOrderStatus(String order_id) {
+        OrderResult result = orderFlowClient.getOrderStatus(order_id);
+        if ("PENDING_APPROVAL".equals(result.status)) {
+            return "Order #" + order_id + " is still awaiting barista approval.";
+        }
+        return "Order #" + order_id + " has been confirmed! ☕ Your order is on its way.";
+    }
 }
 EOF
 echo "✅ Wrote OrderTools.java"
@@ -163,6 +187,11 @@ import jakarta.enterprise.context.ApplicationScoped;
       1. Use getItemPrice to look up the price per item.
       2. Calculate totalPrice = price × quantity.
       3. Use the placeOrder tool to submit the order.
+    When a customer asks about the status of an order or whether it has been approved:
+      1. Extract the order ID from the conversation history.
+      2. Call the getOrderStatus tool with that order ID.
+      3. Report whether the order is confirmed or still pending.
+    Never guess an order status — always call getOrderStatus.
     """)
 public interface BaristaAiService {
 
@@ -209,20 +238,16 @@ echo "  ✅ New files:                     OrderRequest, OrderResult, OrderFlowC
 echo "  ✅ BaristaAiService.java:         added @ToolBox(OrderTools.class)"
 echo "  ✅ application.properties:        added order-flow-service URL + MCP port 8084"
 echo ""
-echo "Next steps — start all four services:"
+echo "Next steps — start all services with one command:"
 echo ""
-echo "  Terminal 1 — order-service (Lab 4):"
-echo "    cd $REPO_ROOT/labs/lab4-kafka/solution/order-service && quarkus dev"
+echo "  export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-..."
+echo "  bash $SCRIPT_DIR/start-services.sh"
 echo ""
-echo "  Terminal 2 — menu-mcp-server on port 8084:"
-echo "    cd $REPO_ROOT/labs/lab8-mcp-server/menu-mcp-server && quarkus dev -Dquarkus.http.port=8084"
+echo "  That script starts all four services on dedicated ports:"
+echo "    8080  barista-bot (chat UI → http://localhost:8080)"
+echo "    8081  order-service (Lab 4)"
+echo "    8082  order-flow-service"
+echo "    8084  menu-mcp-server"
 echo ""
-echo "  Terminal 3 — order-flow-service:"
-echo "    cd \$YOUR_ORDER_FLOW_SERVICE_DIR && quarkus dev"
-echo ""
-echo "  Terminal 4 — barista-bot:"
-echo "    cd $DEST"
-echo "    export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-..."
-echo "    quarkus dev"
-echo ""
-echo "  Then open http://localhost:8080 and say: I'd like 2 espressos please"
+echo "  Logs are written to labs/lab10-quarkus-flow/logs/"
+echo "  Press Ctrl-C in that terminal to stop everything."

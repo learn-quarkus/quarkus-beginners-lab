@@ -2,9 +2,9 @@
 
 **Duration:** 8 minutes &nbsp;|&nbsp; **Project:** `barista-bot` (new)
 
-!!! tip "Want to use a different LLM provider?"
+<!-- !!! tip "Want to use a different LLM provider?"
     **See [Lab 7B: Alternative LLM Providers](lab7b-langchain4j-alternatives.md)** for OpenAI, LlamaCloud free tier, or IBM Watson X AI.
-    The same barista code works with all three — only dependencies and configuration change!
+    The same barista code works with all three — only dependencies and configuration change! -->
 
 !!! info "What you'll build"
     Build `barista-bot` — an AI-powered coffee shop assistant backed by OpenAI GPT-4o-mini.

@@ -59,6 +59,11 @@
       <groupId>io.quarkiverse.flow</groupId>
       <artifactId>quarkus-flow</artifactId>
     </dependency>
+    <!-- Qute templating for the admin UI -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-qute</artifactId>
+    </dependency>
     <!-- Test -->
     <dependency>
       <groupId>io.quarkus</groupId>

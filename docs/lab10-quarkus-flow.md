@@ -35,13 +35,14 @@ If you didn't finish Lab 8, run the setup script from the repo root:
 bash labs/lab10-quarkus-flow/setup.sh
 ```
 
-The script does five things automatically:
+The script does six things automatically:
 
 1. Copies the Lab 8 `barista-bot` solution into `workshop/barista-bot/`
-2. Adds the `quarkus-rest-client-jackson` extension to `pom.xml`
-3. Writes `OrderRequest.java`, `OrderResult.java`, `OrderFlowClient.java`, and `OrderTools.java`
-4. Replaces `BaristaAiService.java` with the `@ToolBox`-enabled version
-5. Appends the `order-flow-service` REST client URL and updated MCP port to `application.properties`
+2. Applies the Lab 10 chat template with order-focused prompt chips
+3. Adds the `quarkus-rest-client-jackson` extension to `pom.xml`
+4. Writes `OrderRequest.java`, `OrderResult.java`, `OrderFlowClient.java`, and `OrderTools.java`
+5. Replaces `BaristaAiService.java` with the `@ToolBox`-enabled version
+6. Appends the `order-flow-service` REST client URL and updated MCP port to `application.properties`
 
 It is **idempotent** — safe to run again if something goes wrong.
 
@@ -310,13 +311,74 @@ public class OrderFlowWorkflow extends Flow { // (1)
 
 ---
 
-## Step 6 — Expose the REST endpoints
+## Step 6 — Expose the REST endpoints and barista admin UI
+
+This step creates four files: a shared store, the main REST resource, the admin UI resource, and the admin HTML template.
+
+### 6a — `PendingOrdersStore`
+
+Both the REST resource and the admin UI need access to the same set of pending orders. Create a shared CDI bean so neither class holds its own private map.
+
+Create `src/main/java/org/coffee/PendingOrdersStore.java`:
+
+```java title="PendingOrdersStore.java"
+package org.coffee;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+@ApplicationScoped
+public class PendingOrdersStore {
+
+    private final ConcurrentHashMap<String, OrderState> pending  = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, OrderState> completed = new ConcurrentHashMap<>();
+    private final CopyOnWriteArrayList<OrderState>      approved = new CopyOnWriteArrayList<>();
+
+    public void add(OrderState order) {
+        pending.put(order.orderId, order);
+    }
+
+    public OrderState get(String orderId) {
+        return pending.get(orderId);
+    }
+
+    public OrderState approve(String orderId) { // (1)
+        OrderState order = pending.remove(orderId);
+        if (order != null) {
+            order.status = "CONFIRMED";
+            completed.put(orderId, order);
+            approved.add(0, order);
+        }
+        return order;
+    }
+
+    public String status(String orderId) {
+        OrderState waiting = pending.get(orderId);
+        if (waiting != null) return waiting.status;
+        OrderState finished = completed.get(orderId);
+        return finished == null ? "CONFIRMED" : finished.status;
+    }
+
+    public Collection<OrderState> allPending() { return Collections.unmodifiableCollection(pending.values()); }
+    public List<OrderState>       allApproved() { return Collections.unmodifiableList(approved); }
+    public boolean                isEmpty()     { return pending.isEmpty(); }
+}
+```
+
+1. `approve()` removes the order from `pending` and prepends it to `approved` (newest-first) so the admin UI can show a session history.
+
+### 6b — `OrderFlowResource`
 
 Create `src/main/java/org/coffee/OrderFlowResource.java`:
 
 ```java title="OrderFlowResource.java"
 package org.coffee;
 
+import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -325,7 +387,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Path("/flow")
 @ApplicationScoped
@@ -333,50 +394,119 @@ import java.util.concurrent.ConcurrentHashMap;
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrderFlowResource {
 
-    @Inject
-    OrderFlowWorkflow orderFlow;
-
-    private final ConcurrentHashMap<String, OrderState> pendingOrders =
-        new ConcurrentHashMap<>(); // (1)
+    @Inject OrderFlowWorkflow  orderFlow;
+    @Inject PendingOrdersStore store;
 
     @POST
     @Path("/order")
+    @Blocking // (1)
     public Uni<Response> placeOrder(Order order) {
         return orderFlow
-            .startInstance(order)  // (2)
+            .startInstance(order)
             .onItem().transform(model -> {
-                OrderState result = model.as(OrderState.class).orElseThrow(); // (3)
-
+                OrderState result = model.as(OrderState.class).orElseThrow();
                 if ("PENDING_APPROVAL".equals(result.status)) {
-                    pendingOrders.put(result.orderId, result);
+                    store.add(result);
                     return Response.accepted(result).build(); // 202
                 }
                 return Response.ok(result).build();           // 200
             });
     }
 
+    @GET
+    @Path("/status/{orderId}")
+    public Response getOrderStatus(@PathParam("orderId") String orderId) { // (2)
+        return Response.ok(Map.of("orderId", orderId, "status", store.status(orderId))).build();
+    }
+
     @POST
     @Path("/approve/{orderId}")
-    public Response approveOrder(@PathParam("orderId") String orderId) { // (4)
-        OrderState pending = pendingOrders.remove(orderId);
+    public Response approveOrder(@PathParam("orderId") String orderId) {
+        OrderState pending = store.approve(orderId);
         if (pending == null) {
             return Response.status(Response.Status.NOT_FOUND)
                 .entity(Map.of("error", "Order " + orderId + " not found or already processed"))
                 .build();
         }
-        pending.status = "CONFIRMED";
         return Response.ok(pending).build();
     }
 }
 ```
 
-1. `ConcurrentHashMap` tracks orders waiting for barista approval — the same in-memory session pattern used in `barista-bot`'s `ChatUiResource`.
-2. `startInstance(order)` triggers the workflow reactively. Quarkus Flow integrates with Mutiny — the REST response is non-blocking.
-3. `startInstance` resolves to a `WorkflowModel` — the final workflow data. `model.as(OrderState.class)` deserialises it back into our POJO.
-4. `POST /flow/approve/{orderId}` is the barista's action: it promotes the order from `PENDING_APPROVAL` to `CONFIRMED`.
+1. `@Blocking` is required because the REST client call inside the workflow is synchronous. Without it, Quarkus throws `BlockingNotAllowedException` on the Vert.x IO thread.
+2. `GET /flow/status/{orderId}` lets `barista-bot` check whether a pending order has been approved without polling the admin page. An order absent from the pending store was either never held there or has already been approved.
+
+### 6c — `AdminResource` and admin template
+
+Add the `quarkus-rest-qute` extension so this service can serve HTML:
+
+=== "Quarkus CLI"
+
+    ```bash
+    quarkus ext add rest-qute
+    ```
+
+=== "Maven"
+
+    ```xml title="pom.xml — dependencies"
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-qute</artifactId>
+    </dependency>
+    ```
+
+Create `src/main/java/org/coffee/AdminResource.java`:
+
+```java title="AdminResource.java"
+package org.coffee;
+
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import java.net.URI;
+
+@Path("/admin")
+public class AdminResource {
+
+    @Inject Template            admin;
+    @Inject PendingOrdersStore  store;
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance index(
+        @QueryParam("approved") String approved,
+        @QueryParam("error")    String error) {
+      return admin
+          .data("orders",         store.allPending())
+          .data("approvedOrders", store.allApproved())
+          .data("approved",       approved)
+          .data("error",          error);
+    }
+
+    @POST
+    @Path("/approve/{orderId}")
+    public Response approve(@PathParam("orderId") String orderId) {
+        OrderState order = store.approve(orderId);
+        if (order == null) {
+            return Response.seeOther(URI.create("/admin?error=" + orderId)).build();
+        }
+        return Response.seeOther(URI.create("/admin?approved=" + orderId)).build();
+    }
+}
+```
+
+Create `src/main/resources/templates/admin.html` — copy it from the solution:
+
+```
+labs/lab10-quarkus-flow/solution/order-flow-service/src/main/resources/templates/admin.html
+```
 
 !!! note "What just happened?"
-    `startInstance` is the one method every `Flow` subclass inherits. It serialises the input to JSON, hands it to the workflow engine, and returns a `Uni<WorkflowModel>` that resolves when all tasks complete.
+    The barista admin page at **`http://localhost:8082/admin`** auto-refreshes every 5 seconds. Pending orders appear as cards with an **Approve** button; approved orders move to a history section below. The `PendingOrdersStore` bean is the single source of truth shared by both `OrderFlowResource` and `AdminResource`.
 
 ---
 
@@ -440,8 +570,10 @@ Create `src/main/java/org/coffee/OrderFlowClient.java`:
 ```java title="OrderFlowClient.java"
 package org.coffee;
 
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient(configKey = "order-flow-service")
@@ -451,8 +583,14 @@ public interface OrderFlowClient {
     @POST
     @Path("/order")
     OrderResult placeOrder(OrderRequest request);
+
+    @GET
+    @Path("/status/{orderId}")
+    OrderResult getOrderStatus(@PathParam("orderId") String orderId); // (1)
 }
 ```
+
+1. Calls `GET /flow/status/{orderId}` on `order-flow-service`. Returns `PENDING_APPROVAL` if the order is still waiting, `CONFIRMED` once the barista approves.
 
 Create `src/main/java/org/coffee/OrderTools.java`:
 
@@ -483,20 +621,32 @@ public class OrderTools {
             new OrderRequest(item_name, quantity, customer_id, total_price));
 
         if ("PENDING_APPROVAL".equals(result.status)) {
-            return "Your order has been received but requires barista approval " +
-                   "before it can be prepared (total $" + String.format("%.2f", total_price) +
-                   " exceeds our express limit). Order ID: " + result.orderId +
-                   ". A barista will confirm it shortly.";
+            return "Order received but requires barista approval (total $"
+                   + String.format("%.2f", total_price) + " exceeds the express limit). "
+                   + "Order ID: " + result.orderId + ". "
+                   + "Tell the customer their order is pending and they can ask you to "
+                   + "check the status at any time using the order ID.";
         }
-        return "Your order is confirmed! ☕ " + quantity + "× " + item_name +
-               " — Order #" + result.orderId +
-               ". Total: $" + String.format("%.2f", total_price);
+        return "Order confirmed! ☕ " + quantity + "× " + item_name
+               + " — Order #" + result.orderId
+               + ". Total: $" + String.format("%.2f", total_price);
+    }
+
+    @Tool("Check the current status of an order by its order ID. " // (3)
+        + "Call this when the customer asks about their order status or whether it has been approved.")
+    public String getOrderStatus(String order_id) {
+        OrderResult result = orderFlowClient.getOrderStatus(order_id);
+        if ("PENDING_APPROVAL".equals(result.status)) {
+            return "Order #" + order_id + " is still awaiting barista approval.";
+        }
+        return "Order #" + order_id + " has been confirmed! ☕ Your order is on its way.";
     }
 }
 ```
 
 1. The `@Tool` description is sent to the LLM as part of the tool schema. Write it like a docstring — the model reads it to decide when to call this method.
 2. Tool method parameters must use `snake_case` for compatibility with LLM tool-call schemas.
+3. The second `@Tool` gives the LLM a live status check — it calls `GET /flow/status/{orderId}` in real time rather than relying on what the conversation history says.
 
 ### 7c — Update `BaristaAiService`
 
@@ -525,6 +675,11 @@ import jakarta.enterprise.context.ApplicationScoped;
       1. Use getItemPrice to look up the price per item.
       2. Calculate totalPrice = price × quantity.
       3. Use the placeOrder tool to submit the order.
+    When a customer asks about the status of an order or whether it has been approved:
+      1. Extract the order ID from the conversation history.
+      2. Call the getOrderStatus tool with that order ID.
+      3. Report the result clearly — confirmed or still pending.
+    Never guess or assume an order status — always call getOrderStatus to check.
     """)
 public interface BaristaAiService {
 
@@ -534,7 +689,7 @@ public interface BaristaAiService {
 }
 ```
 
-1. `@ToolBox(OrderTools.class)` wires the CDI bean's `@Tool` methods into this AI service. The LLM now has both the MCP tools (for menu lookups) and `placeOrder` available on every request.
+1. `@ToolBox(OrderTools.class)` wires the CDI bean's `@Tool` methods into this AI service. The LLM now has the MCP menu tools, `placeOrder`, and `getOrderStatus` available on every request.
 
 ### 7d — Update `application.properties`
 
@@ -552,45 +707,65 @@ quarkus.langchain4j.mcp.menu.url=http://localhost:8084/mcp/sse
 ```
 
 !!! note "What just happened?"
-    The LLM now has a two-step tool chain available: `getItemPrice` (MCP) gives it the per-unit price; `placeOrder` (CDI `@Tool`) uses that price to send a structured request to the workflow. The bot doesn't need to change — you only added tools.
+    The LLM now has a three-tool chain: `getItemPrice` (MCP) for prices, `placeOrder` to submit the order, and `getOrderStatus` to check it live. The system message instructs the model exactly when to call each one.
+
+### 7e — Add the End Chat endpoint to `ChatUiResource`
+
+Open `src/main/java/org/coffee/ChatUiResource.java` and add an `/end` endpoint that clears both the display history and the LangChain4j memory store:
+
+```java title="ChatUiResource.java — add imports"
+import dev.langchain4j.store.memory.chat.ChatMemoryStore;
+import java.net.URI;
+```
+
+```java title="ChatUiResource.java — add field"
+@Inject
+ChatMemoryStore chatMemoryStore;
+```
+
+```java title="ChatUiResource.java — add endpoint"
+@POST
+@Path("/end")
+public Response end(@CookieParam("session") String session) {
+    if (session != null && !session.isBlank()) {
+        sessions.remove(session);
+        chatMemoryStore.deleteMessages(session); // (1)
+    }
+    NewCookie expired = new NewCookie.Builder("session")
+            .value("").path("/").maxAge(0).build();
+    return Response.seeOther(URI.create("/"))
+            .cookie(expired)
+            .build();
+}
+```
+
+1. `deleteMessages` evicts the LangChain4j in-memory conversation history for this session ID. The next chat starts completely fresh — no memory of previous orders or messages.
+
+The **End Chat** button in `chat.html` already targets this endpoint via a hidden form. If you copied the template from the solution in Step 7b, no template changes are needed.
 
 ---
 
 ## Step 8 — Run and test everything
 
-You need **four terminals**. Start them in this order:
+### Starting all services
 
-**Terminal 1 — `order-service` (Lab 4)**
-
-```bash
-cd labs/lab4-kafka/solution/order-service
-quarkus dev
-```
-
-**Terminal 2 — `menu-mcp-server` (Lab 8)**
-
-Start it on **8084** — `order-service` is already using its default 8081:
+Instead of managing four terminals manually, use the provided script from the repo root:
 
 ```bash
-cd labs/lab8-mcp-server/menu-mcp-server
-quarkus dev -Dquarkus.http.port=8084
+export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
+bash labs/lab10-quarkus-flow/start-services.sh
 ```
 
-**Terminal 3 — `order-flow-service`**
+The script starts all four services in dependency order, waits for each port to be live, and tails all logs to one terminal. Press **Ctrl-C** to stop everything cleanly.
 
-```bash
-cd order-flow-service
-quarkus dev
-```
+| Service | Port | URL |
+|---|---|---|
+| `barista-bot` | 8080 | http://localhost:8080 |
+| `order-service` | 8081 | — |
+| `order-flow-service` | 8082 | http://localhost:8082/admin |
+| `menu-mcp-server` | 8084 | — |
 
-**Terminal 4 — `barista-bot`**
-
-```bash
-cd barista-bot
-quarkus dev
-```
-
-Open **`http://localhost:8080`** in your browser.
+Open **`http://localhost:8080`** for the chat and **`http://localhost:8082/admin`** for the barista approval page in separate browser tabs.
 
 ---
 
@@ -600,13 +775,13 @@ Type in the chat:
 
 > *"Can I get 2 espressos please? My name is Alex."*
 
-Watch the `order-flow-service` terminal. You'll see the workflow execute both tasks and return `CONFIRMED`. The bot replies something like:
+Watch the `order-flow-service` log. You'll see the workflow execute both tasks and return `CONFIRMED`. The bot replies:
 
 > *"Your order is confirmed! ☕ 2× Espresso — Order #a3f1b2c4. Total: $5.00"*
 
 ---
 
-### Demo 2 — High-value order (above threshold)
+### Demo 2 — High-value order + admin approval
 
 Type in the chat:
 
@@ -616,24 +791,27 @@ Type in the chat:
 
 > *"Your order has been received but requires barista approval (total $21.25 exceeds the express limit). Order ID: d9e2f3a1. A barista will confirm it shortly."*
 
-Now **approve it** from a fifth terminal:
+Switch to the **admin tab** at **`http://localhost:8082/admin`**. The order card appears automatically (the page auto-refreshes every 5 seconds). Click **Approve** — the card moves to the "Approved this session" history with a green badge.
 
-```bash
-curl -X POST http://localhost:8082/flow/approve/d9e2f3a1
-```
+Back in the chat, ask:
 
-You'll get back:
+> *"Has my order been approved?"*
 
-```json
-{
-  "orderId": "d9e2f3a1",
-  "itemName": "Latte",
-  "quantity": 5,
-  "customerId": "Dev Team",
-  "totalPrice": 21.25,
-  "status": "CONFIRMED"
-}
-```
+The bot calls `getOrderStatus` live, gets `CONFIRMED`, and replies:
+
+> *"Order #d9e2f3a1 has been confirmed! ☕ Your order is on its way."*
+
+---
+
+### Demo 3 — End Chat
+
+Click **End Chat** in the chat UI. This calls `POST /end`, which:
+
+- Removes the display history for this session
+- Evicts the LangChain4j memory (`chatMemoryStore.deleteMessages`)
+- Expires the session cookie
+
+The next message starts a completely fresh conversation with no memory of previous orders.
 
 ---
 
@@ -669,6 +847,10 @@ You'll get back:
 | ✅ Configurable approval threshold | `@ConfigProperty` + `coffee.approval.threshold` in `application.properties` |
 | ✅ Type-safe call to `order-service` | `@RegisterRestClient` interface — same pattern as Lab 8's MCP client |
 | ✅ LLM places orders via chat | `@Tool` on a CDI bean + `@ToolBox` on the AI service method |
+| ✅ LLM checks order status live | `getOrderStatus` `@Tool` calls `GET /flow/status/{orderId}` — never guesses |
+| ✅ Barista admin UI | `AdminResource` + Qute template at `http://localhost:8082/admin` — auto-refreshes, shows history |
+| ✅ Clean session end | `POST /end` clears display history + `ChatMemoryStore` + expires cookie |
+| ✅ One-command startup | `start-services.sh` starts all four services in order, unified log tail, Ctrl-C stops all |
 | ✅ Live-reload config changes | Quarkus dev mode hot-reloads `@ConfigProperty` values on file save |
 | ✅ Free observability | Flow Dev UI: Mermaid diagram, execution traces, trigger form |
 
@@ -691,5 +873,5 @@ You'll get back:
 
 ---
 
-[← Lab 9: Containerize & K8s](lab9-containerize.md){ .md-button }
+[← Lab 9: Containerize](lab9-containerize.md){ .md-button }
 [→ Wrap-Up](wrap-up.md){ .md-button .md-button--primary }

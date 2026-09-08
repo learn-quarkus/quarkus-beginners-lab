@@ -79,11 +79,13 @@ You only need **one** of these. The Quarkus CLI is recommended — it makes boot
 
 ## 3. Docker Desktop or Podman
 
-!!! info "Required for Labs 4 & 5 only"
-    Labs 1, 2, 3, 6, and 7 do **not** need Docker. You only need a container runtime for:
+!!! info "Required for Labs 4, 5, 9 & 10"
+    Labs 1, 2, 3, 6, 7, and 8 do **not** need Docker. You only need a container runtime for:
 
     - **Lab 4** — DevServices auto-starts a Kafka (Redpanda) container
     - **Lab 5** — DevServices auto-starts a Keycloak container
+    - **Lab 9** *(optional)* — you build and run a container image with Podman
+    - **Lab 10** *(optional)* — runs `order-service` from Lab 4, so Kafka DevServices starts again
 
 === "Docker Desktop"
 
@@ -104,15 +106,15 @@ You only need **one** of these. The Quarkus CLI is recommended — it makes boot
     ```
 
 !!! warning "Make sure Docker/Podman is running"
-    The container daemon must be **running** (not just installed) before you start Labs 4 and 5.
+    The container daemon must be **running** (not just installed) before you start Labs 4, 5, 9, or 10.
     You should see an empty table, not an error, when you run `docker ps` or `podman ps`.
 
 ---
 
 ## 4. OpenAI API Key
 
-!!! info "Required for Lab 7 only"
-    Labs 1–6 do not require an API key.
+!!! info "Required for Labs 7, 8 & 10"
+    Labs 1–6 and Lab 9 do not require an API key. Labs 8 and 10 build on the Lab 7 chatbot, so they need the same key.
 
 !!! tip "Workshop instructor key"
     If you are attending an instructor-led session, your instructor will provide a shared API key for Lab 7. You do not need to create your own OpenAI account.
@@ -203,8 +205,8 @@ quarkus version     # should show 3.x   (or: mvn -version for Maven)
 docker ps           # should show an empty table, not an error
 ```
 
-!!! info "OpenAI key — Lab 7 only"
-    You do not need the API key until Lab 7. Your instructor will provide one at that point, or you can use your own.
+!!! info "OpenAI key — not needed until Lab 7"
+    You do not need the API key until Lab 7 (and Labs 8 and 10, which reuse it). Your instructor will provide one at that point, or you can use your own.
 
 !!! success "All green? You're ready!"
     [→ Start Lab 1](lab1-rest.md){ .md-button .md-button--primary }
