@@ -1032,19 +1032,18 @@
 
 
 <h1 id="quarkus-workshop-from-zero-to-ai-powered-microservices">Quarkus Workshop: From Zero to AI-Powered Microservices<a class="headerlink" href="#quarkus-workshop-from-zero-to-ai-powered-microservices" title="Permanent link">&para;</a></h1>
-<div style="text-align: center; padding: 2rem 0;">
-  <strong style="font-size: 1.2rem;">A 60-minute hands-on workshop for Java developers</strong><br/>
+<div style="text-align: center; margin: -0.8rem 0 1.2rem;">
+  <strong style="font-size: 1.15rem;">A 60-minute hands-on workshop for Java developers</strong><br/>
   No prior Quarkus experience needed. Everything runs on your laptop.
 </div>
 
-<hr />
 <h2 id="what-youll-build">What You'll Build<a class="headerlink" href="#what-youll-build" title="Permanent link">&para;</a></h2>
 <p>Imagine you're running <strong>The Quarkus Cafe</strong> — a small coffee shop that needs a real backend system. In the core labs you will build three microservices from scratch:</p>
 <p><strong><code>menu-service</code></strong> is the heart of the system. It exposes the coffee menu over a REST API, persists items in a database, and enforces security so only authenticated staff can add new items. It also exposes a health endpoint so the platform knows it's alive.</p>
 <p><strong><code>order-service</code></strong> is the café's order intake. When a customer places an order it publishes the order as an event to a Kafka topic — decoupling the intake from fulfilment so the system stays responsive under load.</p>
 <p><strong><code>barista-bot</code></strong> is an AI assistant built on top of OpenAI. Customers can ask it anything about the menu — what's in a flat white, whether there's oat milk, what the cheapest drink is — and it answers from the actual menu document, not from guesswork.</p>
 <p>The three services talk to each other and to real infrastructure (a database, a Kafka broker, a Keycloak identity provider), all started automatically by Quarkus DevServices — no <code>docker-compose.yml</code>, no manual setup.</p>
-<p><img alt="The Quarkus Cafe — final architecture" src="assets/workshop-architecture.svg" /></p>
+<p><a href="assets/workshop-architecture.svg" rel="noopener" target="_blank"><img alt="The Quarkus Cafe — final architecture" src="assets/workshop-architecture.svg" title="Click to open the full-size diagram in a new tab" /></a></p>
 <p>The optional labs extend this further: <strong><code>menu-mcp-server</code></strong> exposes the menu as MCP tools the LLM can call directly (Lab 8), and <strong><code>order-flow-service</code></strong> runs a Quarkus Flow workflow that holds high-value orders for barista approval (Lab 10).</p>
 <hr />
 <h2 id="workshop-schedule">Workshop Schedule<a class="headerlink" href="#workshop-schedule" title="Permanent link">&para;</a></h2>
