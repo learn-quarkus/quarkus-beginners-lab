@@ -10,6 +10,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class MenuResource {
 
     @Inject
     PricingService pricingService;
+
+    @ConfigProperty(name = "coffee.shop.name", defaultValue = "The Quarkus Cafe")
+    String shopName;
 
     @GET
     public List<MenuItem> list() {
@@ -38,5 +42,12 @@ public class MenuResource {
     @Produces(MediaType.TEXT_PLAIN)
     public BigDecimal getPrice(@PathParam("id") Long id) {
         return pricingService.getPrice(id);
+    }
+
+    @GET
+    @Path("/info")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String info() {
+        return "Welcome to " + shopName + "! We have " + MenuItem.count() + " items on the menu.";
     }
 }

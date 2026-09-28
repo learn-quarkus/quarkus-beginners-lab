@@ -107,19 +107,30 @@ public class PricingService {
 ```
 
 1. Must be a CDI bean (`@ApplicationScoped`, `@RequestScoped`, etc.) for the annotations to be intercepted.
-2. `@Retry` — if `getPrice()` throws, retry up to 3 times with a 200ms delay between attempts.
+2. `@Retry` — if `getPrice()` throws, retry up to 3 more times with a ~200ms delay between attempts. The gaps you see in the log won't be exactly 200ms: `@Retry` applies a random jitter (±200ms by default) so that many clients retrying at once don't all hit the service in lockstep.
 3. `@Fallback` — if all retries are exhausted, call `defaultPrice()` instead of propagating the exception.
 4. `@Timeout` — if `getPrice()` takes longer than 2 seconds, interrupt it and treat it as a failure.
 
 !!! note "Execution order"
-    The annotations wrap each other like layers:
+    The MicroProfile Fault Tolerance spec defines a fixed nesting order. `@Fallback` is the
+    **outermost** layer and `@Timeout` sits **inside** `@Retry`:
     ```
-    Timeout
-      └── Retry
-            └── getPrice()   ← actual method
-                  └── Fallback (last resort)
+    Fallback                     ← last resort, wraps everything
+      └── Retry                  ← re-invokes the layers below on failure
+            └── Timeout          ← applied to each attempt individually
+                  └── getPrice()   ← actual method
     ```
-    Timeout is the outermost layer — if the total time (including retries) exceeds 2 seconds, it fires. Fallback fires only after all retries are exhausted.
+
+    Two consequences that are easy to get backwards:
+
+    - **`@Timeout` bounds a single attempt, not the whole operation.** Each of the 4 attempts
+      gets its own 2-second budget. A call that times out repeatedly can therefore take well
+      over 2 seconds end-to-end (4 × 2s, plus the 200ms delays between retries).
+    - **A timeout counts as a failure, so it triggers a retry.** `@Fallback` only fires once
+      `@Retry` has given up.
+
+    The full spec order, outermost to innermost, is
+    `Fallback → Retry → CircuitBreaker → Timeout → Bulkhead → method`.
 
 ---
 
@@ -172,13 +183,25 @@ DEBUG [org.coffee.PricingService] Fetching price for item 1 ...
 DEBUG [org.coffee.PricingService] Got price for item 1
 ```
 
-**Fallback scenario (all 3 retries failed):**
+**Fallback scenario (the initial call and all 3 retries failed):**
 ```
+DEBUG [org.coffee.PricingService] Fetching price for item 1 ...
 DEBUG [org.coffee.PricingService] Simulated failure for item 1 — will retry
+DEBUG [org.coffee.PricingService] Fetching price for item 1 ...
 DEBUG [org.coffee.PricingService] Simulated failure for item 1 — will retry
+DEBUG [org.coffee.PricingService] Fetching price for item 1 ...
+DEBUG [org.coffee.PricingService] Simulated failure for item 1 — will retry
+DEBUG [org.coffee.PricingService] Fetching price for item 1 ...
 DEBUG [org.coffee.PricingService] Simulated failure for item 1 — will retry
 DEBUG [org.coffee.PricingService] Returning fallback price $4.99 for item 1
 ```
+
+!!! note "Why four failures, not three?"
+    `maxRetries = 3` counts *retries*, not total attempts. The method is invoked once
+    normally, and then retried up to 3 more times — **4 invocations in total** before
+    `@Fallback` kicks in. Since each attempt fails independently with 50% probability,
+    a full fallback happens roughly 1 call in 16, so you may need to click **Execute**
+    a few more times to see one.
 
 Notice: **the endpoint always returns a value** — never a 500 error — even when all retries fail. The user sees `4.99` (the fallback price) instead of an error page.
 

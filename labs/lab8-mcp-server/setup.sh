@@ -52,8 +52,8 @@ else
   cat >> "$PROPS" << 'EOF'
 
 # ── Lab 8: MCP client — connect to menu-mcp-server ────────────────────────────
-quarkus.langchain4j.mcp.menu.transport-type=http
-quarkus.langchain4j.mcp.menu.url=http://localhost:8081/mcp/sse
+quarkus.langchain4j.mcp.menu.transport-type=streamable-http
+quarkus.langchain4j.mcp.menu.url=http://localhost:8084/mcp
 quarkus.langchain4j.mcp.menu.log-requests=true
 quarkus.langchain4j.mcp.menu.log-responses=true
 EOF

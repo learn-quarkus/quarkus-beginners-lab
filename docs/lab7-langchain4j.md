@@ -2,9 +2,9 @@
 
 **Duration:** 8 minutes &nbsp;|&nbsp; **Project:** `barista-bot` (new)
 
-!!! tip "Want to use a different LLM provider?"
+<!-- !!! tip "Want to use a different LLM provider?"
     **See [Lab 7B: Alternative LLM Providers](lab7b-langchain4j-alternatives.md)** for OpenAI, LlamaCloud free tier, or IBM Watson X AI.
-    The same barista code works with all three — only dependencies and configuration change!
+    The same barista code works with all three — only dependencies and configuration change! -->
 
 !!! info "What you'll build"
     Build `barista-bot` — an AI-powered coffee shop assistant backed by OpenAI GPT-4o-mini.
@@ -30,6 +30,31 @@
         ```powershell
         $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="sk-..."
         ```
+
+    !!! danger "`OPENAI_API_KEY` is *not* the same variable"
+        The name must be exactly `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY`. If you already have a plain
+        `OPENAI_API_KEY` exported for other tools, Quarkus will **not** read it, and startup fails with:
+
+        ```
+        SRCFG00014: The config property quarkus.langchain4j.openai.api-key is required
+        but it could not be found in any config source
+        ```
+
+        That message names the *property*, not the environment variable, so it's easy to misread as
+        "I need to add something to `application.properties`" — you don't. To reuse the key you
+        already have:
+
+        === "macOS / Linux"
+
+            ```bash
+            export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="$OPENAI_API_KEY"
+            ```
+
+        === "Windows (PowerShell)"
+
+            ```powershell
+            $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=$env:OPENAI_API_KEY
+            ```
 
 **Extensions used:**
 
@@ -66,6 +91,17 @@
 
 ## Step 1 — Create the barista-bot Project
 
+!!! warning "Stop `menu-service` first"
+    `barista-bot` also runs on port **8080**, and `menu-service` has been holding that port
+    since Lab 1. Switch to its terminal and press ++q++ (or `Ctrl+C`) to stop Dev Mode before
+    you continue — otherwise `quarkus dev` here fails with:
+
+    ```
+    Port 8080 seems to be in use by another process
+    ```
+
+    You won't need `menu-service` again until Lab 9, which starts from its own setup script.
+
 In a new terminal (separate from `menu-service`):
 
 === "Quarkus CLI"
@@ -79,7 +115,7 @@ In a new terminal (separate from `menu-service`):
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.39.2:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=barista-bot \
       -Dextensions=rest-jackson,smallrye-openapi
@@ -426,6 +462,19 @@ Now add RAG and ask the same question again at the end of this step to see the d
     ./mvnw quarkus:add-extension -Dextensions="io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag"
     ```
 
+!!! note "Expect a Log4j `ERROR` line — it's harmless"
+    The first time Quarkus restarts after adding Easy RAG you'll see something like:
+
+    ```
+    ERROR StatusLogger Log4j API could not find a logging provider.
+    ```
+
+    Easy RAG pulls in Apache Tika (the document parser), which uses the Log4j API. Quarkus
+    routes logging through JBoss Log Manager instead, so no Log4j *provider* is on the
+    classpath. Tika logs this once at startup and then carries on using the standard
+    Quarkus logging. **Nothing is broken** — RAG still ingests your document and the app
+    works normally. You can ignore the line.
+
 **Create the menu document** at `src/main/resources/rag-docs/menu.txt`:
 
 !!! note "Why a directory and CLASSPATH?"
@@ -612,115 +661,15 @@ public class ChatUiResource {
 4. `sessionId` is passed as `@MemoryId` — LangChain4j automatically appends the new turn to the stored `ChatMemory` for that key before calling the model.
 5. The cookie is returned in the response header. The browser stores it and sends it automatically on the next request.
 
-### Update the Qute Template
+### The Qute template needs no changes
 
-Open `src/main/resources/templates/chat.html` and replace its contents with:
+!!! note "Nothing to edit here"
+    `chat.html` stays exactly as you wrote it in Step 5. The template renders whatever
+    `history` list the resource hands it, so moving from a single shared list to a
+    per-session map is invisible to the view layer — that's the point of keeping the
+    session logic in `ChatUiResource`.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Quarkus Cafe — Barista Bot</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-      background: #f0f2f5; min-height: 100vh;
-      display: flex; align-items: center; justify-content: center; padding: 1rem;
-    }
-    .card {
-      width: 100%; max-width: 560px; background: #fff;
-      border-radius: 16px; border: 1px solid #e5e7eb;
-      display: flex; flex-direction: column; height: 620px; overflow: hidden;
-    }
-    .card-header {
-      padding: 1rem 1.25rem; border-bottom: 1px solid #e5e7eb;
-      display: flex; align-items: center; gap: 0.65rem; flex-shrink: 0;
-    }
-    .avatar {
-      width: 36px; height: 36px; background: #1d4ed8; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
-    }
-    .card-header h1 { font-size: 1rem; font-weight: 600; color: #1f2328; }
-    .card-header p  { font-size: 0.78rem; color: #57606a; }
-    .messages {
-      flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
-      display: flex; flex-direction: column; gap: 0.85rem;
-    }
-    .empty { margin: auto; text-align: center; color: #8b949e; font-size: 0.85rem; line-height: 1.7; }
-    .empty strong { display: block; font-size: 1.1rem; color: #57606a; margin-bottom: 0.3rem; }
-    .row      { display: flex; flex-direction: column; max-width: 78%; }
-    .row.user { align-self: flex-end;  align-items: flex-end; }
-    .row.bot  { align-self: flex-start; align-items: flex-start; }
-    .sender   { font-size: 0.68rem; font-weight: 600; color: #8b949e;
-                margin-bottom: 3px; text-transform: uppercase; }
-    .bubble   { padding: 0.6rem 0.9rem; border-radius: 14px; font-size: 0.92rem;
-                line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
-    .row.user .bubble { background: #1d4ed8; color: #fff; border-bottom-right-radius: 4px; }
-    .row.bot  .bubble { background: #f7f8fa; color: #1f2328; border: 1px solid #e5e7eb;
-                        border-bottom-left-radius: 4px; }
-    .input-bar  { padding: 0.85rem 1.25rem; border-top: 1px solid #e5e7eb; flex-shrink: 0; }
-    .input-row  { display: flex; gap: 0.5rem; }
-    input[type=text] {
-      flex: 1; padding: 0.55rem 0.85rem; font-size: 0.95rem;
-      border: 1px solid #d0d7de; border-radius: 8px; outline: none;
-    }
-    input[type=text]:focus { border-color: #3b82d4; }
-    button { padding: 0.55rem 1rem; font-size: 0.9rem; border: none;
-             border-radius: 8px; cursor: pointer; font-weight: 500; }
-    .btn-send  { background: #1d4ed8; color: #fff; }
-    .btn-send:hover  { background: #1e40af; }
-    .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
-    .btn-clear:hover { background: #e5e7eb; }
-  </style>
-</head>
-<body>
-<div class="card">
-  <div class="card-header">
-    <div class="avatar">☕</div>
-    <div>
-      <h1>Barista Bot</h1>
-      <p>Powered by OpenAI · Quarkus LangChain4j</p>
-    </div>
-  </div>
-  <div class="messages">
-    {#if history}
-      {#for turn in history}
-        {#if turn.role == "user"}
-        <div class="row user">
-          <span class="sender">You</span>
-          <div class="bubble">{turn.text}</div>
-        </div>
-        {#else}
-        <div class="row bot">
-          <span class="sender">Barista Bot</span>
-          <div class="bubble">{turn.text}</div>
-        </div>
-        {/if}
-      {/for}
-    {#else}
-      <div class="empty">
-        <strong>☕ Welcome!</strong>
-        Ask me anything about coffee, our menu,<br>or how your favourite drink is made.
-      </div>
-    {/if}
-  </div>
-  <div class="input-bar">
-    <form method="post" action="/">
-      <div class="input-row">
-        <input type="text" name="message"
-               placeholder="e.g. What's in a flat white?" autofocus>
-        <button type="submit" class="btn-send">Send</button>
-        <a href="/"><button type="button" class="btn-clear">Clear</button></a>
-      </div>
-    </form>
-  </div>
-</div>
-</body>
-</html>
-```
+    Leave the file alone and go straight to testing.
 
 ### Test the memory
 

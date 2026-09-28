@@ -14,8 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.33.3</quarkus.platform.version>
-    <quarkus.flow.version>1.0.0</quarkus.flow.version>
+    <quarkus.platform.version>3.39.2</quarkus.platform.version>
     <surefire-plugin.version>3.3.1</surefire-plugin.version>
   </properties>
 
@@ -28,11 +27,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- Quarkus Flow BOM -->
+      <!-- Quarkus Flow BOM — platform-aligned, same version as the Quarkus BOM above -->
       <dependency>
-        <groupId>io.quarkiverse.flow</groupId>
+        <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-flow-bom</artifactId>
-        <version>${quarkus.flow.version}</version>
+        <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -58,6 +57,11 @@
     <dependency>
       <groupId>io.quarkiverse.flow</groupId>
       <artifactId>quarkus-flow</artifactId>
+    </dependency>
+    <!-- Qute templating for the admin UI -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-qute</artifactId>
     </dependency>
     <!-- Test -->
     <dependency>

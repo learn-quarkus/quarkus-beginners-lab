@@ -1,5 +1,6 @@
 package org.coffee;
 
+import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,9 @@ public class ChatUiResource {
 
     @Inject
     BaristaAiService baristaAiService;
+
+    @Inject
+    ChatMemoryStore chatMemoryStore;
 
     // In-memory display history: sessionId → ordered list of {role, text} turns
     private final Map<String, List<Map<String, String>>> sessions = new ConcurrentHashMap<>();
@@ -68,6 +73,27 @@ public class ChatUiResource {
         return Response.ok(chat.data("history", history).render())
                 .type(MediaType.TEXT_HTML)
                 .cookie(cookie)
+                .build();
+    }
+
+    /**
+     * End the current chat session — clears display history, evicts the
+     * LangChain4j memory store, and expires the session cookie.
+     */
+    @POST
+    @Path("/end")
+    public Response end(@CookieParam("session") String session) {
+        if (session != null && !session.isBlank()) {
+            sessions.remove(session);
+            chatMemoryStore.deleteMessages(session);
+        }
+
+        // Expire the cookie by setting max-age to 0
+        NewCookie expired = new NewCookie.Builder("session")
+                .value("").path("/").maxAge(0).build();
+
+        return Response.seeOther(URI.create("/"))
+                .cookie(expired)
                 .build();
     }
 }

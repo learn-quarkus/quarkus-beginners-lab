@@ -33,7 +33,7 @@ Run the following command in your terminal:
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.39.2:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=menu-service \
       -Dextensions=rest-jackson,smallrye-openapi
@@ -295,8 +295,10 @@ r
 You'll see the tests run immediately:
 
 ```
-All 2 tests are passing (2 passing, 0 failing)
+All 2 tests are passing (0 skipped), 2 tests were run in 1695ms. Tests completed at 12:30:35.
 ```
+
+The timings and timestamp will differ on your machine.
 
 !!! note "What just happened?"
     You pressed `r` once and continuous testing is now active. From this point on, **every time you save any file**, Quarkus re-runs the affected tests automatically. You'll see results in the terminal in real time — no manual `mvn test` needed.
@@ -306,10 +308,14 @@ All 2 tests are passing (2 passing, 0 failing)
 !!! tip "Other Dev Mode keyboard shortcuts"
     While `quarkus dev` is running, you can press:
 
-    - `r` — toggle continuous testing on/off
-    - `o` — open the Dev UI in your browser
+    - `r` — resume / re-run continuous testing
+    - `o` — toggle test output on/off
+    - `d` — open the Dev UI in your browser
     - `s` — force restart the application
     - `h` — show all available commands
+
+    Quarkus prints the currently available keys in the prompt line, e.g.
+    `Press [e] to edit command line args (currently ''), [r] to re-run, [o] Toggle test output, [h] for more options>`
 
 ---
 

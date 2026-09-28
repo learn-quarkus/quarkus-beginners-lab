@@ -122,13 +122,19 @@ Welcome to The Quarkus Cafe! We have 3 items on the menu.
 
 Quarkus has three built-in config profiles: `dev`, `test`, and `prod`. You can override any property per-profile using a `%profile.` prefix.
 
-Add profile-specific shop names to `application.properties`:
+You already added `coffee.shop.name` in Step 1. **Leave that line as it is** and append only the
+two `%`-prefixed overrides below — don't add a second copy of the default:
+
+```properties title="application.properties (append)"
+# Overrides for specific profiles
+%dev.coffee.shop.name=The Quarkus Cafe (Dev Mode)
+%prod.coffee.shop.name=Production Coffee Co
+```
+
+The relevant part of the file should now read:
 
 ```properties title="application.properties"
-# Default (used if no profile matches)
-coffee.shop.name=The Quarkus Cafe
-
-# Overrides for specific profiles
+coffee.shop.name=The Quarkus Cafe                       # from Step 1
 %dev.coffee.shop.name=The Quarkus Cafe (Dev Mode)
 %prod.coffee.shop.name=Production Coffee Co
 ```
@@ -251,6 +257,9 @@ Shows the status of your last test run. Click **"Run all tests"** or press `r` i
 
 !!! tip "Dev UI is dev-only"
     The Dev UI servlet is conditionally included at build time. When you build with `quarkus build` (no `dev` flag), the entire Dev UI is absent from the output JAR — zero overhead in production.
+
+!!! tip "There's an AI tab in here too"
+    The settings dialog has a **Dev MCP** tab, which turns this Dev UI into an MCP server your AI coding assistant can call — so it can run your tests and read your live config directly. It needs a bit of MCP background first, so it has its own optional lab: [Lab 8B: Dev MCP](lab8b-dev-mcp.md).
 
 ---
 

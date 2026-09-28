@@ -6,3 +6,11 @@ target/
 .DS_Store
 node_modules
 package-lock.json
+logs/
+
+.vscode
+
+.bob/
+
+# Authoring notes — not workshop content
+plan/

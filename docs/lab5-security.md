@@ -90,6 +90,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.List;
 
 @Path("/menu")
@@ -97,9 +98,19 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class MenuResource {
 
+    @ConfigProperty(name = "coffee.shop.name", defaultValue = "The Quarkus Cafe")
+    String shopName;                      // (3) kept from Lab 3
+
     @GET
     public List<MenuItem> list() {        // public — no auth required
         return MenuItem.listAll();
+    }
+
+    @GET
+    @Path("/info")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String info() {                // (3) kept from Lab 3 — still public
+        return "Welcome to " + shopName + "! We have " + MenuItem.count() + " items on the menu.";
     }
 
     @POST
@@ -123,6 +134,7 @@ public class MenuResource {
 
 1. `@Authenticated` — any request with a valid, unexpired JWT is allowed. Invalid or missing token → HTTP 401.
 2. `@RolesAllowed("admin")` — the JWT must contain an `admin` role claim. Wrong role → HTTP 403.
+3. This is a **full-file replacement**, so the `shopName` config property and the `/menu/info` endpoint you added in Lab 3 are carried over here. Leave them in — later labs still expect `GET /menu/info` to work.
 
 !!! note "Where do the imports come from?"
     - `@Authenticated` — `io.quarkus.security.Authenticated` (Quarkus-specific, on classpath via `quarkus-oidc`)
@@ -207,8 +219,12 @@ curl -i -X POST http://localhost:8080/menu \
 
 ```
 HTTP/1.1 201 Created
-{"id":4,"name":"Oat Latte","description":"Creamy oat milk latte","price":4.5}
+{"id":151,"name":"Oat Latte","description":"Creamy oat milk latte","price":4.5}
 ```
+
+The `id` continues the Hibernate sequence from Lab 2, which allocates in blocks of 50 — so the
+first item you add lands on `151`, not `4`. Your exact value may differ depending on how many
+items you inserted along the way.
 
 **Valid token with admin role (alice) → 201 Created:**
 

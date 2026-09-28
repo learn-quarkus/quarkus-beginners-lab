@@ -61,34 +61,7 @@ INFO  [io.quarkus] menu-service started in 0.019s.
 
 In 60 minutes, starting from nothing, you built:
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                       The Quarkus Cafe System                          │
-│                                                                        │
-│  ┌────────────────────┐  Kafka "coffee-orders"  ┌───────────────────┐  │
-│  │   order-service    │ ──────────────────────▶ │   menu-service    │  │
-│  │  POST /orders      │                         │  GET  /menu       │  │
-│  └────────────────────┘                         │  POST /menu 🔒    │  │
-│           ▲                                     └────────┬──────────┘  │
-│           │ REST                                         │             │
-│  ┌────────┴───────────┐                          ┌───────▼──────────┐  │
-│  │ order-flow-service │                          │   Kubernetes     │  │
-│  │  POST /flow/order  │                          │   Jib image      │  │
-│  │  POST /flow/approve│                          │   + K8s YAML     │  │
-│  │  Quarkus Flow 🔀   │                          └──────────────────┘  │
-│  └────────▲───────────┘                                               │
-│           │ @Tool                                                      │
-│  ┌────────┴───────────┐                                               │
-│  │    barista-bot     │◀── MCP ──┐                                    │
-│  │   chat window 🤖   │          │                                    │
-│  └────────────────────┘  ┌───────┴────────┐                          │
-│                          │menu-mcp-server │                           │
-│                          │  @Tool methods │                           │
-│                          └────────────────┘                           │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-![The Quarkus Cafe System — architecture diagram](assets/quarkus-cafe-architecture.svg)
+[![The Quarkus Cafe — final architecture](assets/workshop-architecture.svg "Click to open the full-size diagram in a new tab")](assets/workshop-architecture.svg){ target="_blank" rel="noopener" }
 
 | Lab | What you learned |
 |-----|-----------------|
@@ -99,8 +72,8 @@ In 60 minutes, starting from nothing, you built:
 | Lab 5 | OIDC security, Keycloak DevServices, `@Authenticated`, `@RolesAllowed` |
 | Lab 6 | Fault tolerance: `@Retry`, `@Fallback`, `@Timeout` |
 | Lab 7 | AI chatbot with `@RegisterAiService`, Easy RAG |
-| Lab 8 | MCP server with `@Tool`, AI tool calling via `@McpToolBox` |
-| Lab 9 | Container image with Jib, Kubernetes manifests, deploy & scale |
+| Lab 8 *(optional)* | MCP server with `@Tool`, AI tool calling via `@McpToolBox` |
+| Lab 9 *(optional)* | Container image with the generated `Dockerfile.jvm`, built and run locally with Podman |
 | Lab 10 *(optional)* | Quarkus Flow workflow, configurable HITL approval, `@Tool` ordering via chat |
 
 ---
@@ -151,6 +124,6 @@ Questions? Comments? The Quarkus community is active at:
 
 ---
 
-[← Lab 9: Containerize & K8s](lab9-containerize.md){ .md-button }
+[← Lab 9: Containerize](lab9-containerize.md){ .md-button }
 [← Lab 10: Quarkus Flow](lab10-quarkus-flow.md){ .md-button }
 [↑ Back to Home](index.md){ .md-button .md-button--primary }

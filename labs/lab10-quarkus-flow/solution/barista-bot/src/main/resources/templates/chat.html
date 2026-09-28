@@ -95,6 +95,44 @@
     .row.user .bubble { background: #1d4ed8; color: #ffffff; border-bottom-right-radius: 4px; }
     .row.bot  .bubble { background: #f7f8fa; color: #1f2328; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
 
+    /* ── Typing indicator ── */
+    .typing .bubble {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0.6rem 0.9rem;
+      min-width: 52px;
+    }
+    .typing .dot {
+      width: 7px; height: 7px;
+      background: #adb5bd;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+    .typing .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+      40%           { opacity: 1;    transform: scale(1); }
+    }
+
+    /* ── Suggested prompts ── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      padding: 0 1.25rem 0.7rem;
+    }
+    .chip {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      color: #1f2328;
+      background: #f7f8fa;
+      border: 1px solid #d0d7de;
+      border-radius: 999px;
+    }
+    .chip:hover, .chip:focus-visible { background: #e5e7eb; }
+
     /* ── Input bar ── */
     .input-bar {
       padding: 0.85rem 1.25rem;
@@ -120,10 +158,11 @@
       cursor: pointer;
       font-weight: 500;
     }
-    .btn-send  { background: #1d4ed8; color: #fff; }
-    .btn-send:hover  { background: #1e40af; }
-    .btn-clear { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
-    .btn-clear:hover { background: #e5e7eb; }
+    .btn-send          { background: #1d4ed8; color: #fff; }
+    .btn-send:hover    { background: #1e40af; }
+    .btn-send:disabled { background: #93aee8; cursor: not-allowed; }
+    .btn-clear         { background: #f7f8fa; color: #57606a; border: 1px solid #d0d7de; }
+    .btn-clear:hover   { background: #e5e7eb; }
   </style>
 </head>
 <body>
@@ -163,19 +202,101 @@
     {/if}
   </div>
 
+  <!-- Suggested order prompts -->
+  <div class="chips" aria-label="Suggested order requests">
+    <button type="button" class="chip" data-message="I'd like 1 latte please">One latte</button>
+    <button type="button" class="chip" data-message="I'd like 2 cappuccinos please">Two cappuccinos</button>
+    <button type="button" class="chip" data-message="I'd like 4 lattes please">Four lattes</button>
+    <button type="button" class="chip" data-message="I'd like 6 iced lattes please">Large iced latte order</button>
+    <button type="button" class="chip" data-message="What's the status of my order?">Check order status</button>
+  </div>
+
   <!-- Input bar -->
   <div class="input-bar">
-    <form method="post" action="/">
+    <form id="chat-form" method="post" action="/">
       <div class="input-row">
-        <input type="text" name="message"
-               placeholder="e.g. What's in a flat white?" autofocus>
-        <button type="submit" class="btn-send">Send</button>
-        <a href="/"><button type="button" class="btn-clear">Clear</button></a>
+        <input id="msg-input" type="text" name="message"
+               placeholder="e.g. What's in a flat white?" autofocus autocomplete="off">
+        <button id="btn-send" type="submit" class="btn-send">Send</button>
+        <button type="button" class="btn-clear" id="btn-end">End Chat</button>
       </div>
     </form>
+    <form id="end-form" method="post" action="/end" style="display:none;"></form>
   </div>
 
 </div>
+
+<script>
+  const msgs     = document.getElementById('msgs');
+  const form     = document.getElementById('chat-form');
+  const input    = document.getElementById('msg-input');
+  const btnSend  = document.getElementById('btn-send');
+
+  // Scroll to the bottom of the message pane
+  function scrollToBottom() {
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // Add the animated typing indicator
+  function showTyping() {
+    const row = document.createElement('div');
+    row.className = 'row bot typing';
+    row.id = 'typing-indicator';
+    row.innerHTML =
+      '<span class="sender">Barista Bot</span>' +
+      '<div class="bubble">' +
+        '<span class="dot"></span>' +
+        '<span class="dot"></span>' +
+        '<span class="dot"></span>' +
+      '</div>';
+    msgs.appendChild(row);
+    scrollToBottom();
+  }
+
+  // On submit: show the user bubble immediately, clear the input, show typing,
+  // and disable Send. The text is read before the setTimeout so the POST body
+  // is already serialised when the field is cleared.
+  form.addEventListener('submit', function (e) {
+    var text = input.value.trim();
+    if (!text) {
+      e.preventDefault();
+      return;
+    }
+
+    // Append user bubble immediately so it is visible during the round-trip
+    var empty = msgs.querySelector('.empty');
+    if (empty) empty.remove();
+    var userRow = document.createElement('div');
+    userRow.className = 'row user';
+    userRow.innerHTML =
+      '<span class="sender">You</span>' +
+      '<div class="bubble">' + text.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div>';
+    msgs.appendChild(userRow);
+
+    showTyping();
+    btnSend.disabled = true;
+    btnSend.textContent = 'Sending…';
+
+    // Clear input after the browser has captured the form body
+    setTimeout(function () { input.value = ''; }, 0);
+  });
+
+  // Suggested prompts submit through the same chat form as typed requests.
+  document.querySelectorAll('.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      input.value = chip.dataset.message;
+      form.requestSubmit();
+    });
+  });
+
+  // End Chat — submits the hidden /end form to clear session and memory
+  document.getElementById('btn-end').addEventListener('click', function () {
+    document.getElementById('end-form').submit();
+  });
+
+  // Scroll to bottom on initial page load
+  scrollToBottom();
+</script>
 
 </body>
 </html>

@@ -72,6 +72,7 @@ nav:
     - "Lab 6: Fault Tolerance": lab6-fault-tolerance.md
     - "Lab 7: AI with LangChain4j": lab7-langchain4j.md
     - "Lab 8: MCP Server": lab8-mcp-server.md
+    - "Lab 8B: Dev MCP": lab8b-dev-mcp.md
     - "Lab 9: Containerization": lab9-containerize.md
     - "Lab 10: Quarkus Flow": lab10-quarkus-flow.md
   - Wrap-Up: wrap-up.md

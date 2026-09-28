@@ -14,7 +14,9 @@
 ---
 
 !!! tip "Working directory"
-    All commands in this lab run from the `workshop/` folder inside the cloned repo. Make sure you are in that folder before you begin.
+    Unlike the earlier labs, Step 1 here is run from the **repo root** — the setup script lives
+    under `labs/`. It then drops you into `workshop/lab9-menu-service`, and every command from
+    Step 2 onwards runs from there.
 
 ## Step 1 — Get the starting point
 
@@ -22,10 +24,22 @@ Run the setup script from the repo root:
 
 ```bash
 bash labs/lab9-containerize/setup.sh
-cd lab9-menu-service
+cd workshop/lab9-menu-service
 ```
 
-This creates a `lab9-menu-service` directory with everything needed for this lab.
+This creates `workshop/lab9-menu-service` with everything needed for this lab.
+
+!!! note "Note the `workshop/` prefix"
+    The script always writes to `workshop/lab9-menu-service` relative to the repo root,
+    regardless of which directory you invoke it from — it resolves the repo root from its own
+    location. So `cd workshop/lab9-menu-service`, not `cd lab9-menu-service`.
+
+    If the directory already exists the script leaves it untouched and tells you so. To start
+    over, delete it first:
+
+    ```bash
+    rm -rf workshop/lab9-menu-service
+    ```
 
 ---
 
@@ -94,7 +108,31 @@ ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
     Quarkus generates this Dockerfile automatically — you don't write or maintain it. The layered copy order (lib → jar → app → quarkus) means only your changed classes are re-uploaded on rebuild.
 
 !!! tip "Apple Silicon (arm64) users"
-    The `ubi9/openjdk-21` base image is **multi-arch** — it pulls the native `arm64` layer automatically on Apple Silicon. If you see a `SIGILL` crash on startup, your Dockerfile is using an `amd64`-only base image (e.g. `ubi8/openjdk-21`). Switch to `ubi9/openjdk-21` to fix it.
+    The `ubi9/openjdk-21` base image is **multi-arch** — a fresh `podman pull` on Apple Silicon
+    gets you the native `arm64` layer automatically, and that's what you want: it starts in
+    roughly a third the time of the emulated `amd64` variant.
+
+!!! warning "`SIGILL` on startup under Podman on Apple Silicon"
+    On some Podman machine configurations the native `arm64` JDK crashes immediately with:
+
+    ```
+    # A fatal error has been detected by the Java Runtime Environment:
+    #  SIGILL (0x4) at pc=0x0000ffff96f3fb5c, pid=1, tid=99
+    # Problematic frame:
+    # j  java.lang.System.registerNatives()V+0 java.base@21.0.6
+    ```
+
+    This is the JVM mis-detecting the SVE vector extensions the virtualised CPU reports.
+    It is **not** a problem with your build. Disable SVE detection when you run:
+
+    ```bash
+    podman run --rm -p 8080:8080 \
+      -e JAVA_OPTS_APPEND="-Dquarkus.profile=prod -XX:UseSVE=0" \
+      menu-service:1.0
+    ```
+
+    If you'd rather not chase JVM flags, forcing the emulated image also works —
+    `podman build --platform linux/amd64 ...` — at the cost of a slower start.
 
 ---
 
@@ -135,9 +173,18 @@ Verify the image is there:
     ```
 
 ```
-REPOSITORY     TAG   IMAGE ID       CREATED          SIZE
-menu-service   1.0   a3b2c1d4e5f6   10 seconds ago   ~420MB
+REPOSITORY              TAG   IMAGE ID       CREATED          SIZE
+localhost/menu-service  1.0   679c54ee5037   10 seconds ago   480 MB
 ```
+
+!!! note "Why `localhost/menu-service` and not just `menu-service`?"
+    Podman always records a fully-qualified image name. Because you built with `-t menu-service:1.0`
+    and gave no registry, it assumes the local one and stores the image as
+    `localhost/menu-service`. Docker would show plain `menu-service`.
+
+    You can still refer to it as `menu-service:1.0` in `podman run` — the short name resolves.
+    The image is around **470–480 MB**: a JVM base layer plus your application. The native-image
+    build mentioned at the end of this lab is what gets you down to ~50 MB.
 
 ---
 
@@ -162,10 +209,15 @@ menu-service   1.0   a3b2c1d4e5f6   10 seconds ago   ~420MB
 Watch the startup log — notice how fast Quarkus starts:
 
 ```
-INFO  [io.quarkus] menu-service 1.0.0-SNAPSHOT on JVM started in 0.8s.
-INFO  [io.quarkus] Profile prod activated.
-INFO  [io.quarkus] Installed features: [cdi, hibernate-orm, jdbc-h2, rest, ...]
+INFO  [io.quarkus] (main) menu-service 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.39.2) started in 0.857s. Listening on: http://0.0.0.0:8080
+INFO  [io.quarkus] (main) Profile prod activated.
+INFO  [io.quarkus] (main) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-h2, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, vertx]
 ```
+
+Expect somewhere between **under a second and about three seconds**. A container running on your
+CPU's native architecture starts in well under a second even though it has to boot a fresh JVM,
+initialise H2 and run `import.sql`; an emulated image (an `amd64` image on Apple Silicon, say) is
+two to three times slower. Either way it's a fraction of a traditional application server's startup.
 
 !!! tip "Why `--rm`?"
     `--rm` removes the container automatically when you stop it (`Ctrl+C`). Clean by default — no leftover stopped containers to tidy up.
@@ -189,17 +241,22 @@ Expected responses:
 ```json
 [
   {"id":1,"name":"Espresso","description":"A concentrated shot of coffee","price":2.5},
-  {"id":2,"name":"Cappuccino","description":"Espresso with steamed milk foam","price":3.75},
-  {"id":3,"name":"Cold Brew","description":"12-hour cold-steeped coffee","price":4.0}
+  {"id":51,"name":"Cappuccino","description":"Espresso with steamed milk foam","price":3.75},
+  {"id":101,"name":"Cold Brew","description":"12-hour cold-steeped coffee","price":4.0}
 ]
 ```
+
+!!! note "Why `1`, `51`, `101` and not `1`, `2`, `3`?"
+    Hibernate's default sequence generator allocates IDs in blocks of **50** (`allocationSize=50`)
+    so it doesn't have to hit the database on every insert. Each row in `import.sql` lands at the
+    start of a new block. The gaps are expected and harmless — IDs are identifiers, not a count.
 
 ```json
 {
   "status": "UP",
   "checks": [
     {"name": "coffee-menu", "status": "UP", "data": {"itemCount": 3}},
-    {"name": "Database connections health check", "status": "UP"}
+    {"name": "Database connections health check", "status": "UP", "data": {"<default>": "UP"}}
   ]
 }
 ```
@@ -225,7 +282,7 @@ Stop the container with `Ctrl+C` in the first terminal when you're done.
 
     ```bash
     bash labs/lab9-containerize/setup.sh
-    cd lab9-menu-service
+    cd workshop/lab9-menu-service
     mvn package
     podman build -f src/main/docker/Dockerfile.jvm -t menu-service:1.0 .
     podman run --rm -p 8080:8080 menu-service:1.0
@@ -240,4 +297,4 @@ Stop the container with `Ctrl+C` in the first terminal when you're done.
 ---
 
 [← Lab 8: MCP Server](lab8-mcp-server.md){ .md-button }
-[→ Wrap-Up](wrap-up.md){ .md-button .md-button--primary }
+[→ Lab 10: Quarkus Flow](lab10-quarkus-flow.md){ .md-button .md-button--primary }

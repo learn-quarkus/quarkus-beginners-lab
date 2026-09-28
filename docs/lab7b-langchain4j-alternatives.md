@@ -38,6 +38,12 @@ Choose your provider and follow the setup instructions below.
         $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="sk-..."
         ```
 
+    !!! danger "`OPENAI_API_KEY` is *not* the same variable"
+        A plain `OPENAI_API_KEY` is ignored — the name must be exactly
+        `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY`, or startup fails with
+        `SRCFG00014: The config property quarkus.langchain4j.openai.api-key is required`.
+        To reuse a key you already have: `export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="$OPENAI_API_KEY"`
+
 === "LlamaCloud"
 
     **Sign up for free tier:**
@@ -109,7 +115,7 @@ In a new terminal:
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.39.2:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=barista-bot \
       -Dextensions=rest-jackson,smallrye-openapi

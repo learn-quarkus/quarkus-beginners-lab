@@ -23,7 +23,7 @@
 │  Emitter.send(json) │                     │  logs each order     │
 └─────────────────────┘                     └──────────────────────┘
          ↑                                            ↑
-   port 8080                                    port 8081
+   port 8081                                    port 8080
 ```
 
 **Extensions used:**
@@ -49,7 +49,7 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
 === "Maven"
 
     ```bash
-    mvn io.quarkus.platform:quarkus-maven-plugin:3.33.3:create \
+    mvn io.quarkus.platform:quarkus-maven-plugin:3.39.2:create \
       -DprojectGroupId=org.coffee \
       -DprojectArtifactId=order-service \
       -Dextensions=rest-jackson,smallrye-openapi,messaging-kafka
@@ -60,11 +60,19 @@ Open a **new terminal** (keep `menu-service` running) and bootstrap a second pro
     You created a second standalone Quarkus project. It will run on port **8081** — you'll configure this explicitly in Step 4 so it doesn't clash with `menu-service` on 8080.
 
 !!! tip "Delete the generated sample files"
+    The `messaging-kafka` extension adds its own sample messaging app on top of the usual
+    REST samples, so there are more files to remove here than in the other labs:
+
     ```bash
-    rm src/main/java/org/coffee/GreetingResource.java
-    rm src/test/java/org/coffee/GreetingResourceTest.java
-    rm src/test/java/org/coffee/GreetingResourceIT.java
+    rm -f src/main/java/org/coffee/GreetingResource.java
+    rm -f src/test/java/org/coffee/GreetingResourceTest.java
+    rm -f src/test/java/org/coffee/GreetingResourceIT.java
+    rm -f src/main/java/org/coffee/MyMessagingApplication.java
+    rm -f src/test/java/org/coffee/MyMessagingApplicationTest.java
     ```
+
+    Afterwards `src/main/java/org/coffee/` should be empty. The `-f` flag keeps the
+    command quiet if a codestart didn't generate one of these.
 
 ---
 
@@ -173,7 +181,7 @@ quarkus.swagger-ui.always-include=true
     - No `docker-compose.yml`
     - No `docker run` command
 
-    As soon as `quarkus dev` starts, Quarkus sees `messaging-kafka` on the classpath with no broker URL configured and automatically starts a **Redpanda** container (a Kafka-compatible broker) using DevServices.
+    As soon as `quarkus dev` starts, Quarkus sees `messaging-kafka` on the classpath with no broker URL configured and automatically starts a **Kafka** container using DevServices — on current Quarkus versions that's `apache/kafka-native`.
 
 ---
 
@@ -199,7 +207,22 @@ Watch the terminal carefully. You'll see a line like:
 Dev Services for Kafka started. Other Quarkus applications in dev mode will find the broker automatically.
 ```
 
-Quarkus pulled and started a Redpanda container — and it took under 3 seconds.
+Quarkus pulled and started a Kafka container — and it took only a few seconds. You'll also see the
+image it chose logged by Testcontainers, e.g.:
+
+```
+Container docker.io/apache/kafka-native:4.2.0 started in PT0.947222S
+```
+
+!!! note "Which broker image?"
+    Quarkus picks the DevServices Kafka image for you. On the version this workshop uses
+    (**3.39.2**) that is `docker.io/apache/kafka-native`.
+
+    The default **changed** along the way: Quarkus 3.33.3 and earlier started
+    `docker.io/redpandadata/redpanda` instead. If you're following along on an older Quarkus and
+    your terminal names Redpanda, nothing is wrong — both are Kafka-compatible and the lab
+    behaves identically either way. You can pin one explicitly with
+    `quarkus.kafka.devservices.image-name` if you need a specific broker.
 
 ---
 
@@ -259,10 +282,10 @@ mp.messaging.incoming.coffee-orders.connector=smallrye-kafka
 mp.messaging.incoming.coffee-orders.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
 ```
 
-Save. `menu-service` live-reloads and automatically connects to the **same Redpanda container** that `order-service` started — no broker URL needed.
+Save. `menu-service` live-reloads and automatically connects to the **same Kafka container** that `order-service` started — no broker URL needed.
 
 !!! note "What just happened?"
-    Quarkus DevServices coordinates across dev mode processes. When `menu-service` starts and also has `messaging-kafka` with no broker URL, it discovers the already-running Redpanda container and connects to it automatically. Two services, one broker, zero config.
+    Quarkus DevServices coordinates across dev mode processes. When `menu-service` starts and also has `messaging-kafka` with no broker URL, it discovers the already-running Kafka container and connects to it automatically. Two services, one broker, zero config.
 
 ---
 
@@ -320,7 +343,7 @@ Send a test message from the Dev UI and watch it appear in the `menu-service` te
 |------|-----|
 | ✅ Created a Kafka producer | `@Channel` + `Emitter<String>` |
 | ✅ Created a Kafka consumer | `@Incoming("coffee-orders")` |
-| ✅ Zero infrastructure setup | DevServices auto-started Redpanda |
+| ✅ Zero infrastructure setup | DevServices auto-started Kafka |
 | ✅ Two services share one broker | DevServices coordinates automatically |
 
 !!! tip "Stuck or fell behind?"

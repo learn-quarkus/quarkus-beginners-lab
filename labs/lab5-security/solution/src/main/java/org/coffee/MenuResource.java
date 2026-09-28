@@ -10,6 +10,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import java.util.List;
 
 @Path("/menu")
@@ -17,9 +18,19 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class MenuResource {
 
+    @ConfigProperty(name = "coffee.shop.name", defaultValue = "The Quarkus Cafe")
+    String shopName;
+
     @GET
     public List<MenuItem> list() {
         return MenuItem.listAll();
+    }
+
+    @GET
+    @Path("/info")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String info() {      // Public — carried over from Lab 3
+        return "Welcome to " + shopName + "! We have " + MenuItem.count() + " items on the menu.";
     }
 
     @POST
