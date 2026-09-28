@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../lab8-mcp-server/">
+        <link rel="prev" href="../lab8b-dev-mcp/">
       
       
         <link rel="next" href="../lab10-quarkus-flow/">
@@ -703,6 +703,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1077,25 +1105,37 @@
 <hr />
 <div class="admonition tip">
 <p class="admonition-title">Working directory</p>
-<p>All commands in this lab run from the <code>workshop/</code> folder inside the cloned repo. Make sure you are in that folder before you begin.</p>
+<p>Unlike the earlier labs, Step 1 here is run from the <strong>repo root</strong> — the setup script lives
+under <code>labs/</code>. It then drops you into <code>workshop/lab9-menu-service</code>, and every command from
+Step 2 onwards runs from there.</p>
 </div>
 <h2 id="step-1-get-the-starting-point">Step 1 — Get the starting point<a class="headerlink" href="#step-1-get-the-starting-point" title="Permanent link">&para;</a></h2>
 <p>Run the setup script from the repo root:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bash<span class="w"> </span>labs/lab9-containerize/setup.sh
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>lab9-menu-service
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>workshop/lab9-menu-service
 </span></code></pre></div>
-<p>This creates a <code>lab9-menu-service</code> directory with everything needed for this lab.</p>
+<p>This creates <code>workshop/lab9-menu-service</code> with everything needed for this lab.</p>
+<div class="admonition note">
+<p class="admonition-title">Note the <code>workshop/</code> prefix</p>
+<p>The script always writes to <code>workshop/lab9-menu-service</code> relative to the repo root,
+regardless of which directory you invoke it from — it resolves the repo root from its own
+location. So <code>cd workshop/lab9-menu-service</code>, not <code>cd lab9-menu-service</code>.</p>
+<p>If the directory already exists the script leaves it untouched and tells you so. To start
+over, delete it first:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>workshop/lab9-menu-service
+</span></code></pre></div>
+</div>
 <hr />
 <h2 id="step-2-build-a-production-jar">Step 2 — Build a production JAR<a class="headerlink" href="#step-2-build-a-production-jar" title="Permanent link">&para;</a></h2>
 <p>Stop Dev Mode if it's still running (<code>q</code> in the terminal). Then build the application:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>quarkus<span class="w"> </span>build
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>quarkus<span class="w"> </span>build
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mvn<span class="w"> </span>package
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mvn<span class="w"> </span>package
 </span></code></pre></div>
 </div>
 </div>
@@ -1104,35 +1144,35 @@
 <div class="admonition note">
 <p class="admonition-title">What's in <code>target/quarkus-app/</code>?</p>
 <p>Quarkus splits the JAR into layers so container rebuilds are fast:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>target/quarkus-app/
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── quarkus-run.jar        ← thin launcher
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── lib/                   ← all dependencies (changes rarely)
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└── app/                   ← your classes (changes on every build)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>target/quarkus-app/
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── quarkus-run.jar        ← thin launcher
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├── lib/                   ← all dependencies (changes rarely)
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>└── app/                   ← your classes (changes on every build)
 </span></code></pre></div>
 <p>The <code>Dockerfile</code> copies these layers separately so Docker/Podman can cache the <code>lib/</code> layer between builds.</p>
 </div>
 <hr />
 <h2 id="step-3-look-at-the-generated-dockerfile">Step 3 — Look at the generated Dockerfile<a class="headerlink" href="#step-3-look-at-the-generated-dockerfile" title="Permanent link">&para;</a></h2>
 <p>Quarkus generated a <code>Dockerfile</code> for you at project creation time. Take a look:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>src/main/docker/Dockerfile.jvm
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span>src/main/docker/Dockerfile.jvm
 </span></code></pre></div>
 <p>You'll see a multi-stage-friendly JVM image based on Red Hat's UBI minimal:</p>
-<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">registry.access.redhat.com/ubi9/openjdk-21:1.21</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">LANGUAGE</span><span class="o">=</span><span class="s1">'en_US:en'</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/lib/<span class="w"> </span>/deployments/lib/
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/*.jar<span class="w"> </span>/deployments/
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/app/<span class="w"> </span>/deployments/app/
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/quarkus/<span class="w"> </span>/deployments/quarkus/
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">USER</span><span class="w"> </span><span class="s">185</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.http.host=0.0.0.0 \</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="s2">    -Djava.util.logging.manager=org.jboss.logmanager.LogManager"</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_APP_JAR</span><span class="o">=</span><span class="s2">"/deployments/quarkus-run.jar"</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/opt/jboss/container/java/run/run-java.sh"</span><span class="w"> </span><span class="p">]</span>
+<div class="language-dockerfile highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">FROM</span><span class="w"> </span><span class="s">registry.access.redhat.com/ubi9/openjdk-21:1.21</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">LANGUAGE</span><span class="o">=</span><span class="s1">'en_US:en'</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/lib/<span class="w"> </span>/deployments/lib/
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/*.jar<span class="w"> </span>/deployments/
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/app/<span class="w"> </span>/deployments/app/
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="k">COPY</span><span class="w"> </span>--chown<span class="o">=</span><span class="m">185</span><span class="w"> </span>target/quarkus-app/quarkus/<span class="w"> </span>/deployments/quarkus/
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">EXPOSE</span><span class="w"> </span><span class="s">8080</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">USER</span><span class="w"> </span><span class="s">185</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.http.host=0.0.0.0 \</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="s2">    -Djava.util.logging.manager=org.jboss.logmanager.LogManager"</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">ENV</span><span class="w"> </span><span class="nv">JAVA_APP_JAR</span><span class="o">=</span><span class="s2">"/deployments/quarkus-run.jar"</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/opt/jboss/container/java/run/run-java.sh"</span><span class="w"> </span><span class="p">]</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
@@ -1140,66 +1180,98 @@
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Apple Silicon (arm64) users</p>
-<p>The <code>ubi9/openjdk-21</code> base image is <strong>multi-arch</strong> — it pulls the native <code>arm64</code> layer automatically on Apple Silicon. If you see a <code>SIGILL</code> crash on startup, your Dockerfile is using an <code>amd64</code>-only base image (e.g. <code>ubi8/openjdk-21</code>). Switch to <code>ubi9/openjdk-21</code> to fix it.</p>
+<p>The <code>ubi9/openjdk-21</code> base image is <strong>multi-arch</strong> — a fresh <code>podman pull</code> on Apple Silicon
+gets you the native <code>arm64</code> layer automatically, and that's what you want: it starts in
+roughly a third the time of the emulated <code>amd64</code> variant.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title"><code>SIGILL</code> on startup under Podman on Apple Silicon</p>
+<p>On some Podman machine configurations the native <code>arm64</code> JDK crashes immediately with:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># A fatal error has been detected by the Java Runtime Environment:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>#  SIGILL (0x4) at pc=0x0000ffff96f3fb5c, pid=1, tid=99
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a># Problematic frame:
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a># j  java.lang.System.registerNatives()V+0 java.base@21.0.6
+</span></code></pre></div>
+<p>This is the JVM mis-detecting the SVE vector extensions the virtualised CPU reports.
+It is <strong>not</strong> a problem with your build. Disable SVE detection when you run:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod -XX:UseSVE=0"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>menu-service:1.0
+</span></code></pre></div>
+<p>If you'd rather not chase JVM flags, forcing the emulated image also works —
+<code>podman build --platform linux/amd64 ...</code> — at the cost of a slower start.</p>
 </div>
 <hr />
 <h2 id="step-4-build-the-container-image">Step 4 — Build the container image<a class="headerlink" href="#step-4-build-the-container-image" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Podman</label><label for="__tabbed_2_2">Docker</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
 </span></code></pre></div>
 </div>
 </div>
 </div>
 <p>You'll see each layer pulled and cached. The final line will read something like:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Successfully tagged localhost/menu-service:1.0
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Successfully tagged localhost/menu-service:1.0
 </span></code></pre></div>
 <p>Verify the image is there:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Podman</label><label for="__tabbed_3_2">Docker</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>podman<span class="w"> </span>images<span class="w"> </span>menu-service
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>podman<span class="w"> </span>images<span class="w"> </span>menu-service
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>images<span class="w"> </span>menu-service
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>images<span class="w"> </span>menu-service
 </span></code></pre></div>
 </div>
 </div>
 </div>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>REPOSITORY     TAG   IMAGE ID       CREATED          SIZE
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>menu-service   1.0   a3b2c1d4e5f6   10 seconds ago   ~420MB
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>REPOSITORY              TAG   IMAGE ID       CREATED          SIZE
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>localhost/menu-service  1.0   679c54ee5037   10 seconds ago   480 MB
 </span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Why <code>localhost/menu-service</code> and not just <code>menu-service</code>?</p>
+<p>Podman always records a fully-qualified image name. Because you built with <code>-t menu-service:1.0</code>
+and gave no registry, it assumes the local one and stores the image as
+<code>localhost/menu-service</code>. Docker would show plain <code>menu-service</code>.</p>
+<p>You can still refer to it as <code>menu-service:1.0</code> in <code>podman run</code> — the short name resolves.
+The image is around <strong>470–480 MB</strong>: a JVM base layer plus your application. The native-image
+build mentioned at the end of this lab is what gets you down to ~50 MB.</p>
+</div>
 <hr />
 <h2 id="step-5-run-the-container">Step 5 — Run the container<a class="headerlink" href="#step-5-run-the-container" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Podman</label><label for="__tabbed_4_2">Docker</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>menu-service:1.0
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>menu-service:1.0
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>menu-service:1.0
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">JAVA_OPTS_APPEND</span><span class="o">=</span><span class="s2">"-Dquarkus.profile=prod"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span>menu-service:1.0
 </span></code></pre></div>
 </div>
 </div>
 </div>
 <p>Watch the startup log — notice how fast Quarkus starts:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>INFO  [io.quarkus] menu-service 1.0.0-SNAPSHOT on JVM started in 0.8s.
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>INFO  [io.quarkus] Profile prod activated.
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>INFO  [io.quarkus] Installed features: [cdi, hibernate-orm, jdbc-h2, rest, ...]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>INFO  [io.quarkus] (main) menu-service 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.39.2) started in 0.857s. Listening on: http://0.0.0.0:8080
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>INFO  [io.quarkus] (main) Profile prod activated.
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>INFO  [io.quarkus] (main) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-h2, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, vertx]
 </span></code></pre></div>
+<p>Expect somewhere between <strong>under a second and about three seconds</strong>. A container running on your
+CPU's native architecture starts in well under a second even though it has to boot a fresh JVM,
+initialise H2 and run <code>import.sql</code>; an emulated image (an <code>amd64</code> image on Apple Silicon, say) is
+two to three times slower. Either way it's a fraction of a traditional application server's startup.</p>
 <div class="admonition tip">
 <p class="admonition-title">Why <code>--rm</code>?</p>
 <p><code>--rm</code> removes the container automatically when you stop it (<code>Ctrl+C</code>). Clean by default — no leftover stopped containers to tidy up.</p>
@@ -1207,26 +1279,32 @@
 <hr />
 <h2 id="step-6-test-the-running-container">Step 6 — Test the running container<a class="headerlink" href="#step-6-test-the-running-container" title="Permanent link">&para;</a></h2>
 <p>Open a <strong>second terminal</strong> and hit the endpoints:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># List all menu items</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>curl<span class="w"> </span>http://localhost:8080/menu
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Check health</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>curl<span class="w"> </span>http://localhost:8080/q/health
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># List all menu items</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>curl<span class="w"> </span>http://localhost:8080/menu
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Check health</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>curl<span class="w"> </span>http://localhost:8080/q/health
 </span></code></pre></div>
 <p>Expected responses:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">[</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Espresso"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"A concentrated shot of coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cappuccino"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"Espresso with steamed milk foam"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cold Brew"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"12-hour cold-steeped coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="p">]</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">[</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Espresso"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"A concentrated shot of coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">2.5</span><span class="p">},</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">51</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cappuccino"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"Espresso with steamed milk foam"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">3.75</span><span class="p">},</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">101</span><span class="p">,</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Cold Brew"</span><span class="p">,</span><span class="nt">"description"</span><span class="p">:</span><span class="s2">"12-hour cold-steeped coffee"</span><span class="p">,</span><span class="nt">"price"</span><span class="p">:</span><span class="mf">4.0</span><span class="p">}</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">]</span>
 </span></code></pre></div>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coffee-menu"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"itemCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Database connections health check"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">}</span>
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="p">]</span>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="p">}</span>
+<div class="admonition note">
+<p class="admonition-title">Why <code>1</code>, <code>51</code>, <code>101</code> and not <code>1</code>, <code>2</code>, <code>3</code>?</p>
+<p>Hibernate's default sequence generator allocates IDs in blocks of <strong>50</strong> (<code>allocationSize=50</code>)
+so it doesn't have to hit the database on every insert. Each row in <code>import.sql</code> lands at the
+start of a new block. The gaps are expected and harmless — IDs are identifiers, not a count.</p>
+</div>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="nt">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coffee-menu"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"itemCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">}},</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Database connections health check"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">,</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"&lt;default&gt;"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UP"</span><span class="p">}}</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>Stop the container with <code>Ctrl+C</code> in the first terminal when you're done.</p>
 <div class="admonition warning">
@@ -1264,11 +1342,11 @@
 <div class="admonition tip">
 <p class="admonition-title">Stuck or fell behind?</p>
 <p>The complete solution is in <code>labs/lab9-containerize/solution/</code>. Build and run it with:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>bash<span class="w"> </span>labs/lab9-containerize/setup.sh
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nb">cd</span><span class="w"> </span>lab9-menu-service
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>mvn<span class="w"> </span>package
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>menu-service:1.0
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash<span class="w"> </span>labs/lab9-containerize/setup.sh
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nb">cd</span><span class="w"> </span>workshop/lab9-menu-service
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>mvn<span class="w"> </span>package
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>podman<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>src/main/docker/Dockerfile.jvm<span class="w"> </span>-t<span class="w"> </span>menu-service:1.0<span class="w"> </span>.
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>podman<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:8080<span class="w"> </span>menu-service:1.0
 </span></code></pre></div>
 </div>
 <div class="admonition tip">
@@ -1282,7 +1360,7 @@
 </div>
 <hr />
 <p><a class="md-button" href="../lab8-mcp-server/">← Lab 8: MCP Server</a>
-<a class="md-button md-button--primary" href="../wrap-up/">→ Wrap-Up</a></p>
+<a class="md-button md-button--primary" href="../lab10-quarkus-flow/">→ Lab 10: Quarkus Flow</a></p>
 
 
 
@@ -1318,7 +1396,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../lab8-mcp-server/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 8: MCP Server">
+          <a href="../lab8b-dev-mcp/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 8B: Dev MCP">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1328,7 +1406,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Lab 8: MCP Server
+                Lab 8B: Dev MCP
               </div>
             </div>
           </a>

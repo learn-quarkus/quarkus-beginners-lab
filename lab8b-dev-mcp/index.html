@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../lab8-mcp-server/">
       
       
-        <link rel="next" href="../lab1-rest/">
+        <link rel="next" href="../lab9-containerize/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Prerequisites - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
+        <title>Lab 8B: Dev MCP - Quarkus Workshop: From Zero to AI-Powered Microservices</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prerequisites" class="md-skip">
+        <a href="#lab-8b-dev-mcp-point-your-ai-assistant-at-quarkus" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Prerequisites
+              Lab 8B: Dev MCP
             
           </span>
         </div>
@@ -238,11 +238,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../00-prerequisites/" class="md-tabs__link">
         
   
   
@@ -259,10 +257,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../lab1-rest/" class="md-tabs__link">
           
   
@@ -395,37 +395,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Prerequisites
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../00-prerequisites/" class="md-nav__link">
         
   
   
@@ -441,125 +414,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-java-21" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Java 21+
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-maven-39-or-quarkus-cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Maven 3.9+ or Quarkus CLI
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-docker-desktop-or-podman" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Docker Desktop or Podman
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-openai-api-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. OpenAI API Key
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-ide-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. IDE Setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-clone-the-workshop-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Clone the Workshop Repository
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-navigate-to-your-working-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Navigate To Your Working Directory
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-verify-your-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Verify Your Setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-serve-the-docs-locally-optional-self-paced-only" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Serve the Docs Locally (Optional — self-paced only)
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -568,26 +422,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -605,7 +464,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -844,10 +703,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -863,6 +749,125 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#two-directions-of-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two directions of MCP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-start-an-app-in-dev-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Start an app in dev mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-enable-dev-mcp-in-the-dev-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Enable Dev MCP in the Dev UI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-connect-your-assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Connect your assistant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-direct-connection-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Direct connection (advanced)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-extensions-contribute-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How extensions contribute tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1012,10 +1017,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-java-21" class="md-nav__link">
+  <a href="#two-directions-of-mcp" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Java 21+
+        Two directions of MCP
       
     </span>
   </a>
@@ -1023,10 +1028,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-maven-39-or-quarkus-cli" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Maven 3.9+ or Quarkus CLI
+        Prerequisites
       
     </span>
   </a>
@@ -1034,10 +1039,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-docker-desktop-or-podman" class="md-nav__link">
+  <a href="#step-1-start-an-app-in-dev-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Docker Desktop or Podman
+        Step 1 — Start an app in dev mode
       
     </span>
   </a>
@@ -1045,10 +1050,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-openai-api-key" class="md-nav__link">
+  <a href="#step-2-enable-dev-mcp-in-the-dev-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. OpenAI API Key
+        Step 2 — Enable Dev MCP in the Dev UI
       
     </span>
   </a>
@@ -1056,10 +1061,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-ide-setup" class="md-nav__link">
+  <a href="#step-3-connect-your-assistant" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. IDE Setup
+        Step 3 — Connect your assistant
       
     </span>
   </a>
@@ -1067,10 +1072,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-clone-the-workshop-repository" class="md-nav__link">
+  <a href="#step-4-try-it" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Clone the Workshop Repository
+        Step 4 — Try it
       
     </span>
   </a>
@@ -1078,10 +1083,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-navigate-to-your-working-directory" class="md-nav__link">
+  <a href="#step-5-direct-connection-advanced" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Navigate To Your Working Directory
+        Step 5 — Direct connection (advanced)
       
     </span>
   </a>
@@ -1089,10 +1094,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-verify-your-setup" class="md-nav__link">
+  <a href="#how-extensions-contribute-tools" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Verify Your Setup
+        How extensions contribute tools
       
     </span>
   </a>
@@ -1100,10 +1105,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-serve-the-docs-locally-optional-self-paced-only" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Serve the Docs Locally (Optional — self-paced only)
+        Summary
       
     </span>
   </a>
@@ -1127,224 +1132,248 @@
 
 
 
-<h1 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h1>
-<p>Complete all steps on this page <strong>before</strong> the workshop starts. The setup takes 10–15 minutes.</p>
+<h1 id="lab-8b-dev-mcp-point-your-ai-assistant-at-quarkus">Lab 8B: Dev MCP — Point Your AI Assistant at Quarkus<a class="headerlink" href="#lab-8b-dev-mcp-point-your-ai-assistant-at-quarkus" title="Permanent link">&para;</a></h1>
+<p><strong>Duration:</strong> 10 minutes &nbsp;|&nbsp; <strong>Project:</strong> any Quarkus app in dev mode (examples use <code>menu-service</code>)</p>
+<div class="admonition info">
+<p class="admonition-title">What you'll do</p>
+<p>Lab 8 pointed an LLM at <strong>your</strong> MCP server. This lab turns it around: <strong>Quarkus dev mode is already an MCP server</strong>, and you point your <strong>AI coding assistant</strong> at <em>it</em>.</p>
+<p>There is no dependency to add and no code to write. Dev mode exposes an MCP endpoint at <code>/q/dev-mcp</code>. Once your assistant is connected, it can run your tests, read and change configuration, inspect build-time data, and call tools contributed by whichever extensions you have installed — against the app running in front of you.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Experimental</p>
+<p>Dev MCP is marked <strong>experimental</strong> in the Quarkus documentation. Tab labels and the exact tool list may change between releases. Needs <strong>Quarkus 3.26+</strong> — every project in this workshop qualifies.</p>
+</div>
+<p><strong>Reference:</strong> <a href="https://quarkus.io/guides/dev-mcp/" target="_blank">Quarkus Dev MCP guide</a> · <a href="https://quarkus.io/guides/agent-mcp/" target="_blank">Quarkus Agent MCP guide</a></p>
 <hr />
-<h2 id="1-java-21">1. Java 21+<a class="headerlink" href="#1-java-21" title="Permanent link">&para;</a></h2>
-<p>Quarkus 3.x requires Java 17 minimum; this workshop uses Java 21.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">macOS / Linux (SDKMAN)</label><label for="__tabbed_1_2">macOS (Homebrew)</label><label for="__tabbed_1_3">Windows</label></div>
+<h2 id="two-directions-of-mcp">Two directions of MCP<a class="headerlink" href="#two-directions-of-mcp" title="Permanent link">&para;</a></h2>
+<p>Lab 8 and Lab 8B use the same protocol pointing opposite ways. Keeping them straight is most of the lesson:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Lab 8 — MCP server</th>
+<th>Lab 8B — Dev MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who serves the tools</td>
+<td>your <code>menu-mcp-server</code></td>
+<td>Quarkus dev mode itself</td>
+</tr>
+<tr>
+<td>Who calls them</td>
+<td><code>barista-bot</code>'s LLM, at runtime</td>
+<td>your coding assistant, while you develop</td>
+</tr>
+<tr>
+<td>What you write</td>
+<td><code>@Tool</code> methods</td>
+<td>nothing — it's built in</td>
+</tr>
+<tr>
+<td>Where it runs</td>
+<td>dev <strong>and</strong> production</td>
+<td>dev mode only</td>
+</tr>
+<tr>
+<td>What it's for</td>
+<td>your users</td>
+<td>you</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>You need</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A Quarkus app you can run in dev mode</td>
+<td>The MCP endpoint only exists in dev mode</td>
+</tr>
+<tr>
+<td>An MCP-capable AI coding assistant</td>
+<td>Claude Code, Cursor, VS Code, Zed, JetBrains, Claude Desktop, Windsurf, Cline, Goose, OpenCode</td>
+</tr>
+<tr>
+<td><a href="https://www.jbang.dev" target="_blank">JBang</a></td>
+<td>Runs the Agent MCP server in Step 3</td>
+</tr>
+</tbody>
+</table>
+<p>Check JBang is available:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>jbang<span class="w"> </span>version
+</span></code></pre></div>
+<hr />
+<h2 id="step-1-start-an-app-in-dev-mode">Step 1 — Start an app in dev mode<a class="headerlink" href="#step-1-start-an-app-in-dev-mode" title="Permanent link">&para;</a></h2>
+<p>Any project from this workshop works. <code>menu-service</code> is the most interesting one to point an assistant at, because by Lab 3 it has entities, config profiles, health checks and tests for the assistant to actually look at:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Quarkus CLI</label><label for="__tabbed_1_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install SDKMAN if you don't have it</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"https://get.sdkman.io"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.sdkman/bin/sdkman-init.sh"</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Install Java 21</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>sdk<span class="w"> </span>install<span class="w"> </span>java<span class="w"> </span><span class="m">21</span>.0.3-tem
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Verify</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>java<span class="w"> </span>-version
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>temurin@21
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>java<span class="w"> </span>-version
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab3-config-health/solution
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mvn<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<p>Download and install <strong>Eclipse Temurin 21</strong> from <a href="https://adoptium.net/temurin/releases/?version=21">adoptium.net</a>.</p>
-<p>After installation, verify in PowerShell:
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">java</span> <span class="n">-version</span>
-</span></code></pre></div></p>
 </div>
 </div>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Expected output</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>openjdk version "21.0.x" ...
-</span></code></pre></div>
+<p class="admonition-title">Using a different project?</p>
+<p>The Dev MCP endpoint follows the app's HTTP port. <code>menu-service</code> is on <code>8080</code>, so the endpoint is <code>http://localhost:8080/q/dev-mcp</code>. If you point this lab at <code>menu-mcp-server</code> from Lab 8 instead, it's on <code>8084</code> — so <code>http://localhost:8084/q/dev-mcp</code>.</p>
 </div>
 <hr />
-<h2 id="2-maven-39-or-quarkus-cli">2. Maven 3.9+ or Quarkus CLI<a class="headerlink" href="#2-maven-39-or-quarkus-cli" title="Permanent link">&para;</a></h2>
-<p>You only need <strong>one</strong> of these. The Quarkus CLI is recommended — it makes bootstrapping projects much faster.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI (recommended)</label><label for="__tabbed_2_2">Maven 3.9+</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># macOS / Linux via SDKMAN</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sdk<span class="w"> </span>install<span class="w"> </span>quarkus
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># macOS via Homebrew</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>brew<span class="w"> </span>install<span class="w"> </span>quarkusio/tap/quarkus
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Verify</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>quarkus<span class="w"> </span>version
+<h2 id="step-2-enable-dev-mcp-in-the-dev-ui">Step 2 — Enable Dev MCP in the Dev UI<a class="headerlink" href="#step-2-enable-dev-mcp-in-the-dev-ui" title="Permanent link">&para;</a></h2>
+<p>Open the Dev UI:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>http://localhost:8080/q/dev-ui
 </span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># macOS / Linux via SDKMAN</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sdk<span class="w"> </span>install<span class="w"> </span>maven<span class="w"> </span><span class="m">3</span>.9.10
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># macOS via Homebrew</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>brew<span class="w"> </span>install<span class="w"> </span>maven
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Verify</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>mvn<span class="w"> </span>-version
-</span></code></pre></div>
-</div>
-</div>
+<p>Then:</p>
+<ol>
+<li>Open the <strong>settings</strong> dialog</li>
+<li>Select the <strong>Dev MCP</strong> tab</li>
+<li><strong>Enable</strong> Dev MCP</li>
+</ol>
+<p>The <strong>Direct connection</strong> section now shows the endpoint URL (default <code>http://localhost:8080/q/dev-mcp</code>) along with ready-made configuration snippets for each supported assistant.</p>
+<div class="admonition tip">
+<p class="admonition-title">This tab is your source of truth</p>
+<p>The snippets in that dialog are generated for your actual port and your actual client list. If anything in this lab disagrees with what the dialog shows you, believe the dialog.</p>
 </div>
 <hr />
-<h2 id="3-docker-desktop-or-podman">3. Docker Desktop or Podman<a class="headerlink" href="#3-docker-desktop-or-podman" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Required for Labs 4, 5, 9 &amp; 10</p>
-<p>Labs 1, 2, 3, 6, 7, and 8 do <strong>not</strong> need Docker. You only need a container runtime for:</p>
+<h2 id="step-3-connect-your-assistant">Step 3 — Connect your assistant<a class="headerlink" href="#step-3-connect-your-assistant" title="Permanent link">&para;</a></h2>
+<p>The Quarkus guide recommends connecting through the <strong>Agent MCP server</strong> rather than wiring your client straight to <code>/q/dev-mcp</code>. Agent MCP proxies every Dev MCP tool from your running app <em>and</em> adds capabilities the raw endpoint has no way to offer:</p>
 <ul>
-<li><strong>Lab 4</strong> — DevServices auto-starts a Kafka (Redpanda) container</li>
-<li><strong>Lab 5</strong> — DevServices auto-starts a Keycloak container</li>
-<li><strong>Lab 9</strong> <em>(optional)</em> — you build and run a container image with Podman</li>
-<li><strong>Lab 10</strong> <em>(optional)</em> — runs <code>order-service</code> from Lab 4, so Kafka DevServices starts again</li>
+<li><strong>Project scaffolding</strong> — create new Quarkus apps with chosen extensions, started in dev mode</li>
+<li><strong>Application lifecycle</strong> — start, stop, restart, tail logs, recover from crashes</li>
+<li><strong>Documentation search</strong> — semantic RAG search over the Quarkus docs, version-matched to your project</li>
+<li><strong>Extension skills</strong> — coding guidelines that extensions ship for AI agents</li>
 </ul>
-</div>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Docker Desktop</label><label for="__tabbed_3_2">Podman Desktop</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Claude Code</label><label for="__tabbed_2_2">Other assistants</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>Download from <a href="https://docs.docker.com/get-docker/">docs.docker.com/get-docker</a>.</p>
-<p>After install, verify:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>ps
-</span></code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>claude<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>quarkus-agent<span class="w"> </span>--<span class="w"> </span>jbang<span class="w"> </span>quarkus-agent-mcp@quarkusio
+</span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<p>Download from <a href="https://podman-desktop.io/">podman-desktop.io</a>.</p>
-<p>After install, verify:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>podman<span class="w"> </span>ps
-</span></code></pre></div></p>
+<p>The <strong>Dev MCP</strong> tab in the Dev UI settings dialog generates the exact snippet for
+OpenCode, Cline, Goose, Zed, VS Code, Cursor, Claude Desktop, Windsurf and JetBrains IDEs.
+Copy it from there — it is generated against your running app, so the port is already correct.</p>
 </div>
 </div>
 </div>
+<p>The first run downloads the agent through JBang, so give it a moment. Restart your assistant afterwards if it doesn't pick up the new server straight away.</p>
+<hr />
+<h2 id="step-4-try-it">Step 4 — Try it<a class="headerlink" href="#step-4-try-it" title="Permanent link">&para;</a></h2>
+<p>With <code>menu-service</code> still running in dev mode, ask your assistant things it can only answer by calling into the live application:</p>
+<table>
+<thead>
+<tr>
+<th>Ask</th>
+<th>What it exercises</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>What Quarkus extensions is this project using?</code></td>
+<td>Extension management</td>
+</tr>
+<tr>
+<td><code>Run the tests and tell me what failed.</code></td>
+<td>Continuous testing</td>
+</tr>
+<tr>
+<td><code>What is coffee.shop.name set to right now?</code></td>
+<td>Configuration access</td>
+</tr>
+<tr>
+<td><code>Set the log level for org.coffee to DEBUG.</code></td>
+<td>A tool that <em>mutates</em> the running app</td>
+</tr>
+<tr>
+<td><code>How do I add a Kafka consumer to this project?</code></td>
+<td>Agent MCP's documentation search</td>
+</tr>
+</tbody>
+</table>
+<p>The point to notice: the assistant is not reading your source files and guessing. It is calling into the JVM that is running, so the answers reflect live state — including config you changed in the Dev UI thirty seconds ago and never wrote to disk.</p>
 <div class="admonition warning">
-<p class="admonition-title">Make sure Docker/Podman is running</p>
-<p>The container daemon must be <strong>running</strong> (not just installed) before you start Labs 4, 5, 9, or 10.
-You should see an empty table, not an error, when you run <code>docker ps</code> or <code>podman ps</code>.</p>
+<p class="admonition-title">Your assistant can change things</p>
+<p>Some Dev MCP tools write: update a config property, change a log level, restart the app. That is the feature, not a bug — but it means an assistant with this server attached can alter your running application without touching a file. Keep it pointed at local dev apps, and read the tool calls it proposes.</p>
 </div>
-<hr />
-<h2 id="4-openai-api-key">4. OpenAI API Key<a class="headerlink" href="#4-openai-api-key" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Required for Labs 7, 8 &amp; 10</p>
-<p>Labs 1–6 and Lab 9 do not require an API key. Labs 8 and 10 build on the Lab 7 chatbot, so they need the same key.</p>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Workshop instructor key</p>
-<p>If you are attending an instructor-led session, your instructor will provide a shared API key for Lab 7. You do not need to create your own OpenAI account.</p>
-<p>If you are working through this workshop independently, you can use your own key from <a href="https://platform.openai.com">platform.openai.com</a>.</p>
-</div>
-<p>You will need to set the key as an environment variable in the terminal where you run <code>quarkus dev</code> for Lab 7. This is a <strong>session-only</strong> setting — it is not saved permanently.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">macOS / Linux</label><label for="__tabbed_4_2">Windows (PowerShell)</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
-</span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="p">=</span><span class="s2">"sk-..."</span>
-</span></code></pre></div>
-</div>
-</div>
-</div>
-<div class="admonition danger">
-<p class="admonition-title"><code>OPENAI_API_KEY</code> is <em>not</em> the same variable</p>
-<p>The name must be exactly <code>QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</code>. A plain <code>OPENAI_API_KEY</code> — the
-name most other tools use, so you may already have one — is ignored by Quarkus, and Lab 7 fails
-at startup with <code>SRCFG00014: The config property quarkus.langchain4j.openai.api-key is required</code>.
-To reuse a key you already have exported:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span><span class="s2">"</span><span class="nv">$OPENAI_API_KEY</span><span class="s2">"</span>
-</span></code></pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Session only</p>
-<p>This sets the key for the current terminal session only. It is not written to any file and disappears when you close the terminal — which is exactly what you want for a shared or temporary key.</p>
-</div>
-<hr />
-<h2 id="5-ide-setup">5. IDE Setup<a class="headerlink" href="#5-ide-setup" title="Permanent link">&para;</a></h2>
-<p>Either IDE works well. Install the Quarkus plugin for the best experience.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">VS Code</label><label for="__tabbed_5_2">IntelliJ IDEA</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<ol>
-<li>Install <a href="https://code.visualstudio.com/">VS Code</a></li>
-<li>Install the <strong><a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-quarkus">Quarkus</a></strong> extension (by Red Hat)</li>
-<li>Install the <strong><a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack">Extension Pack for Java</a></strong> extension</li>
-</ol>
-</div>
-<div class="tabbed-block">
-<ol>
-<li>Install <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA Community or Ultimate</a></li>
-<li>The <strong>Quarkus</strong> plugin is bundled in Ultimate; for Community install it from <strong>Preferences → Plugins → Marketplace → search "Quarkus"</strong></li>
-</ol>
-</div>
-</div>
-</div>
-<hr />
-<h2 id="6-clone-the-workshop-repository">6. Clone the Workshop Repository<a class="headerlink" href="#6-clone-the-workshop-repository" title="Permanent link">&para;</a></h2>
-<p>The workshop repo contains the <code>prereq-check.sh</code> script and all solution code. Clone it now so it's ready before the session starts.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/learn-quarkus/quarkus-beginners-lab.git
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">cd</span><span class="w"> </span>quarkus-beginners-lab
-</span></code></pre></div>
 <div class="admonition note">
-<p class="admonition-title">What's in the repo?</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>quarkus-beginners-lab/
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├── docs/           ← this website's source
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├── labs/           ← complete solution code for every lab
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├── workshop/       ← your working directory for all labs
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>└── prereq-check.sh ← environment validation script
-</span></code></pre></div>
-</div>
-<h2 id="7-navigate-to-your-working-directory">7. Navigate To Your Working Directory<a class="headerlink" href="#7-navigate-to-your-working-directory" title="Permanent link">&para;</a></h2>
-<p>All the projects you build during the workshop live in one place — the <code>workshop/</code> folder inside the repo. Navigate there now and keep this terminal open throughout the session:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>workshop
-</span></code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Every <code>quarkus create app</code> and <code>cd project-name</code> command in the labs assumes you are already inside <code>workshop/</code>. If you open a new terminal, run <code>cd quarkus-beginners-lab/workshop</code> to get back.</p>
+<p class="admonition-title">A tool the assistant can't see?</p>
+<p>Extension-contributed tools are <strong>disabled by default</strong>. Turn the ones you want on in the <strong>Dev MCP</strong> tab of the Dev UI settings dialog. Extensions can opt a tool into being on by default with <code>@DevMCPEnableByDefault</code>, but most don't.</p>
 </div>
 <hr />
-<h2 id="8-verify-your-setup">8. Verify Your Setup<a class="headerlink" href="#8-verify-your-setup" title="Permanent link">&para;</a></h2>
-<p>Run the prerequisite check script from inside the cloned repo:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>prereq-check.sh
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>./prereq-check.sh
+<h2 id="step-5-direct-connection-advanced">Step 5 — Direct connection (advanced)<a class="headerlink" href="#step-5-direct-connection-advanced" title="Permanent link">&para;</a></h2>
+<p>If you'd rather skip JBang, any client supporting the <strong>Streamable protocol, version 2025-03-26</strong> can connect straight to the endpoint from Step 2. You lose application lifecycle management, documentation search and extension skills — you get the Dev MCP tools and nothing more.</p>
+<p>The Quarkus guide treats this as the advanced path. Prefer Agent MCP unless you're building a custom integration.</p>
+<hr />
+<h2 id="how-extensions-contribute-tools">How extensions contribute tools<a class="headerlink" href="#how-extensions-contribute-tools" title="Permanent link">&para;</a></h2>
+<p>Worth knowing even if you never write an extension, because it explains why the tool list changes as you add dependencies.</p>
+<p>A Dev MCP tool is just a JSON-RPC method with a description on it:</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyExtensionRPCService</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nd">@JsonRpcDescription</span><span class="p">(</span><span class="s">"Update a specific logger's level in this Quarkus application"</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">JsonObject</span><span class="w"> </span><span class="nf">updateLogLevel</span><span class="p">(</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">            </span><span class="nd">@JsonRpcDescription</span><span class="p">(</span><span class="s">"The logger name as defined in the logging implementation"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">loggerName</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">            </span><span class="nd">@JsonRpcDescription</span><span class="p">(</span><span class="s">"The new log level"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">levelValue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="c1">// implementation…</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>Or check manually:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>java<span class="w"> </span>-version<span class="w">       </span><span class="c1"># should show 21.x</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>quarkus<span class="w"> </span>version<span class="w">     </span><span class="c1"># should show 3.x   (or: mvn -version for Maven)</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>docker<span class="w"> </span>ps<span class="w">           </span><span class="c1"># should show an empty table, not an error</span>
-</span></code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">OpenAI key — not needed until Lab 7</p>
-<p>You do not need the API key until Lab 7 (and Labs 8 and 10, which reuse it). Your instructor will provide one at that point, or you can use your own.</p>
-</div>
-<div class="admonition success">
-<p class="admonition-title">All green? You're ready!</p>
-<p><a class="md-button md-button--primary" href="../lab1-rest/">→ Start Lab 1</a></p>
+<ol>
+<li><code>@JsonRpcDescription</code> is <strong>mandatory</strong> for Dev MCP. Without it the method still appears in the Dev UI, but is never exposed as an MCP tool.</li>
+</ol>
+<p>All JSON-RPC methods show up in the Dev UI; only described ones reach Dev MCP. <code>@JsonRpcUsage</code> overrides that, taking <code>DEV_UI</code> and/or <code>DEV_MCP</code>.</p>
+<p>This is a different contribution model from Lab 8 — <code>@Tool</code> builds <em>your own</em> MCP server, whereas <code>@JsonRpcDescription</code> adds a tool to the one Quarkus already runs for you in dev mode.</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ MCP server for free</td>
+<td>Built into dev mode — no dependency, no code</td>
+</tr>
+<tr>
+<td>✅ Enabled in one click</td>
+<td>Dev UI → settings → <strong>Dev MCP</strong> tab</td>
+</tr>
+<tr>
+<td>✅ Assistant sees live state</td>
+<td>Tools call into the running JVM, not your source files</td>
+</tr>
+<tr>
+<td>✅ Recommended client path</td>
+<td><code>claude mcp add quarkus-agent -- jbang quarkus-agent-mcp@quarkusio</code></td>
+</tr>
+<tr>
+<td>✅ Dev-only by construction</td>
+<td>The endpoint doesn't exist outside dev mode</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">No solution folder for this one</p>
+<p>Unlike the other labs there's nothing to catch up on — no project is created and no code is written. If it didn't work, the usual causes are Dev MCP still switched off in the Dev UI, the app not running in dev mode, or the assistant needing a restart after the config change.</p>
 </div>
 <hr />
-<h2 id="9-serve-the-docs-locally-optional-self-paced-only">9. Serve the Docs Locally (Optional — self-paced only)<a class="headerlink" href="#9-serve-the-docs-locally-optional-self-paced-only" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">Instructor-led sessions</p>
-<p>Your instructor will project the lab guide. Skip this section.</p>
-</div>
-<p>If you are working through this workshop independently, you can run the docs site on your laptop so you can read it offline or in a side-by-side window.</p>
-<p><strong>Install the dependencies</strong> (one-time):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>pip<span class="w"> </span>install<span class="w"> </span>mkdocs-material<span class="w"> </span>pymdown-extensions
-</span></code></pre></div>
-<p><strong>Start the local docs server</strong> from inside the cloned repo:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>mkdocs<span class="w"> </span>serve
-</span></code></pre></div>
-<p>Open <strong><code>http://127.0.0.1:8000</code></strong> in your browser. The site hot-reloads whenever a doc file changes.</p>
-<div class="admonition tip">
-<p class="admonition-title">Port conflict?</p>
-<p>If port 8000 clashes with something else, use a different port:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>mkdocs<span class="w"> </span>serve<span class="w"> </span>--dev-addr<span class="w"> </span><span class="m">127</span>.0.0.1:8001
-</span></code></pre></div></p>
-</div>
+<p><a class="md-button" href="../lab8-mcp-server/">← Lab 8: MCP Server</a>
+<a class="md-button md-button--primary" href="../lab9-containerize/">→ Lab 9: Containerize</a></p>
 
 
 
@@ -1380,7 +1409,7 @@ To reuse a key you already have exported:</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+          <a href="../lab8-mcp-server/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lab 8: MCP Server">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1390,20 +1419,20 @@ To reuse a key you already have exported:</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Home
+                Lab 8: MCP Server
               </div>
             </div>
           </a>
         
         
           
-          <a href="../lab1-rest/" class="md-footer__link md-footer__link--next" aria-label="Next: Lab 1: First REST API">
+          <a href="../lab9-containerize/" class="md-footer__link md-footer__link--next" aria-label="Next: Lab 9: Containerization">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Lab 1: First REST API
+                Lab 9: Containerization
               </div>
             </div>
             <div class="md-footer__button md-icon">

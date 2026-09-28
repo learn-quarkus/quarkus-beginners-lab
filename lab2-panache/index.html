@@ -841,6 +841,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lab9-containerize/" class="md-nav__link">
         
   
@@ -1155,7 +1183,7 @@
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
-<p>Three lines is all it takes to configure a fully working JPA datasource. The Quarkus BOM manages Hibernate and H2 versions — you never set them manually.</p>
+<p>Four properties are all it takes to configure a fully working JPA datasource. The Quarkus BOM manages Hibernate and H2 versions — you never set them manually.</p>
 <ul>
 <li><code>db-kind=h2</code> — Quarkus picks the correct JDBC driver automatically.</li>
 <li><code>drop-and-create</code> — Hibernate creates tables on startup and drops them on shutdown. Perfect for dev.</li>
@@ -1259,7 +1287,7 @@
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
-<p>Quarkus automatically runs <code>import.sql</code> after Hibernate creates the schema when <code>database.generation=drop-and-create</code> is set. No Spring <code>@DataJpaTest</code> setup, no Flyway migration needed for dev data — just drop an SQL file in <code>src/main/resources</code>.</p>
+<p>Quarkus automatically runs <code>import.sql</code> after Hibernate creates the schema when <code>quarkus.hibernate-orm.schema-management.strategy=drop-and-create</code> is set (the property you added in Step 2). No Spring <code>@DataJpaTest</code> setup, no Flyway migration needed for dev data — just drop an SQL file in <code>src/main/resources</code>.</p>
 <p><code>nextval('MenuItem_SEQ')</code> uses the auto-generated Hibernate sequence for the <code>id</code> column.</p>
 </div>
 <hr />
@@ -1267,9 +1295,25 @@
 <p>Save all files. Quarkus live-reloads automatically. Now open <code>http://localhost:8080/q/swagger-ui</code> and:</p>
 <p><strong>Try <code>GET /menu</code>:</strong></p>
 <p>Execute it. You should now see the 3 seed items returned from the <strong>database</strong> — not the hardcoded list.</p>
-<p>Check your <code>quarkus dev</code> terminal — you'll see the SQL that Hibernate executed:</p>
-<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">Hibernate</span><span class="p">:</span><span class="w"> </span><span class="k">select</span><span class="w"> </span><span class="n">m1_0</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="n">m1_0</span><span class="p">.</span><span class="n">description</span><span class="p">,</span><span class="n">m1_0</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">m1_0</span><span class="p">.</span><span class="n">price</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">MenuItem</span><span class="w"> </span><span class="n">m1_0</span>
+<div class="admonition note">
+<p class="admonition-title">Why are the ids 1, 51 and 101?</p>
+<p>Hibernate allocates sequence values in blocks of 50 (<code>allocationSize = 50</code>) so it doesn't
+have to hit the database on every insert. Each call to <code>nextval('MenuItem_SEQ')</code> in
+<code>import.sql</code> therefore jumps a whole block, giving you <code>1</code>, <code>51</code>, <code>101</code> rather than
+<code>1</code>, <code>2</code>, <code>3</code>. That's expected — the ids are unique, just not consecutive.</p>
+</div>
+<p>Check your <code>quarkus dev</code> terminal — you'll see the SQL that Hibernate executed. It's
+pretty-printed across several lines and prefixed with <code>[Hibernate]</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">[</span><span class="n">Hibernate</span><span class="p">]</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">select</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">        </span><span class="n">mi1_0</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">        </span><span class="n">mi1_0</span><span class="p">.</span><span class="n">description</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="n">mi1_0</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="n">mi1_0</span><span class="p">.</span><span class="n">price</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="k">from</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="n">MenuItem</span><span class="w"> </span><span class="n">mi1_0</span>
 </span></code></pre></div>
+<p>The table alias (<code>mi1_0</code> here) is generated by Hibernate and may differ between versions.</p>
 <p><strong>Try <code>POST /menu</code>:</strong></p>
 <p>Add the following new item. Note that this payload doesn't have an <strong>"id"</strong>  since this be autogenerated.</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
@@ -1284,29 +1328,33 @@
 <p>Quarkus Dev UI has a live database browser. Open:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>http://localhost:8080/q/dev-ui
 </span></code></pre></div>
-<p>Navigate to the database browser in two steps:</p>
+<p>Navigate to the database browser in three steps:</p>
 <ol>
 <li>Find the <strong>Hibernate ORM</strong> card and click <strong>HQL Console</strong></li>
 <li>In the <strong>Entity Types</strong> list, choose the <strong><code>MenuItem</code></strong> table name link — this opens a live SQL query browser against your H2 database with <code>from MenuItem</code> prefilled</li>
-<li>Run the following query:</li>
+<li>
+<p>Press <strong>Execute</strong> to run the prefilled query:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">from</span><span class="w"> </span><span class="n">MenuItem</span>
+</span></code></pre></div>
+</li>
 </ol>
 <p>You'll see your rows — including any you just <code>POST</code>ed — live in the browser with no external tooling needed.</p>
 <div class="admonition tip">
 <p class="admonition-title">Can't find the Hibernate ORM card?</p>
 <p>The Dev UI shows only the extensions active in your project. If the card isn't visible, scroll down — cards are ordered alphabetically. You can also go directly to:
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>http://localhost:8080/q/dev-ui/io.quarkus.quarkus-hibernate-orm/persistence-units
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>http://localhost:8080/q/dev-ui/io.quarkus.quarkus-hibernate-orm/persistence-units
 </span></code></pre></div></p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Active Record vs Repository</p>
 <p>Panache supports two patterns:</p>
 <p><strong>Active Record</strong> (this lab): DB methods live on the entity class itself.
-<div class="language-java highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">MenuItem</span><span class="p">.</span><span class="na">listAll</span><span class="p">();</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">item</span><span class="p">.</span><span class="na">persist</span><span class="p">();</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">MenuItem</span><span class="p">.</span><span class="na">listAll</span><span class="p">();</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">item</span><span class="p">.</span><span class="na">persist</span><span class="p">();</span>
 </span></code></pre></div></p>
 <p><strong>Repository</strong>: a separate <code>@ApplicationScoped</code> class extends <code>PanacheRepository&lt;MenuItem&gt;</code>.
-<div class="language-java highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nd">@ApplicationScoped</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MenuItemRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PanacheRepository</span><span class="o">&lt;</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nd">@ApplicationScoped</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MenuItemRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PanacheRepository</span><span class="o">&lt;</span><span class="n">MenuItem</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div></p>
 <p>Both are equivalent. Active Record is more concise; Repository suits teams that prefer a strict separation of concerns. Choose either — the Quarkus guide covers both.</p>
 </div>
@@ -1348,13 +1396,13 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Quarkus CLI</label><label for="__tabbed_2_2">Maven</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab2-panache/solution
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>quarkus<span class="w"> </span>dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab2-panache/solution
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab2-panache/solution
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>mvn<span class="w"> </span>quarkus:dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nb">cd</span><span class="w"> </span>labs/lab2-panache/solution
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>mvn<span class="w"> </span>quarkus:dev
 </span></code></pre></div>
 </div>
 </div>

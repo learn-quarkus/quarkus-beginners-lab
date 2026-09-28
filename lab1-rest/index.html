@@ -841,6 +841,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lab9-containerize/" class="md-nav__link">
         
   
@@ -1124,7 +1152,7 @@ You'll experience Quarkus <strong>live reload</strong> and <strong>continuous te
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.33.3:create<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.39.2:create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-DprojectGroupId<span class="o">=</span>org.coffee<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-DprojectArtifactId<span class="o">=</span>menu-service<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-Dextensions<span class="o">=</span>rest-jackson,smallrye-openapi
@@ -1346,8 +1374,9 @@ You'll experience Quarkus <strong>live reload</strong> and <strong>continuous te
 <div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>r
 </span></code></pre></div>
 <p>You'll see the tests run immediately:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>All 2 tests are passing (2 passing, 0 failing)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>All 2 tests are passing (0 skipped), 2 tests were run in 1695ms. Tests completed at 12:30:35.
 </span></code></pre></div>
+<p>The timings and timestamp will differ on your machine.</p>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
 <p>You pressed <code>r</code> once and continuous testing is now active. From this point on, <strong>every time you save any file</strong>, Quarkus re-runs the affected tests automatically. You'll see results in the terminal in real time — no manual <code>mvn test</code> needed.</p>
@@ -1357,11 +1386,14 @@ You'll experience Quarkus <strong>live reload</strong> and <strong>continuous te
 <p class="admonition-title">Other Dev Mode keyboard shortcuts</p>
 <p>While <code>quarkus dev</code> is running, you can press:</p>
 <ul>
-<li><code>r</code> — toggle continuous testing on/off</li>
-<li><code>o</code> — open the Dev UI in your browser</li>
+<li><code>r</code> — resume / re-run continuous testing</li>
+<li><code>o</code> — toggle test output on/off</li>
+<li><code>d</code> — open the Dev UI in your browser</li>
 <li><code>s</code> — force restart the application</li>
 <li><code>h</code> — show all available commands</li>
 </ul>
+<p>Quarkus prints the currently available keys in the prompt line, e.g.
+<code>Press [e] to edit command line args (currently ''), [r] to re-run, [o] Toggle test output, [h] for more options&gt;</code></p>
 </div>
 <hr />
 <h2 id="step-7-swagger-ui-tour">Step 7 — Swagger UI Tour<a class="headerlink" href="#step-7-swagger-ui-tour" title="Permanent link">&para;</a></h2>

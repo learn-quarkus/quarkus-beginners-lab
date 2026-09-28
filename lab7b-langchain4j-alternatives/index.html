@@ -695,6 +695,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lab9-containerize/" class="md-nav__link">
         
   
@@ -1139,6 +1167,13 @@
 </div>
 </div>
 </div>
+<div class="admonition danger">
+<p class="admonition-title"><code>OPENAI_API_KEY</code> is <em>not</em> the same variable</p>
+<p>A plain <code>OPENAI_API_KEY</code> is ignored — the name must be exactly
+<code>QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</code>, or startup fails with
+<code>SRCFG00014: The config property quarkus.langchain4j.openai.api-key is required</code>.
+To reuse a key you already have: <code>export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="$OPENAI_API_KEY"</code></p>
+</div>
 </div>
 <div class="tabbed-block">
 <p><strong>Sign up for free tier:</strong></p>
@@ -1207,7 +1242,7 @@
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.33.3:create<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.39.2:create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-DprojectGroupId<span class="o">=</span>org.coffee<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-DprojectArtifactId<span class="o">=</span>barista-bot<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>-Dextensions<span class="o">=</span>rest-jackson,smallrye-openapi

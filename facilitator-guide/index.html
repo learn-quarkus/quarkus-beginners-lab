@@ -699,6 +699,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lab9-containerize/" class="md-nav__link">
         
   
@@ -1519,11 +1547,11 @@
 <h3 id="lab-8-mcp-server-optional-10-min">Lab 8 — MCP Server <em>(optional, ~10 min)</em><a class="headerlink" href="#lab-8-mcp-server-optional-10-min" title="Permanent link">&para;</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Pre-flight check</p>
-<p>Two projects, two terminals, two ports: <code>menu-mcp-server</code> on <strong>8081</strong> and <code>barista-bot</code> on <strong>8080</strong>. Attendees need the same OpenAI key as Lab 7. No Docker required for this lab.</p>
+<p>Two projects, two terminals, two ports: <code>menu-mcp-server</code> on <strong>8084</strong> and <code>barista-bot</code> on <strong>8080</strong>. Attendees need the same OpenAI key as Lab 7. No Docker required for this lab.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Start the MCP server first</p>
-<p><code>barista-bot</code> resolves its MCP tools at startup. If the server on 8081 isn't up yet, the bot starts but has no tools and silently answers from the model's own knowledge — which looks like the lab "working" when it isn't. Get a green <code>Listening on: http://localhost:8081</code> before starting the bot.</p>
+<p><code>barista-bot</code> resolves its MCP tools at startup. If the server on 8084 isn't up yet, the bot starts but has no tools and silently answers from the model's own knowledge — which looks like the lab "working" when it isn't. Get a green <code>Listening on: http://localhost:8084</code> before starting the bot.</p>
 </div>
 <p><strong>Key moments to call out:</strong></p>
 <ul>
@@ -1538,7 +1566,7 @@
 <li><em>"How is this different from Lab 7's RAG?"</em> — RAG stuffs documents into the prompt before the model runs. Tools let the model <em>decide</em> to fetch something, at the moment it needs it, with arguments it chose. RAG is read-only context; tools can do anything a method can — including writes, which is exactly what Lab 10 builds on.</li>
 <li><em>"Why a separate server instead of <code>@ToolBox</code> on a local bean?"</em> — You can absolutely use local tools (Lab 10 does). MCP earns its keep when the tools live in a different service, a different team's codebase, or a different language. The menu belongs to <code>menu-service</code>, not to the bot.</li>
 <li><em>"Is MCP an OpenAI thing?"</em> — No, it's an open protocol from Anthropic, and it's model-agnostic. The same server works with Claude Desktop, an IDE, or any MCP client.</li>
-<li><em>"What's SSE doing here?"</em> — <code>quarkus-mcp-server-sse</code> exposes the server over HTTP with Server-Sent Events at <code>/mcp/sse</code>. There's also a stdio transport for locally-spawned servers.</li>
+<li><em>"What's SSE doing here?"</em> — <code>quarkus-mcp-server-sse</code> exposes the server over HTTP, on two endpoints: <code>/mcp</code> (streamable HTTP, what the client uses) and <code>/mcp/sse</code> (the older Server-Sent Events transport). There's also a stdio transport for locally-spawned servers. Watch for attendees pointing the client at <code>/mcp/sse</code> — it answers the streamable client's POST with a 405.</li>
 <li><em>"Can the model call two tools in one turn?"</em> — Yes. Ask "What's the cheapest drink and does it come with oat milk?" if you have a spare minute.</li>
 </ul>
 <p><strong>Pitfalls:</strong></p>
@@ -1627,11 +1655,11 @@
 <tr>
 <td>8084</td>
 <td><code>menu-mcp-server</code></td>
-<td>Lab 8 — <strong>moved off its usual 8081</strong> to avoid clashing with <code>order-service</code></td>
+<td>Lab 8 — same port it has used since Lab 8</td>
 </tr>
 </tbody>
 </table>
-<p>The 8081 → 8084 move is the single most confusing thing in this lab. Call it out explicitly: it's the same MCP server from Lab 8, just started with <code>-Dquarkus.http.port=8084</code>, and <code>barista-bot</code>'s config points at <code>http://localhost:8084/mcp/sse</code> to match.</p>
+<p><code>menu-mcp-server</code> uses 8084 from Lab 8 onward, so there is no port move in this lab — it's the same server, the same port, and <code>barista-bot</code>'s config already points at <code>http://localhost:8084/mcp</code>. If an attendee's bot can't see the menu tools, check those two values first.</p>
 <p><strong>Key moments to call out:</strong></p>
 <ul>
 <li>Reading the <code>descriptor()</code> method: "This is the whole workflow — read it top to bottom like a flowchart. <code>switchWhenOrElse</code> is the human-in-the-loop decision point. No state machine class, no BPMN editor, just Java."</li>
@@ -1718,6 +1746,10 @@
 <td>Re-check <code>QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</code> is set in the terminal running <code>quarkus dev</code></td>
 </tr>
 <tr>
+<td>Lab 7 won't start: <code>SRCFG00014 ... quarkus.langchain4j.openai.api-key is required</code></td>
+<td>The key variable is missing or misnamed. The usual cause is a participant who already has a plain <code>OPENAI_API_KEY</code> exported — Quarkus ignores it. Fix: <code>export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="$OPENAI_API_KEY"</code>. Note the message names the <em>property</em>, so people wrongly start editing <code>application.properties</code></td>
+</tr>
+<tr>
 <td>OpenAI timeout</td>
 <td>Network issue at venue — use the recorded fallback demo</td>
 </tr>
@@ -1747,7 +1779,7 @@
 </tr>
 <tr>
 <td>Bot answers without calling an MCP tool (Lab 8)</td>
-<td><code>menu-mcp-server</code> wasn't up when the bot started — restart the bot after the server is listening on 8081</td>
+<td><code>menu-mcp-server</code> wasn't up when the bot started — restart the bot after the server is listening on 8084</td>
 </tr>
 <tr>
 <td>Lab 10 service "already running, skipping"</td>

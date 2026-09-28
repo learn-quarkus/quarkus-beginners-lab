@@ -706,6 +706,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../lab8b-dev-mcp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8B: Dev MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lab9-containerize/" class="md-nav__link">
         
   
@@ -933,10 +961,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#7b-add-three-new-files" class="md-nav__link">
+  <a href="#7b-add-four-new-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7b — Add three new files
+        7b — Add four new files
       
     </span>
   </a>
@@ -970,6 +998,17 @@
     <span class="md-ellipsis">
       
         7e — Add the End Chat endpoint to ChatUiResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7f-add-the-end-chat-button-to-chathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7f — Add the End Chat button to chat.html
       
     </span>
   </a>
@@ -1289,10 +1328,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#7b-add-three-new-files" class="md-nav__link">
+  <a href="#7b-add-four-new-files" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7b — Add three new files
+        7b — Add four new files
       
     </span>
   </a>
@@ -1326,6 +1365,17 @@
     <span class="md-ellipsis">
       
         7e — Add the End Chat endpoint to ChatUiResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7f-add-the-end-chat-button-to-chathtml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7f — Add the End Chat button to chat.html
       
     </span>
   </a>
@@ -1480,7 +1530,7 @@ Commands for <code>barista-bot</code> run from your existing <code>barista-bot/<
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.33.3:create<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mvn<span class="w"> </span>io.quarkus.platform:quarkus-maven-plugin:3.39.2:create<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-DprojectGroupId<span class="o">=</span>org.coffee<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-DprojectArtifactId<span class="o">=</span>order-flow-service<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-Dextensions<span class="o">=</span>rest-jackson,rest-client-jackson
@@ -1508,13 +1558,16 @@ Commands for <code>barista-bot</code> run from your existing <code>barista-bot/<
 <div class="tabbed-block">
 <p>Add to <code>pom.xml</code> inside <code>&lt;dependencyManagement&gt;</code> (alongside the Quarkus BOM):</p>
 <div class="language-xml highlight"><span class="filename">pom.xml — dependencyManagement</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&lt;dependency&gt;</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.flow<span class="nt">&lt;/groupId&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>${quarkus.platform.group-id}<span class="nt">&lt;/groupId&gt;</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">&lt;artifactId&gt;</span>quarkus-flow-bom<span class="nt">&lt;/artifactId&gt;</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">&lt;version&gt;</span>${quarkus.platform.version}<span class="nt">&lt;/version&gt;</span>
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">&lt;/dependency&gt;</span>
 </span></code></pre></div>
+<p>This is the <strong>platform-aligned</strong> Flow BOM — same group and version as the <code>quarkus-bom</code>
+already in your <code>pom.xml</code>, so there is no second version to keep in sync. It is exactly what
+<code>quarkus extension add</code> writes in the CLI tab.</p>
 <p>Then add to <code>&lt;dependencies&gt;</code>:</p>
 <div class="language-xml highlight"><span class="filename">pom.xml — dependencies</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">&lt;dependency&gt;</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">&lt;groupId&gt;</span>io.quarkiverse.flow<span class="nt">&lt;/groupId&gt;</span>
@@ -1907,7 +1960,7 @@ between the workflow's tasks:</p>
 </div>
 </div>
 </div>
-<h3 id="7b-add-three-new-files">7b — Add three new files<a class="headerlink" href="#7b-add-three-new-files" title="Permanent link">&para;</a></h3>
+<h3 id="7b-add-four-new-files">7b — Add four new files<a class="headerlink" href="#7b-add-four-new-files" title="Permanent link">&para;</a></h3>
 <p>Create <code>src/main/java/org/coffee/OrderRequest.java</code>:</p>
 <div class="language-java highlight"><span class="filename">OrderRequest.java</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">org.coffee</span><span class="p">;</span>
 </span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
@@ -2061,8 +2114,9 @@ between the workflow's tasks:</p>
 <div class="language-properties highlight"><span class="filename">application.properties (append)</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># REST client — connect to order-flow-service on port 8082</span>
 </span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="na">quarkus.rest-client.order-flow-service.url</span><span class="o">=</span><span class="s">http://localhost:8082</span>
 </span></code></pre></div>
-<p>In this lab <code>menu-mcp-server</code> runs on <strong>8084</strong> (Step 8), so update the MCP menu URL from Lab 8:</p>
-<div class="language-properties highlight"><span class="filename">application.properties (update the Lab 8 value)</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="na">quarkus.langchain4j.mcp.menu.url</span><span class="o">=</span><span class="s">http://localhost:8084/mcp/sse</span>
+<p><code>menu-mcp-server</code> already runs on <strong>8084</strong> from Lab 8, so the MCP settings need no changes. Confirm they still read:</p>
+<div class="language-properties highlight"><span class="filename">application.properties (from Lab 8 — verify, don&#x27;t change)</span><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="na">quarkus.langchain4j.mcp.menu.transport-type</span><span class="o">=</span><span class="s">streamable-http</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="na">quarkus.langchain4j.mcp.menu.url</span><span class="o">=</span><span class="s">http://localhost:8084/mcp</span>
 </span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">What just happened?</p>
@@ -2093,15 +2147,60 @@ between the workflow's tasks:</p>
 <ol>
 <li><code>deleteMessages</code> evicts the LangChain4j in-memory conversation history for this session ID. The next chat starts completely fresh — no memory of previous orders or messages.</li>
 </ol>
-<p>The <strong>End Chat</strong> button in <code>chat.html</code> already targets this endpoint via a hidden form. If you copied the template from the solution in Step 7b, no template changes are needed.</p>
+<h3 id="7f-add-the-end-chat-button-to-chathtml">7f — Add the End Chat button to <code>chat.html</code><a class="headerlink" href="#7f-add-the-end-chat-button-to-chathtml" title="Permanent link">&para;</a></h3>
+<p>The endpoint needs something to call it. The template you wrote in Lab 7 has a <strong>Clear</strong> button
+that just navigates to <code>GET /</code>; replace it with an <strong>End Chat</strong> button that POSTs to <code>/end</code>.</p>
+<p>Open <code>src/main/resources/templates/chat.html</code> and change the <code>.input-row</code> block:</p>
+<div class="language-html highlight"><span class="filename">chat.html — before</span><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"input-row"</span><span class="p">&gt;</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">name</span><span class="o">=</span><span class="s">"message"</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>         <span class="na">placeholder</span><span class="o">=</span><span class="s">"e.g. What's in a flat white?"</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-send"</span><span class="p">&gt;</span>Send<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>  <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/"</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"button"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-clear"</span><span class="p">&gt;</span>Clear<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-html highlight"><span class="filename">chat.html — after</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"input-row"</span><span class="p">&gt;</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">name</span><span class="o">=</span><span class="s">"message"</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>         <span class="na">placeholder</span><span class="o">=</span><span class="s">"e.g. What's in a flat white?"</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-send"</span><span class="p">&gt;</span>Send<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn-clear"</span> <span class="na">formaction</span><span class="o">=</span><span class="s">"/end"</span><span class="p">&gt;</span>End Chat<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>  <span class="cm">&lt;!-- (1) --&gt;</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<ol>
+<li><code>formaction="/end"</code> overrides the enclosing form's <code>action="/"</code> for this button only, so the
+   same form POSTs to <code>/end</code> when <strong>End Chat</strong> is clicked and to <code>/</code> when <strong>Send</strong> is clicked.
+   No JavaScript and no second <code>&lt;form&gt;</code> needed — nesting forms is invalid HTML anyway.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">The shipped solution does this with JavaScript instead</p>
+<p><code>labs/lab10-quarkus-flow/solution/barista-bot/.../chat.html</code> uses a hidden
+<code>&lt;form id="end-form" action="/end"&gt;</code> plus a click handler, because that template is a
+richer JS-driven version. The <code>formaction</code> approach above is equivalent and fits the
+plain form-post template you built in Lab 7 — either works with the <code>/end</code> endpoint.</p>
+</div>
 <hr />
 <h2 id="step-8-run-and-test-everything">Step 8 — Run and test everything<a class="headerlink" href="#step-8-run-and-test-everything" title="Permanent link">&para;</a></h2>
 <h3 id="starting-all-services">Starting all services<a class="headerlink" href="#starting-all-services" title="Permanent link">&para;</a></h3>
 <p>Instead of managing four terminals manually, use the provided script from the repo root:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>bash<span class="w"> </span>labs/lab10-quarkus-flow/start-services.sh
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">QUARKUS_LANGCHAIN4J_OPENAI_API_KEY</span><span class="o">=</span>sk-...
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>bash<span class="w"> </span>labs/lab10-quarkus-flow/start-services.sh
 </span></code></pre></div>
 <p>The script starts all four services in dependency order, waits for each port to be live, and tails all logs to one terminal. Press <strong>Ctrl-C</strong> to stop everything cleanly.</p>
+<div class="admonition note">
+<p class="admonition-title">It runs <em>your</em> projects when it can</p>
+<p>For <code>order-service</code>, <code>order-flow-service</code> and <code>menu-mcp-server</code> the script uses the copy
+under <code>workshop/</code> if that directory exists, and only falls back to the reference copy in
+<code>labs/</code> if you skipped the lab that builds it. On startup it prints exactly which one it
+picked for each service:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>  Using these project directories:
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>    order-service       workshop/order-service  (yours)
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    order-flow-service  workshop/order-flow-service  (yours)
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>    menu-mcp-server     workshop/menu-mcp-server  (yours)
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>    barista-bot         workshop/barista-bot  (yours)
+</span></code></pre></div>
+<p>Check that line before you start debugging. If a service says <em>reference copy</em>, the code
+you wrote is not the code that's running — and the demo will appear to work even if your
+own workflow is broken.</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -2176,9 +2275,18 @@ between the workflow's tasks:</p>
 <div class="admonition tip">
 <p class="admonition-title">Try it: change the threshold</p>
 <p>While <code>order-flow-service</code> is running, open <code>order-flow-service/src/main/resources/application.properties</code> and change:</p>
-<div class="language-properties highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="na">coffee.approval.threshold</span><span class="o">=</span><span class="s">5.0</span>
+<div class="language-properties highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="na">coffee.approval.threshold</span><span class="o">=</span><span class="s">2.00</span>
 </span></code></pre></div>
-<p>Save the file. Quarkus detects the change and live-reloads the workflow — no restart needed. Now order a single espresso ($2.50) and watch it go through the approval path. Change it back to <code>15.0</code> to restore normal behaviour.</p>
+<p>Save the file. Quarkus detects the change and live-reloads the workflow — no restart needed. Now order a single espresso and watch it go through the approval path instead: $2.50 ≥ $2.00, so the workflow branches to <code>requireApproval</code>.</p>
+<p>Change it back to <code>15.0</code> to restore normal behaviour.</p>
+<div class="admonition warning">
+<p class="admonition-title">Pick a threshold <em>below</em> the order total</p>
+<p>The branch predicate is <code>state.totalPrice &gt;= approvalThreshold</code>, so an order only
+needs approval when its total reaches the threshold. Setting the threshold to <code>5.0</code>
+and then ordering one $2.50 espresso would take the <strong><code>confirmOrder</code></strong> path — the
+opposite of what you're trying to demonstrate. Either keep the threshold under the
+order total as above, or set it to <code>0.0</code> to force <em>every</em> order through approval.</p>
+</div>
 </div>
 <hr />
 <div class="admonition tip">
@@ -2247,17 +2355,17 @@ between the workflow's tasks:</p>
 <div class="admonition tip">
 <p class="admonition-title">Stuck or fell behind?</p>
 <p>Complete solutions are in <code>labs/lab10-quarkus-flow/solution/</code>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Terminal 1 — order-service (Lab 4):</span>
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab4-kafka/solution/order-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
-</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
-</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Terminal 2 — menu-mcp-server on port 8084 (avoids clash with order-service):</span>
-</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab8-mcp-server/menu-mcp-server<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev<span class="w"> </span>-Dquarkus.http.port<span class="o">=</span><span class="m">8084</span>
-</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
-</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Terminal 3 — order-flow-service:</span>
-</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/order-flow-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
-</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
-</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Terminal 4 — barista-bot with placeOrder tool:</span>
-</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/barista-bot<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Terminal 1 — order-service (Lab 4):</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nb">cd</span><span class="w"> </span>labs/lab4-kafka/solution/order-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Terminal 2 — menu-mcp-server on port 8084 (avoids clash with order-service):</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="nb">cd</span><span class="w"> </span>labs/lab8-mcp-server/menu-mcp-server<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev<span class="w"> </span>-Dquarkus.http.port<span class="o">=</span><span class="m">8084</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="c1"># Terminal 3 — order-flow-service:</span>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/order-flow-service<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="c1"># Terminal 4 — barista-bot with placeOrder tool:</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="nb">cd</span><span class="w"> </span>labs/lab10-quarkus-flow/solution/barista-bot<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>quarkus<span class="w"> </span>dev
 </span></code></pre></div>
 </div>
 <hr />
