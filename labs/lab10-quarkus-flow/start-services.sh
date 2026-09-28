@@ -3,13 +3,10 @@
 #
 # Services started (each in its own background process):
 #
-#   Port 8081  order-service     (Lab 4 — stores orders, emits Kafka events)
+#   Port 8081  order-service     (Lab 4 solution — stores orders, emits Kafka events)
 #   Port 8082  order-flow-service (Lab 10 — Quarkus Flow HITL orchestrator)
 #   Port 8084  menu-mcp-server   (Lab 8 — MCP tool server for menu prices)
 #   Port 8080  barista-bot       (workshop/barista-bot — chat UI)
-#
-# For the first three, the copy under workshop/ is used when it exists, so you
-# run the code you wrote. The labs/ reference copy is only a fallback.
 #
 # Prerequisites:
 #   • Run `bash labs/lab10-quarkus-flow/setup.sh` first (sets up workshop/barista-bot)
@@ -26,21 +23,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # ── Service directories ────────────────────────────────────────────────────────
-# Prefer the project you built yourself under workshop/, and fall back to the
-# shipped reference copy only if that directory doesn't exist. Without this the
-# script would always run the solutions, so a mistake in your own code would be
-# invisible — the demo would work regardless of what you wrote.
-pick_dir() {
-  local mine="$1" fallback="$2"
-  if [ -d "$mine" ]; then printf '%s' "$mine"; else printf '%s' "$fallback"; fi
-}
-
-ORDER_SERVICE_DIR="$(pick_dir "$REPO_ROOT/workshop/order-service" \
-                              "$REPO_ROOT/labs/lab4-kafka/solution/order-service")"
-ORDER_FLOW_DIR="$(pick_dir    "$REPO_ROOT/workshop/order-flow-service" \
-                              "$REPO_ROOT/labs/lab10-quarkus-flow/solution/order-flow-service")"
-MENU_MCP_DIR="$(pick_dir      "$REPO_ROOT/workshop/menu-mcp-server" \
-                              "$REPO_ROOT/labs/lab8-mcp-server/menu-mcp-server")"
+ORDER_SERVICE_DIR="$REPO_ROOT/labs/lab4-kafka/solution/order-service"
+ORDER_FLOW_DIR="$REPO_ROOT/labs/lab10-quarkus-flow/solution/order-flow-service"
+MENU_MCP_DIR="$REPO_ROOT/labs/lab8-mcp-server/menu-mcp-server"
 BARISTA_BOT_DIR="$REPO_ROOT/workshop/barista-bot"
 
 # ── Ports ─────────────────────────────────────────────────────────────────────
@@ -158,24 +143,6 @@ fi
 
 check_dir "$BARISTA_BOT_DIR"    "barista-bot (workshop)"
 
-# Show which copy of each project is actually being run.
-echo ""
-echo "  Using these project directories:"
-for entry in \
-    "order-service|$ORDER_SERVICE_DIR" \
-    "order-flow-service|$ORDER_FLOW_DIR" \
-    "menu-mcp-server|$MENU_MCP_DIR" \
-    "barista-bot|$BARISTA_BOT_DIR"; do
-  name="${entry%%|*}"
-  dir="${entry#*|}"
-  case "$dir" in
-    "$REPO_ROOT"/workshop/*) origin="yours" ;;
-    *)                       origin="reference copy — you have no workshop/$name" ;;
-  esac
-  printf '    %-19s %s  (%s)\n' "$name" "${dir#$REPO_ROOT/}" "$origin"
-done
-echo ""
-
 if [ -z "${QUARKUS_LANGCHAIN4J_OPENAI_API_KEY:-}" ]; then
   echo ""
   echo "⚠️  QUARKUS_LANGCHAIN4J_OPENAI_API_KEY is not set."
@@ -195,8 +162,7 @@ start_service \
   quarkus dev
 
 # 2. menu-mcp-server (port 8084) — barista-bot depends on this
-#    Its application.properties already sets 8084; passed again here so the
-#    port is correct even for an older copy that still defaults to 8081.
+#    Default port is 8081 (clashes with order-service), so override to 8084.
 start_service \
   "menu-mcp-server" \
   "$MENU_MCP_DIR" \
