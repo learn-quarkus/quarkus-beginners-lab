@@ -107,7 +107,7 @@ You only need **one** of these. The Quarkus CLI is recommended — it makes boot
 
 !!! warning "Make sure Docker/Podman is running"
     The container daemon must be **running** (not just installed) before you start Labs 4, 5, 9, or 10.
-    You should see an empty table, not an error, when you run `docker ps` or `podman ps`.
+    You should see table which may or may not have records — not an error, when you run `docker ps` or `podman ps`.
 
 ---
 

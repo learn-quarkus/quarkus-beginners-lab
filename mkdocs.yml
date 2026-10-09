@@ -77,6 +77,8 @@ nav:
     - "Lab 10: Quarkus Flow": lab10-quarkus-flow.md
   - Wrap-Up: wrap-up.md
   - Facilitator Guide: facilitator-guide.md
+  - Quick Start: short-menu.md
+
 
 extra:
   social:
