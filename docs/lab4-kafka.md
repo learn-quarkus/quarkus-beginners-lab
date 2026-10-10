@@ -207,24 +207,7 @@ Watch the terminal carefully. You'll see a line like:
 Dev Services for Kafka started. Other Quarkus applications in dev mode will find the broker automatically.
 ```
 
-Quarkus pulled and started a Kafka container — and it took only a few seconds. You'll also see the
-image it chose logged by Testcontainers, e.g.:
-
-```
-Container docker.io/apache/kafka-native:4.2.0 started in PT0.947222S
-```
-
-!!! note "Which broker image?"
-    Quarkus picks the DevServices Kafka image for you. On the version this workshop uses
-    (**3.39.2**) that is `docker.io/apache/kafka-native`.
-
-    The default **changed** along the way: Quarkus 3.33.3 and earlier started
-    `docker.io/redpandadata/redpanda` instead. If you're following along on an older Quarkus and
-    your terminal names Redpanda, nothing is wrong — both are Kafka-compatible and the lab
-    behaves identically either way. You can pin one explicitly with
-    `quarkus.kafka.devservices.image-name` if you need a specific broker.
-
----
+Quarkus pulled and started a Kafka container — and it took only a few seconds. 
 
 ## Step 6 — Add the Consumer to menu-service
 
