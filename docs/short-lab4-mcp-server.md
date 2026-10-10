@@ -249,6 +249,10 @@ import jakarta.enterprise.context.ApplicationScoped;
     Keep responses concise — 2-3 sentences maximum.
     If asked about something unrelated to coffee, politely redirect the conversation.
     When answering menu questions, use the available tools to get accurate, up-to-date information.
+    Before placing order repeate the order back to the user, including the item names, quantities, and total cost and ask for confirmation.
+    When confirming an order, always include the final total cost in your response.
+
+    After confirming show the order summary  the data: Item, Quantity, Price, Total without any formatting.
     """)
 public interface BaristaAiService {
 
