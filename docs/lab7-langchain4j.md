@@ -11,50 +11,14 @@
     Define the entire chatbot as a **plain Java interface** with four annotations. Then extend it with **Easy RAG** so it answers questions from your actual menu document — no hallucination, no vector database setup.
 
 !!! warning "OpenAI API key required"
-    This lab calls the OpenAI API. You need a key set in your terminal before running `quarkus dev`.
-
-    **Instructor-led workshop:** your instructor will provide a key — use that.
-
-    **Self-paced:** use your own key from [platform.openai.com](https://platform.openai.com).
-
-    Set it in the terminal you will use for this lab (session only — not saved permanently):
-
-    === "macOS / Linux"
-
-        ```bash
-        export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
-        ```
-
-    === "Windows (PowerShell)"
-
-        ```powershell
-        $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="sk-..."
-        ```
-
-    !!! danger "`OPENAI_API_KEY` is *not* the same variable"
-        The name must be exactly `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY`. If you already have a plain
-        `OPENAI_API_KEY` exported for other tools, Quarkus will **not** read it, and startup fails with:
-
-        ```
-        SRCFG00014: The config property quarkus.langchain4j.openai.api-key is required
-        but it could not be found in any config source
-        ```
-
-        That message names the *property*, not the environment variable, so it's easy to misread as
-        "I need to add something to `application.properties`" — you don't. To reuse the key you
-        already have:
-
-        === "macOS / Linux"
-
-            ```bash
-            export QUARKUS_LANGCHAIN4J_OPENAI_API_KEY="$OPENAI_API_KEY"
-            ```
-
-        === "Windows (PowerShell)"
-
-            ```powershell
-            $env:QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=$env:OPENAI_API_KEY
-            ```
+    Get your API key from [platform.openai.com](https://platform.openai.com).
+    
+    Create a `.env` file in your workshop roort directory with:
+    
+    ```bash
+    QUARKUS_LANGCHAIN4J_OPENAI_API_KEY=sk-...
+    ```
+    
 
 **Extensions used:**
 
